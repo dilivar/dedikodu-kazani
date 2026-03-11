@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dedikodu_kazani/theme/colors.dart';
 import 'package:dedikodu_kazani/models/character.dart';
 import 'package:dedikodu_kazani/screens/chat_screen.dart';
 import 'package:dedikodu_kazani/screens/premium_screen.dart';
@@ -37,10 +38,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: ThemeColors.background,
       appBar: AppBar(
         title: const Text('Dedikodu Kazanı 🌯'),
         centerTitle: true,
-        backgroundColor: Colors.pinkAccent,
+        backgroundColor: ThemeColors.primary,
         foregroundColor: Colors.white,
         actions: [
           IconButton(
@@ -67,10 +69,10 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           Container(
             width: double.infinity,
-            padding: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(24),
             decoration: BoxDecoration(
               gradient: LinearGradient(
-                colors: [Colors.pinkAccent, Colors.pink[300]!],
+                colors: [ThemeColors.primary, ThemeColors.primaryDark],
               ),
             ),
             child: Column(
@@ -94,7 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
             padding: EdgeInsets.all(16),
             child: Row(
               children: [
-                Text('Karakterler', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                Text('Karakterler', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: ThemeColors.textPrimary)),
               ],
             ),
           ),
@@ -120,7 +122,7 @@ class _HomeScreenState extends State<HomeScreen> {
             MaterialPageRoute(builder: (context) => const GroupChatScreen()),
           );
         },
-        backgroundColor: Colors.purple,
+        backgroundColor: ThemeColors.primaryDark,
         icon: const Icon(Icons.group),
         label: const Text('Grup Chat'),
       ),
@@ -145,16 +147,17 @@ class _CharacterCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.only(bottom: 12),
+      color: ThemeColors.surface,
       child: ListTile(
         contentPadding: const EdgeInsets.all(16),
         leading: CircleAvatar(
           radius: 30,
-          backgroundColor: Colors.pink[100],
+          backgroundColor: ThemeColors.primary.withOpacity(0.2),
           child: Text(character.avatar, style: const TextStyle(fontSize: 30)),
         ),
-        title: Text(character.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
-        subtitle: Text(character.description, style: TextStyle(color: Colors.grey[600])),
-        trailing: const Icon(Icons.chat_bubble_outline, color: Colors.pinkAccent),
+        title: Text(character.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: ThemeColors.textPrimary)),
+        subtitle: Text(character.description, style: TextStyle(color: ThemeColors.textSecondary)),
+        trailing: const Icon(Icons.chat_bubble_outline, color: ThemeColors.primary),
         onTap: onTap,
       ),
     );

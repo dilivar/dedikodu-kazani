@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dedikodu_kazani/theme/colors.dart';
 import 'package:dedikodu_kazani/screens/login_screen.dart';
 
 void main() {
@@ -14,7 +15,11 @@ class DedikoduKazaniApp extends StatelessWidget {
       title: 'Dedikodu Kazanı',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.pinkAccent),
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: ThemeColors.primary,
+          brightness: Brightness.light,
+        ),
+        scaffoldBackgroundColor: ThemeColors.background,
         useMaterial3: true,
       ),
       home: const LoginScreen(),
