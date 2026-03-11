@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dedikodu_kazani/models/character.dart';
 import 'package:dedikodu_kazani/screens/chat_screen.dart';
+import 'package:dedikodu_kazani/screens/premium_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -10,6 +11,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String _userName = 'Arkadaş';
+  
   final List<Character> _characters = [
     Character(
       id: '1',
@@ -37,6 +40,17 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
         backgroundColor: Colors.pinkAccent,
         foregroundColor: Colors.white,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.crown),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const PremiumScreen()),
+              );
+            },
+          ),
+        ],
       ),
       body: Column(
         children: [
@@ -56,9 +70,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   style: TextStyle(fontSize: 50),
                 ),
                 const SizedBox(height: 8),
-                const Text(
-                  'Dedikodu Kazanı',
-                  style: TextStyle(
+                Text(
+                  'Hoşgeldin, $_userName!',
+                  style: const TextStyle(
                     color: Colors.white,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
