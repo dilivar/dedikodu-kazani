@@ -13,7 +13,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   void initState() {
     super.initState();
-    _apiKeyController.text = 'YOUR_OPENAI_API_KEY';
+    _apiKeyController.text = '7u9cpg5aBmahiGrWn2gFbG2EGrD1Ly679gpCNVdDyxR5D63FiH3Qfdbva3ANhoc0z';
   }
 
   @override
@@ -35,19 +35,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    '🔑 OpenAI API Key',
+                    '🔑 Stepfun AI API Key',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    'AI sohbet için OpenAI API key gerekli.',
+                    'AI sohbet için Stepfun API key gerekli.',
                     style: TextStyle(color: Colors.grey),
                   ),
                   const SizedBox(height: 12),
                   TextField(
                     controller: _apiKeyController,
                     decoration: InputDecoration(
-                      hintText: 'sk-...',
+                      hintText: 'API Key...',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
@@ -83,33 +83,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   const Text('Dedikodu Kazanı 🌯'),
                   const Text('Versiyon: 1.0.0'),
                   const Text('Made with ❤️ by Nisa'),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 16),
-
-          // API Key alma
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    '📝 API Key Nasıl Alınır?',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                  ),
-                  const SizedBox(height: 12),
-                  const Text('1. https://platform.openai.com adresine git'),
-                  const Text('2. Hesap oluştur/giriş yap'),
-                  const Text('3. API Keys bölümünden yeni key oluştur'),
-                  const Text('4. Key\'i kopyala ve yukarıya yapıştır'),
-                  const SizedBox(height: 8),
-                  const Text(
-                    'Not: OpenAI hesabınıza para yüklemeniz gerekebilir.',
-                    style: TextStyle(color: Colors.orange),
-                  ),
                 ],
               ),
             ),

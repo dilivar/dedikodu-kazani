@@ -3,12 +3,11 @@ import 'package:http/http.dart' as http;
 import 'package:dedikodu_kazani/models/character.dart';
 
 class AIService {
-  // OpenAI API Key - BURAYA KENDİ KEY'İNİZİ EKLEYİN
-  // https://platform.openai.com/api-keys
-  static String _apiKey = 'YOUR_OPENAI_API_KEY';
+  // Stepfun AI API Key
+  static String _apiKey = '7u9cpg5aBmahiGrWn2gFbG2EGrD1Ly679gpCNVdDyxR5D63FiH3Qfdbva3ANhoc0z';
   
-  static const String _apiUrl = 'https://api.openai.com/v1/chat/completions';
-  static const String _model = 'gpt-3.5-turbo';
+  static const String _apiUrl = 'https://api.stepfun.com/v1/chat/completions';
+  static const String _model = 'step-1v-mini';
 
   // API Key ayarla
   static void setApiKey(String key) {
