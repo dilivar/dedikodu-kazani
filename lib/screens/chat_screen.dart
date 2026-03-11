@@ -15,9 +15,9 @@ class ChatScreen extends StatefulWidget {
 class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
   final List<ChatMessage> _messages = [];
+  final ScrollController _scrollController = ScrollController();
   bool _isLoading = false;
   String? _speakingText;
-  bool _isRecording = false;
 
   @override
   void initState() {
@@ -26,152 +26,206 @@ class _ChatScreenState extends State<ChatScreen> {
       text: _getIntroMessage(),
       isUser: false,
       avatar: widget.character.avatar,
+      timestamp: DateTime.now(),
     ));
   }
 
   String _getIntroMessage() {
     switch (widget.character.personality) {
       case CharacterPersonality.funny:
-        return 'Heyy! 🙌 Ben ${widget.character.name}! Eğlenmeye hazır mısın?';
+        return 'Heyy! 🙌 ${widget.character.name} burada! Eğlenmeye hazır mısın?';
       case CharacterPersonality.warm:
         return 'Hoş geldin canım! 💕 Nasılsın bugün?';
-      case CharacterPersonality.supportive:
-        return 'Merhaba! 🌸 Senin için buradayım. Nasıl hissediyorsun?';
-      case CharacterPersonality.optimistic:
-        return 'Selam! ☀️ Bugün harika olacak! Bana ne anlatacaksın?';
       default:
         return 'Merhaba! Ben ${widget.character.name}.';
     }
   }
 
+  String _formatTime(DateTime time) {
+    return '${time.hour.toString().padLeft(2, '0')}:${time.minute.toString().padLeft(2, '0')}';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFECE5DD), // WhatsApp benzeri
-      appBar: AppBar(
-        title: Row(
+      body: SafeArea(
+        child: Column(
           children: [
-            CircleAvatar(
-              backgroundColor: Colors.white,
-              child: Text(widget.character.avatar),
+            // Header
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  IconButton(
+                    icon: const Icon(Icons.arrow_back_ios_new),
+                    onPressed: () => Navigator.pop(context),
+                  ),
+                  Container(
+                    width: 50,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        colors: [Colors.pink[200]!, Colors.pink[300]!],
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        widget.character.avatar!,
+                        style: const TextStyle(fontSize: 24),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          widget.character.name,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          widget.character.description,
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Colors.grey[600],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  IconButton(
+                    icon: const Icon(Icons.more_vert),
+                    onPressed: () {},
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(width: 8),
-            Text(widget.character.name),
+
+            // Messages
+            Expanded(
+              child: Container(
+                color: const Color(0xFFF8F6F4),
+                child: ListView.builder(
+                  controller: _scrollController,
+                  padding: const EdgeInsets.all(16),
+                  itemCount: _messages.length,
+                  itemBuilder: (context, index) {
+                    return _MessageBubble(
+                      message: _messages[index],
+                      speakingText: _speakingText,
+                      onSpeak: _speak,
+                      onDelete: () => _deleteMessage(index),
+                    );
+                  },
+                ),
+              ),
+            ),
+
+            // Input
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, -2),
+                  ),
+                ],
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFF8F6F4),
+                        borderRadius: BorderRadius.circular(24),
+                      ),
+                      child: TextField(
+                        controller: _messageController,
+                        decoration: const InputDecoration(
+                          hintText: 'Mesaj yaz...',
+                          border: InputBorder.none,
+                        ),
+                        onSubmitted: (_) => _sendMessage(),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  GestureDetector(
+                    onTap: _sendMessage,
+                    child: Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: LinearGradient(
+                          colors: [Colors.pink[300]!, Colors.pink[400]!],
+                        ),
+                      ),
+                      child: _isLoading
+                          ? const Padding(
+                              padding: EdgeInsets.all(12),
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : const Icon(Icons.send, color: Colors.white),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
-        backgroundColor: const Color(0xFF128C7E), // WhatsApp green
-        foregroundColor: Colors.white,
-      ),
-      body: Column(
-        children: [
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(8),
-              itemCount: _messages.length,
-              itemBuilder: (context, index) {
-                return _MessageBubble(
-                  message: _messages[index],
-                  speakingText: _speakingText,
-                  onSpeak: _speak,
-                  onDelete: () => _deleteMessage(index),
-                  onEdit: () => _editMessage(index),
-                );
-              },
-            ),
-          ),
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            color: Colors.white,
-            child: Row(
-              children: [
-                IconButton(
-                  icon: Icon(_isRecording ? Icons.stop : Icons.mic),
-                  color: _isRecording ? Colors.red : const Color(0xFF128C7E),
-                  onPressed: _toggleRecording,
-                ),
-                Expanded(
-                  child: TextField(
-                    controller: _messageController,
-                    decoration: InputDecoration(
-                      hintText: 'Mesaj yaz...',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(24),
-                        borderSide: BorderSide.none,
-                      ),
-                      filled: true,
-                      fillColor: const Color(0xFFF0F0F0),
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                    ),
-                    onSubmitted: (_) => _sendMessage(),
-                  ),
-                ),
-                const SizedBox(width: 4),
-                CircleAvatar(
-                  backgroundColor: const Color(0xFF128C7E),
-                  child: IconButton(
-                    icon: _isLoading
-                        ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-                        : const Icon(Icons.send, color: Colors.white),
-                    onPressed: _isLoading ? null : _sendMessage,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
       ),
     );
-  }
-
-  void _toggleRecording() {
-    setState(() => _isRecording = !_isRecording);
-    if (_isRecording) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('🎙️ Sesli mesaj kaydı yakında!')),
-      );
-    }
   }
 
   void _deleteMessage(int index) {
-    showDialog(
+    showModalBottomSheet(
       context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Mesajı sil?'),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('İptal')),
-          TextButton(
-            onPressed: () {
-              setState(() => _messages.removeAt(index));
-              Navigator.pop(context);
-            },
-            child: const Text('Sil', style: TextStyle(color: Colors.red)),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _editMessage(int index) {
-    final controller = TextEditingController(text: _messages[index].text);
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text('Mesajı düzenle'),
-        content: TextField(controller: controller, maxLines: 3),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: const Text('İptal')),
-          TextButton(
-            onPressed: () {
-              setState(() => _messages[index] = ChatMessage(
-                text: controller.text,
-                isUser: _messages[index].isUser,
-                avatar: _messages[index].avatar,
-              ));
-              Navigator.pop(context);
-            },
-            child: const Text('Kaydet'),
-          ),
-        ],
+      builder: (context) => Container(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.delete_outline, color: Colors.red),
+              title: const Text('Sil'),
+              onTap: () {
+                setState(() => _messages.removeAt(index));
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.copy),
+              title: const Text('Kopyala'),
+              onTap: () {
+                Clipboard.setData(ClipboardData(text: _messages[index].text));
+                Navigator.pop(context);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -182,9 +236,15 @@ class _ChatScreenState extends State<ChatScreen> {
 
     _messageController.clear();
     setState(() {
-      _messages.add(ChatMessage(text: text, isUser: true));
+      _messages.add(ChatMessage(
+        text: text,
+        isUser: true,
+        timestamp: DateTime.now(),
+      ));
       _isLoading = true;
     });
+
+    _scrollToBottom();
 
     try {
       final response = await AIService.sendMessage(
@@ -197,6 +257,7 @@ class _ChatScreenState extends State<ChatScreen> {
           text: response,
           isUser: false,
           avatar: widget.character.avatar,
+          timestamp: DateTime.now(),
         ));
       });
     } catch (e) {
@@ -205,11 +266,25 @@ class _ChatScreenState extends State<ChatScreen> {
           text: 'Üzgünüm, bir hata oluştu 😔',
           isUser: false,
           avatar: widget.character.avatar,
+          timestamp: DateTime.now(),
         ));
       });
     } finally {
       setState(() => _isLoading = false);
+      _scrollToBottom();
     }
+  }
+
+  void _scrollToBottom() {
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      }
+    });
   }
 
   Future<void> _speak(String text) async {
@@ -228,11 +303,13 @@ class ChatMessage {
   final String text;
   final bool isUser;
   final String? avatar;
+  final DateTime timestamp;
 
   ChatMessage({
     required this.text,
     required this.isUser,
     this.avatar,
+    required this.timestamp,
   });
 }
 
@@ -241,83 +318,92 @@ class _MessageBubble extends StatelessWidget {
   final String? speakingText;
   final Function(String) onSpeak;
   final VoidCallback onDelete;
-  final VoidCallback onEdit;
 
   const _MessageBubble({
     required this.message,
     this.speakingText,
     required this.onSpeak,
     required this.onDelete,
-    required this.onEdit,
   });
 
   @override
   Widget build(BuildContext context) {
     final isSpeaking = !message.isUser && speakingText == message.text;
     
-    return Align(
-      alignment: message.isUser ? Alignment.centerRight : Alignment.centerLeft,
-      child: GestureDetector(
-        onLongPress: message.isUser ? onDelete : null,
-        onDoubleTap: message.isUser ? onEdit : null,
-        child: Container(
-          margin: const EdgeInsets.only(bottom: 4),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          constraints: BoxConstraints(
-            maxWidth: MediaQuery.of(context).size.width * 0.75,
-          ),
-          decoration: BoxDecoration(
-            color: message.isUser 
-                ? const Color(0xFFDCF8C6) // WhatsApp yeşil
-                : Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 2,
-                offset: const Offset(0, 1),
+    return GestureDetector(
+      onLongPress: onDelete,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 12),
+        child: Row(
+          mainAxisAlignment: message.isUser ? MainAxisAlignment.end : MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            if (!message.isUser && message.avatar != null)
+              Padding(
+                padding: const EdgeInsets.only(right: 8),
+                child: Text(message.avatar!, style: const TextStyle(fontSize: 24)),
               ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (!message.isUser && message.avatar != null)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 4),
+            Column(
+              crossAxisAlignment: message.isUser ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+              children: [
+                Container(
+                  constraints: BoxConstraints(
+                    maxWidth: MediaQuery.of(context).size.width * 0.7,
+                  ),
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                  decoration: BoxDecoration(
+                    color: message.isUser 
+                        ? Colors.pink[300] 
+                        : Colors.white,
+                    borderRadius: BorderRadius.only(
+                      topLeft: const Radius.circular(20),
+                      topRight: const Radius.circular(20),
+                      bottomLeft: Radius.circular(message.isUser ? 20 : 4),
+                      bottomRight: Radius.circular(message.isUser ? 4 : 20),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 5,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
                   child: Text(
-                    message.avatar!,
-                    style: const TextStyle(fontSize: 20),
+                    message.text,
+                    style: TextStyle(
+                      color: message.isUser ? Colors.white : Colors.black87,
+                      fontSize: 15,
+                    ),
                   ),
                 ),
-              Text(
-                message.text,
-                style: TextStyle(
-                  color: message.isUser ? Colors.black87 : Colors.black87,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (!message.isUser)
-                    GestureDetector(
-                      onTap: () => onSpeak(message.text),
-                      child: Icon(
-                        isSpeaking ? Icons.stop : Icons.volume_up,
-                        size: 18,
-                        color: isSpeaking ? Colors.red : const Color(0xFF128C7E),
+                const SizedBox(height: 4),
+                Row(
+                  children: [
+                    if (!message.isUser)
+                      GestureDetector(
+                        onTap: () => onSpeak(message.text),
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 8),
+                          child: Icon(
+                            isSpeaking ? Icons.stop_circle : Icons.volume_up,
+                            size: 18,
+                            color: isSpeaking ? Colors.red : Colors.pink[300],
+                          ),
+                        ),
+                      ),
+                    Text(
+                      '${message.timestamp.hour.toString().padLeft(2, '0')}:${message.timestamp.minute.toString().padLeft(2, '0')}',
+                      style: TextStyle(
+                        fontSize: 10,
+                        color: Colors.grey[500],
                       ),
                     ),
-                  if (!message.isUser) const SizedBox(width: 8),
-                  Text(
-                    '12:00', // Saat eklenecek
-                    style: TextStyle(fontSize: 10, color: Colors.grey[500]),
-                  ),
-                ],
-              ),
-            ],
-          ),
+                  ],
+                ),
+              ],
+            ),
+          ],
         ),
       ),
     );
