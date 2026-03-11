@@ -61,14 +61,14 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
             colors: [
-              ThemeColors.primary.withOpacity(0.8),
-              ThemeColors.primaryDark,
-              ThemeColors.primaryDark.withOpacity(0.9),
+              Color(0xFF8B5CF6),
+              Color(0xFF6B4EFF),
+              Color(0xFF5B21B6),
             ],
           ),
         ),
@@ -90,19 +90,19 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                 children: [
                   const SizedBox(height: 40),
                   
-                  // Logo/Icon
-                  const LogoWidget(size: 140),
+                  // Logo
+                  const LogoWidget(size: 120),
                   
-                  const SizedBox(height: 32),
+                  const SizedBox(height: 24),
                   
                   // Title
                   const Text(
                     'Dedikodu Kazanı',
                     style: TextStyle(
-                      fontSize: 36,
+                      fontSize: 32,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
-                      letterSpacing: 1.2,
+                      letterSpacing: 1,
                     ),
                   ),
                   
@@ -111,29 +111,29 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                   const Text(
                     'AI Arkadaşların Burada',
                     style: TextStyle(
-                      fontSize: 16,
+                      fontSize: 15,
                       color: Colors.white70,
                       letterSpacing: 0.5,
                     ),
                   ),
                   
-                  const SizedBox(height: 60),
+                  const SizedBox(height: 48),
                   
-                  // Feature chips
+                  // Features
                   Wrap(
                     spacing: 12,
                     runSpacing: 12,
                     alignment: WrapAlignment.center,
                     children: [
-                      _buildFeatureChip('💬', 'Sohbet Et'),
-                      _buildFeatureChip('🎙️', 'Sesli Konuş'),
-                      _buildFeatureChip('👥', 'Grup Chat'),
+                      _buildFeatureChip('💬', 'Sohbet'),
+                      _buildFeatureChip('🎙️', 'Sesli'),
+                      _buildFeatureChip('👥', 'Grup'),
                     ],
                   ),
                   
                   const SizedBox(height: 48),
                   
-                  // Login Form
+                  // Form
                   Container(
                     padding: const EdgeInsets.all(24),
                     decoration: BoxDecoration(
@@ -150,48 +150,44 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                     child: Form(
                       key: _formKey,
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
                           const Text(
                             'Hoş Geldin!',
                             style: TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
-                              color: ThemeColors.textPrimary,
+                              color: Color(0xFF1A1A2E),
                             ),
-                            textAlign: TextAlign.center,
                           ),
-                          const SizedBox(height: 8),
+                          const SizedBox(height: 6),
                           Text(
-                            'İsmini gir ve sohbete başla',
+                            'İsmini gir ve başla',
                             style: TextStyle(
                               fontSize: 14,
-                              color: Colors.grey[600],
+                              color: Colors.grey[500],
                             ),
-                            textAlign: TextAlign.center,
                           ),
                           const SizedBox(height: 24),
                           
-                          // Name input
                           TextFormField(
                             controller: _nameController,
                             decoration: InputDecoration(
-                              hintText: 'İsmin ne?',
-                              prefixIcon: Icon(Icons.person_outline, color: ThemeColors.primary),
+                              hintText: 'İsmin?',
+                              prefixIcon: const Icon(Icons.person_outline, color: Color(0xFF8B5CF6)),
                               filled: true,
-                              fillColor: ThemeColors.background,
+                              fillColor: const Color(0xFFF5F0FF),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(16),
                                 borderSide: BorderSide.none,
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(16),
-                                borderSide: BorderSide(color: ThemeColors.primary, width: 2),
+                                borderSide: const BorderSide(color: Color(0xFF8B5CF6), width: 2),
                               ),
                             ),
                             validator: (value) {
                               if (value == null || value.isEmpty) {
-                                return 'Lütfen ismini gir';
+                                return 'İsmini gir';
                               }
                               return null;
                             },
@@ -201,34 +197,36 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                           
                           const SizedBox(height: 20),
                           
-                          // Login button
-                          ElevatedButton(
-                            onPressed: _isLoading ? null : _login,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: ThemeColors.primary,
-                              foregroundColor: Colors.white,
-                              padding: const EdgeInsets.symmetric(vertical: 18),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: _isLoading ? null : _login,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: const Color(0xFF8B5CF6),
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(vertical: 18),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(16),
+                                ),
+                                elevation: 0,
                               ),
-                              elevation: 0,
+                              child: _isLoading
+                                  ? const SizedBox(
+                                      height: 24,
+                                      width: 24,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  : const Text(
+                                      'Başla',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
                             ),
-                            child: _isLoading
-                                ? const SizedBox(
-                                    height: 24,
-                                    width: 24,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
-                                      color: Colors.white,
-                                    ),
-                                  )
-                                : const Text(
-                                    'Sohbete Başla',
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
                           ),
                         ],
                       ),
@@ -237,7 +235,6 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                   
                   const SizedBox(height: 32),
                   
-                  // Footer
                   Text(
                     '© 2026 Dedikodu Kazanı',
                     style: TextStyle(

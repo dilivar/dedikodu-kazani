@@ -38,7 +38,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
   void initState() {
     super.initState();
     _messages.add(GroupMessage(
-      text: '🎙️ Grup sohbeti başladı!',
+      text: '👋 Grup sohbeti başladı!',
       isSystem: true,
     ));
   }
@@ -46,79 +46,86 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ThemeColors.background,
+      backgroundColor: const Color(0xFFF5F0FF),
       appBar: AppBar(
-        backgroundColor: ThemeColors.primary,
+        backgroundColor: Colors.white,
         elevation: 0,
-        title: const Text(
-          'Dedikodu Kazanı',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new, color: Color(0xFF1A1A2E)),
+          onPressed: () => Navigator.pop(context),
         ),
-        iconTheme: const IconThemeData(color: Colors.white),
+        title: const Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'Grup Sohbeti',
+              style: TextStyle(
+                color: Color(0xFF1A1A2E),
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              '2 kişi çevrimiçi',
+              style: TextStyle(
+                color: Color(0xFF22C55E),
+                fontSize: 12,
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.more_vert, color: Color(0xFF1A1A2E)),
+            onPressed: () {},
+          ),
+        ],
       ),
       body: Column(
         children: [
-          // Ana avatar
-          Expanded(
-            flex: 3,
-            child: Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 120,
-                    height: 120,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: ThemeColors.primary, width: 4),
-                      gradient: LinearGradient(
-                        colors: [ThemeColors.primary, ThemeColors.primaryDark],
-                      ),
-                    ),
-                    child: const Center(
-                      child: Text('👩‍🎤', style: TextStyle(fontSize: 50)),
-                    ),
-                  ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Eda Mayan',
-                    style: TextStyle(
-                      color: ThemeColors.textPrimary,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const Text(
-                    'Konuşmacı',
-                    style: TextStyle(color: ThemeColors.textSecondary),
-                  ),
-                ],
-              ),
-            ),
-          ),
-
-          // Dinleyiciler
+          // Karakter avatar'ları
           Container(
             height: 100,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(vertical: 16),
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
               itemCount: _characters.length,
               itemBuilder: (context, index) {
                 final char = _characters[index];
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  padding: const EdgeInsets.only(right: 16),
                   child: Column(
                     children: [
-                      CircleAvatar(
-                        radius: 30,
-                        backgroundColor: ThemeColors.primary.withOpacity(0.2),
-                        child: Text(char.avatar, style: const TextStyle(fontSize: 28)),
+                      Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFF8B5CF6), Color(0xFF6B4EFF)],
+                          ),
+                          shape: BoxShape.circle,
+                          border: Border.all(color: Colors.white, width: 3),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF8B5CF6).withOpacity(0.3),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Center(
+                          child: Text(char.avatar!, style: const TextStyle(fontSize: 22)),
+                        ),
                       ),
-                      const SizedBox(height: 4),
+                      const SizedBox(height: 6),
                       Text(
                         char.name.split(' ').first,
-                        style: const TextStyle(color: ThemeColors.textSecondary, fontSize: 12),
+                        style: const TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFF1A1A2E),
+                        ),
                       ),
                     ],
                   ),
@@ -127,110 +134,107 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
             ),
           ),
 
-          // Mesajlar paneli
+          // Mesajlar
           Expanded(
-            flex: 2,
             child: Container(
               decoration: const BoxDecoration(
-                color: ThemeColors.surface,
+                color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
               ),
-              child: Column(
-                children: [
-                  Container(
-                    padding: const EdgeInsets.all(16),
-                    child: Row(
-                      children: [
-                        Icon(Icons.headphones, color: ThemeColors.primary),
-                        const SizedBox(width: 8),
-                        const Text(
-                          'Seste olanlar',
-                          style: TextStyle(fontWeight: FontWeight.bold, color: ThemeColors.textPrimary),
+              child: ListView.builder(
+                padding: const EdgeInsets.all(20),
+                itemCount: _messages.length,
+                itemBuilder: (context, index) {
+                  final msg = _messages[index];
+                  if (msg.isSystem) {
+                    return Center(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(vertical: 12),
+                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF5F0FF),
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        const Spacer(),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                          decoration: BoxDecoration(
-                            color: ThemeColors.primary.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(12),
+                        child: Text(
+                          msg.text,
+                          style: const TextStyle(
+                            color: Color(0xFF8B5CF6),
+                            fontSize: 13,
+                            fontWeight: FontWeight.w500,
                           ),
-                          child: Text('2', style: TextStyle(fontWeight: FontWeight.bold, color: ThemeColors.primary)),
                         ),
-                      ],
-                    ),
-                  ),
-                  const Divider(),
-                  
-                  Expanded(
-                    child: ListView.builder(
-                      padding: const EdgeInsets.all(16),
-                      itemCount: _messages.length,
-                      itemBuilder: (context, index) {
-                        final msg = _messages[index];
-                        if (msg.isSystem) {
-                          return Center(
-                            child: Container(
-                              margin: const EdgeInsets.symmetric(vertical: 8),
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[100],
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              child: Text(msg.text, style: const TextStyle(color: Colors.grey)),
-                            ),
-                          );
-                        }
-                        return _buildMessage(msg);
-                      },
-                    ),
-                  ),
+                      ),
+                    );
+                  }
+                  return _buildMessage(msg);
+                },
+              ),
+            ),
+          ),
 
-                  // Yazı alanı
-                  Container(
-                    padding: const EdgeInsets.all(12),
+          // Input
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 15,
+                  offset: const Offset(0, -5),
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
                     decoration: BoxDecoration(
-                      color: ThemeColors.surface,
+                      color: const Color(0xFFF5F0FF),
+                      borderRadius: BorderRadius.circular(24),
+                    ),
+                    child: TextField(
+                      controller: _messageController,
+                      decoration: const InputDecoration(
+                        hintText: 'Gruba mesaj yaz...',
+                        border: InputBorder.none,
+                      ),
+                      onSubmitted: (_) => _sendMessage(),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                GestureDetector(
+                  onTap: _sendMessage,
+                  child: Container(
+                    width: 48,
+                    height: 48,
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF8B5CF6), Color(0xFF6B4EFF)],
+                      ),
+                      borderRadius: BorderRadius.circular(14),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.grey.withOpacity(0.1),
-                          blurRadius: 4,
-                          offset: const Offset(0, -2),
+                          color: const Color(0xFF8B5CF6).withOpacity(0.3),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
                         ),
                       ],
                     ),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: TextField(
-                            controller: _messageController,
-                            decoration: InputDecoration(
-                              hintText: 'Gruba mesaj yaz...',
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(24),
-                                borderSide: BorderSide.none,
-                              ),
-                              filled: true,
-                              fillColor: ThemeColors.background,
-                              contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    child: _isLoading
+                        ? const Padding(
+                            padding: EdgeInsets.all(12),
+                            child: CircularProgressIndicator(
+                              color: Colors.white,
+                              strokeWidth: 2,
                             ),
-                            onSubmitted: (_) => _sendMessage(),
-                          ),
-                        ),
-                        const SizedBox(width: 8),
-                        CircleAvatar(
-                          backgroundColor: ThemeColors.primary,
-                          child: IconButton(
-                            icon: _isLoading
-                                ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
-                                : const Icon(Icons.send, color: Colors.white),
-                            onPressed: _isLoading ? null : _sendMessage,
-                          ),
-                        ),
-                      ],
-                    ),
+                          )
+                        : const Icon(Icons.send, color: Colors.white, size: 20),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ],
@@ -240,25 +244,60 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
 
   Widget _buildMessage(GroupMessage msg) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: 12),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          CircleAvatar(
-            radius: 16,
-            backgroundColor: ThemeColors.primary.withOpacity(0.2),
-            child: Text(msg.avatar ?? '👤', style: const TextStyle(fontSize: 16)),
+          Container(
+            width: 36,
+            height: 36,
+            decoration: BoxDecoration(
+              gradient: const LinearGradient(
+                colors: [Color(0xFF8B5CF6), Color(0xFF6B4EFF)],
+              ),
+              shape: BoxShape.circle,
+            ),
+            child: Center(
+              child: Text(msg.avatar ?? '👤', style: const TextStyle(fontSize: 16)),
+            ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  msg.characterName ?? 'Kullanıcı',
-                  style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13, color: ThemeColors.textPrimary),
+                Row(
+                  children: [
+                    Text(
+                      msg.characterName ?? 'Kullanıcı',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                        color: Color(0xFF1A1A2E),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      '${msg.timestamp.hour.toString().padLeft(2, '0')}:${msg.timestamp.minute.toString().padLeft(2, '0')}',
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: Colors.grey[400],
+                      ),
+                    ),
+                  ],
                 ),
-                Text(msg.text, style: const TextStyle(fontSize: 14, color: ThemeColors.textSecondary)),
+                const SizedBox(height: 4),
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFF5F0FF),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Text(
+                    msg.text,
+                    style: const TextStyle(fontSize: 14),
+                  ),
+                ),
               ],
             ),
           ),
@@ -278,13 +317,14 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
         isUser: true,
         characterName: 'Sen',
         avatar: '👤',
+        timestamp: DateTime.now(),
       ));
       _isLoading = true;
     });
 
     try {
       for (final character in _characters) {
-        await Future.delayed(const Duration(milliseconds: 500));
+        await Future.delayed(const Duration(milliseconds: 400));
         
         final response = await AIService.sendMessage(
           message: text,
@@ -296,17 +336,12 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
             text: response,
             characterName: character.name,
             avatar: character.avatar,
+            timestamp: DateTime.now(),
           ));
         });
       }
     } catch (e) {
-      setState(() {
-        _messages.add(GroupMessage(
-          text: 'Bağlantı hatası. API key kontrol edin.',
-          characterName: 'Sistem',
-          avatar: '⚠️',
-        ));
-      });
+      // Hata
     } finally {
       setState(() => _isLoading = false);
     }
@@ -319,6 +354,7 @@ class GroupMessage {
   final bool isSystem;
   final String? characterName;
   final String? avatar;
+  final DateTime timestamp;
 
   GroupMessage({
     required this.text,
@@ -326,5 +362,6 @@ class GroupMessage {
     this.isSystem = false,
     this.characterName,
     this.avatar,
-  });
+    DateTime? timestamp,
+  }) : timestamp = timestamp ?? DateTime.now();
 }
