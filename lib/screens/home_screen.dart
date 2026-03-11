@@ -14,34 +14,18 @@ class _HomeScreenState extends State<HomeScreen> {
     Character(
       id: '1',
       name: 'Eda Mayan',
-      description: 'Eğlenceli, şakacı, enerjik',
+      description: 'Sivri dilli, şakacı, ironik 🎭',
       avatar: '👩‍🎤',
-      personality: 'funny',
+      personality: CharacterPersonality.funny,
       isPremium: false,
     ),
     Character(
       id: '2',
       name: 'Ela Soyman',
-      description: 'Sıcak, sevecen, magazinsel',
+      description: 'İyi niyetli, saf, sıcak kalpli 💕',
       avatar: '💕',
-      personality: 'warm',
+      personality: CharacterPersonality.warm,
       isPremium: false,
-    ),
-    Character(
-      id: '3',
-      name: 'Zeynep Solmas',
-      description: 'Destekleyici, empatik',
-      avatar: '🌸',
-      personality: 'supportive',
-      isPremium: true,
-    ),
-    Character(
-      id: '4',
-      name: 'Ela Sitem',
-      description: 'İyimser, pozitif',
-      avatar: '☀️',
-      personality: 'optimistic',
-      isPremium: true,
     ),
   ];
 
@@ -56,10 +40,56 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         children: [
-          // Karakterler Listesi
+          // Hoşgeldin banner
+          Container(
+            width: double.infinity,
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.pinkAccent, Colors.pink[300]!],
+              ),
+            ),
+            child: Column(
+              children: [
+                const Text(
+                  '🌯',
+                  style: TextStyle(fontSize: 50),
+                ),
+                const SizedBox(height: 8),
+                const Text(
+                  'Dedikodu Kazanı',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 4),
+                const Text(
+                  'AI Arkadaşların burada!',
+                  style: TextStyle(color: Colors.white70),
+                ),
+              ],
+            ),
+          ),
+          // Karakterler
+          const Padding(
+            padding: EdgeInsets.all(16),
+            child: Row(
+              children: [
+                Text(
+                  'Karakterler',
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
           Expanded(
             child: ListView.builder(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(horizontal: 16),
               itemCount: _characters.length,
               itemBuilder: (context, index) {
                 final character = _characters[index];
@@ -108,36 +138,18 @@ class _CharacterCard extends StatelessWidget {
             style: const TextStyle(fontSize: 30),
           ),
         ),
-        title: Row(
-          children: [
-            Text(
-              character.name,
-              style: const TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
-              ),
-            ),
-            if (character.isPremium) ...[
-              const SizedBox(width: 8),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                decoration: BoxDecoration(
-                  color: Colors.amber,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: const Text(
-                  '💎 PREMIUM',
-                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold),
-                ),
-              ),
-            ],
-          ],
+        title: Text(
+          character.name,
+          style: const TextStyle(
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
         ),
         subtitle: Text(
           character.description,
           style: TextStyle(color: Colors.grey[600]),
         ),
-        trailing: const Icon(Icons.chat_bubble_outline),
+        trailing: const Icon(Icons.chat_bubble_outline, color: Colors.pinkAccent),
         onTap: onTap,
       ),
     );
