@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dedikodu_kazani/models/character.dart';
 import 'package:dedikodu_kazani/services/ai_service.dart';
+import 'package:dedikodu_kazani/services/tts_service.dart';
 
 class ChatScreen extends StatefulWidget {
   final Character character;
@@ -15,6 +16,7 @@ class _ChatScreenState extends State<ChatScreen> {
   final TextEditingController _messageController = TextEditingController();
   final List<ChatMessage> _messages = [];
   bool _isLoading = false;
+  String? _speakingText;
 
   @override
   void initState() {
@@ -67,7 +69,12 @@ class _ChatScreenState extends State<ChatScreen> {
               padding: const EdgeInsets.all(16),
               itemCount: _messages.length,
               itemBuilder: (context, index) {
-                return _MessageBubble(message: _messages[index]);
+                final msg = _messages[index];
+                return _MessageBubble(
+                  message: msg,
+                  speakingText: _speakingText,
+                  onSpeak: _speak,
+                );
               },
             ),
           ),
@@ -152,6 +159,17 @@ class _ChatScreenState extends State<ChatScreen> {
       });
     }
   }
+
+  Future<void> _speak(String text) async {
+    if (_speakingText == text) {
+      await TTSService.stop();
+      setState(() => _speakingText = null);
+    } else {
+      setState(() => _speakingText = text);
+      await TTSService.speak(text, widget.character);
+      setState(() => _speakingText = null);
+    }
+  }
 }
 
 class ChatMessage {
@@ -168,11 +186,19 @@ class ChatMessage {
 
 class _MessageBubble extends StatelessWidget {
   final ChatMessage message;
+  final String? speakingText;
+  final Function(String) onSpeak;
 
-  const _MessageBubble({required this.message});
+  const _MessageBubble({
+    required this.message,
+    this.speakingText,
+    required this.onSpeak,
+  });
 
   @override
   Widget build(BuildContext context) {
+    final isSpeaking = !message.isUser && speakingText == message.text;
+    
     return Align(
       alignment: message.isUser ? Alignment.centerRight : Alignment.centerLeft,
       child: Container(
@@ -196,11 +222,29 @@ class _MessageBubble extends StatelessWidget {
                   style: const TextStyle(fontSize: 20),
                 ),
               ),
-            Text(
-              message.text,
-              style: TextStyle(
-                color: message.isUser ? Colors.white : Colors.black87,
-              ),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Flexible(
+                  child: Text(
+                    message.text,
+                    style: TextStyle(
+                      color: message.isUser ? Colors.white : Colors.black87,
+                    ),
+                  ),
+                ),
+                if (!message.isUser) ...[
+                  const SizedBox(width: 8),
+                  GestureDetector(
+                    onTap: () => onSpeak(message.text),
+                    child: Icon(
+                      isSpeaking ? Icons.stop : Icons.volume_up,
+                      size: 20,
+                      color: isSpeaking ? Colors.red : Colors.pink,
+                    ),
+                  ),
+                ],
+              ],
             ),
           ],
         ),
