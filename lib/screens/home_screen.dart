@@ -3,6 +3,7 @@ import 'package:dedikodu_kazani/models/character.dart';
 import 'package:dedikodu_kazani/screens/chat_screen.dart';
 import 'package:dedikodu_kazani/screens/premium_screen.dart';
 import 'package:dedikodu_kazani/screens/group_chat_screen.dart';
+import 'package:dedikodu_kazani/screens/settings_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -42,6 +43,15 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.pinkAccent,
         foregroundColor: Colors.white,
         actions: [
+          IconButton(
+            icon: const Icon(Icons.settings),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const SettingsScreen()),
+              );
+            },
+          ),
           IconButton(
             icon: const Icon(Icons.crown),
             onPressed: () {
