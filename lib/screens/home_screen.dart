@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dedikodu_kazani/models/character.dart';
 import 'package:dedikodu_kazani/screens/chat_screen.dart';
 import 'package:dedikodu_kazani/screens/premium_screen.dart';
+import 'package:dedikodu_kazani/screens/group_chat_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -54,7 +55,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         children: [
-          // Hoşgeldin banner
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(20),
@@ -65,10 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             child: Column(
               children: [
-                const Text(
-                  '🌯',
-                  style: TextStyle(fontSize: 50),
-                ),
+                const Text('🌯', style: TextStyle(fontSize: 50)),
                 const SizedBox(height: 8),
                 Text(
                   'Hoşgeldin, $_userName!',
@@ -79,25 +76,15 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
                 const SizedBox(height: 4),
-                const Text(
-                  'AI Arkadaşların burada!',
-                  style: TextStyle(color: Colors.white70),
-                ),
+                const Text('AI Arkadaşların burada!', style: TextStyle(color: Colors.white70)),
               ],
             ),
           ),
-          // Karakterler
           const Padding(
             padding: EdgeInsets.all(16),
             child: Row(
               children: [
-                Text(
-                  'Karakterler',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                Text('Karakterler', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               ],
             ),
           ),
@@ -116,15 +103,24 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const GroupChatScreen()),
+          );
+        },
+        backgroundColor: Colors.purple,
+        icon: const Icon(Icons.group),
+        label: const Text('Grup Chat'),
+      ),
     );
   }
 
   void _openChat(Character character) {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => ChatScreen(character: character),
-      ),
+      MaterialPageRoute(builder: (context) => ChatScreen(character: character)),
     );
   }
 }
@@ -133,10 +129,7 @@ class _CharacterCard extends StatelessWidget {
   final Character character;
   final VoidCallback onTap;
 
-  const _CharacterCard({
-    required this.character,
-    required this.onTap,
-  });
+  const _CharacterCard({required this.character, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -147,22 +140,10 @@ class _CharacterCard extends StatelessWidget {
         leading: CircleAvatar(
           radius: 30,
           backgroundColor: Colors.pink[100],
-          child: Text(
-            character.avatar,
-            style: const TextStyle(fontSize: 30),
-          ),
+          child: Text(character.avatar, style: const TextStyle(fontSize: 30)),
         ),
-        title: Text(
-          character.name,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 18,
-          ),
-        ),
-        subtitle: Text(
-          character.description,
-          style: TextStyle(color: Colors.grey[600]),
-        ),
+        title: Text(character.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 18)),
+        subtitle: Text(character.description, style: TextStyle(color: Colors.grey[600])),
         trailing: const Icon(Icons.chat_bubble_outline, color: Colors.pinkAccent),
         onTap: onTap,
       ),
