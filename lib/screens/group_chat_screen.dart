@@ -45,14 +45,15 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1DA1F2), // Twitter Spaces mavisi
+      backgroundColor: const Color(0xFFE8D5D5), // Pudra/elegant pembe
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
         title: const Text(
-          'Dedikodu Kazanı Spaces',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          'Dedikodu Kazanı',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF5C4040)),
         ),
+        iconTheme: const IconThemeData(color: Color(0xFF5C4040)),
         actions: [
           IconButton(
             icon: const Icon(Icons.more_vert),
@@ -77,7 +78,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                       shape: BoxShape.circle,
                       border: Border.all(color: Colors.white, width: 4),
                       gradient: const LinearGradient(
-                        colors: [Color(0xFF1DA1F2), Color(0xFF0D8EC7)],
+                        colors: [Color(0xFFE8A4A4), Color(0xFFD68383)],
                       ),
                     ),
                     child: const Center(
@@ -225,7 +226,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
                         ),
                         const SizedBox(width: 8),
                         CircleAvatar(
-                          backgroundColor: const Color(0xFF1DA1F2),
+                          backgroundColor: const Color(0xFFE8A4A4),
                           child: IconButton(
                             icon: _isLoading
                                 ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(color: Colors.white, strokeWidth: 2))
