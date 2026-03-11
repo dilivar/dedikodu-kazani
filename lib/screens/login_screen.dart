@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dedikodu_kazani/theme/colors.dart';
+import 'package:dedikodu_kazani/widgets/logo_widget.dart';
 import 'package:dedikodu_kazani/screens/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -90,27 +91,7 @@ class _LoginScreenState extends State<LoginScreen> with SingleTickerProviderStat
                   const SizedBox(height: 40),
                   
                   // Logo/Icon
-                  Container(
-                    width: 140,
-                    height: 140,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.2),
-                          blurRadius: 30,
-                          offset: const Offset(0, 15),
-                        ),
-                      ],
-                    ),
-                    child: const Center(
-                      child: Text(
-                        '🌯',
-                        style: TextStyle(fontSize: 70),
-                      ),
-                    ),
-                  ),
+                  const LogoWidget(size: 140),
                   
                   const SizedBox(height: 32),
                   

@@ -40,7 +40,13 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       backgroundColor: ThemeColors.background,
       appBar: AppBar(
-        title: const Text('Dedikodu Kazanı 🌯'),
+        title: Row(
+          children: [
+            const LogoWidget(size: 36),
+            const SizedBox(width: 8),
+            const Text('Dedikodu Kazanı'),
+          ],
+        ),
         centerTitle: true,
         backgroundColor: ThemeColors.primary,
         foregroundColor: Colors.white,
