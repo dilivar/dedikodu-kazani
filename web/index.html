@@ -12,7 +12,6 @@
             --primary-dark: #6B4EFF;
             --bg: #F5F0FF;
             --text: #1A1A2E;
-            --text-light: #6B7280;
         }
         
         body {
@@ -53,424 +52,196 @@
             background: var(--bg);
         }
         
-        /* Login Screen */
         .login-screen {
-            padding: 60px 24px 24px;
-            text-align: center;
+            padding: 50px 24px 24px;
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
         }
         
         .logo {
             width: 100px;
             height: 100px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: white;
             border-radius: 30px;
             margin: 0 auto 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 50px;
-            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
         
         .app-title {
             font-size: 28px;
             font-weight: bold;
-            color: var(--text);
-            margin-bottom: 8px;
+            color: white;
+            text-align: center;
         }
         
         .app-subtitle {
-            color: var(--text-light);
+            color: rgba(255,255,255,0.7);
             font-size: 14px;
+            text-align: center;
             margin-bottom: 30px;
         }
         
-        .features {
+        .spacer { flex: 1; }
+        
+        .apple-btn {
+            background: black;
+            color: white;
+            padding: 16px;
+            border-radius: 14px;
             display: flex;
+            align-items: center;
             justify-content: center;
             gap: 12px;
-            margin-bottom: 30px;
+            cursor: pointer;
+            margin-bottom: 16px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
         }
         
-        .feature {
-            background: rgba(139, 92, 246, 0.1);
-            padding: 8px 16px;
-            border-radius: 20px;
+        .apple-btn:active { transform: scale(0.98); }
+        
+        .email-show {
+            background: rgba(255,255,255,0.15);
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            color: rgba(255,255,255,0.8);
             font-size: 13px;
-            color: var(--primary);
+            margin-bottom: 20px;
         }
         
-        .form-card {
+        .or-divider {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+            color: rgba(255,255,255,0.5);
+        }
+        
+        .or-divider::before, .or-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .or-divider span { padding: 0 16px; }
+        
+        .name-card {
             background: white;
-            border-radius: 24px;
             padding: 24px;
+            border-radius: 20px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.1);
         }
         
-        .form-title {
-            font-size: 20px;
-            font-weight: bold;
+        .name-card h3 {
+            font-size: 18px;
             color: var(--text);
             margin-bottom: 4px;
         }
         
-        .form-subtitle {
+        .name-card p {
+            color: #6B7280;
             font-size: 13px;
-            color: var(--text-light);
-            margin-bottom: 20px;
-        }
-        
-        .input-group {
             margin-bottom: 16px;
         }
         
-        .input-group input {
+        .name-card input {
             width: 100%;
-            padding: 14px 16px;
+            padding: 14px;
             border: none;
             background: var(--bg);
             border-radius: 12px;
             font-size: 15px;
             outline: none;
-            transition: box-shadow 0.3s;
+            margin-bottom: 16px;
         }
         
-        .input-group input:focus {
-            box-shadow: 0 0 0 2px var(--primary);
-        }
-        
-        .btn-primary {
+        .name-card button {
             width: 100%;
             padding: 16px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            background: var(--primary);
             color: white;
             border: none;
             border-radius: 12px;
             font-size: 16px;
             font-weight: bold;
             cursor: pointer;
-            transition: transform 0.2s;
         }
         
-        .btn-primary:active {
-            transform: scale(0.98);
-        }
+        .name-card button:active { transform: scale(0.98); }
         
-        .toggle-tabs {
-            display: flex;
-            margin-bottom: 20px;
-            background: var(--bg);
-            border-radius: 12px;
-            padding: 4px;
-        }
-        
-        .toggle-tab {
-            flex: 1;
-            padding: 10px;
-            border-radius: 10px;
+        .footer {
             text-align: center;
-            font-size: 14px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .toggle-tab.active {
-            background: var(--primary);
-            color: white;
-        }
-        
-        /* Home Screen */
-        .home-screen {
-            display: none;
-        }
-        
-        .header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            padding: 50px 20px 30px;
-            border-radius: 0 0 30px 30px;
-            text-align: center;
-            color: white;
-        }
-        
-        .header-logo {
-            font-size: 50px;
-            margin-bottom: 10px;
-        }
-        
-        .header-title {
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 4px;
-        }
-        
-        .header-subtitle {
-            font-size: 13px;
-            opacity: 0.8;
-        }
-        
-        .section-title {
-            padding: 20px 20px 12px;
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--text);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        
-        .badge {
-            background: rgba(139, 92, 246, 0.1);
-            color: var(--primary);
-            padding: 4px 12px;
-            border-radius: 12px;
+            color: rgba(255,255,255,0.5);
             font-size: 12px;
-            font-weight: normal;
-        }
-        
-        .character-list {
-            padding: 0 20px;
-        }
-        
-        .character-card {
-            background: white;
-            border-radius: 20px;
-            padding: 16px;
-            margin-bottom: 12px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
-            cursor: pointer;
-            transition: transform 0.2s;
-        }
-        
-        .character-card:active {
-            transform: scale(0.98);
-        }
-        
-        .character-avatar {
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-        }
-        
-        .character-info {
-            flex: 1;
-        }
-        
-        .character-name {
-            font-weight: bold;
-            font-size: 16px;
-            color: var(--text);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .character-desc {
-            font-size: 13px;
-            color: var(--text-light);
-            margin-top: 2px;
-        }
-        
-        .character-action {
-            width: 44px;
-            height: 44px;
-            background: var(--bg);
-            border-radius: 14px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-        }
-        
-        .fab {
-            position: absolute;
-            bottom: 30px;
-            right: 20px;
-            width: 56px;
-            height: 56px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 24px;
-            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
-            cursor: pointer;
-        }
-        
-        /* Bottom nav */
-        .bottom-nav {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 80px;
-            background: white;
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            border-radius: 30px 30px 0 0;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
-        }
-        
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            color: var(--text-light);
-            font-size: 10px;
-        }
-        
-        .nav-item.active {
-            color: var(--primary);
-        }
-        
-        .nav-icon {
-            font-size: 24px;
+            margin-top: 30px;
         }
     </style>
 </head>
 <body>
     <div class="phone">
         <div class="notch"></div>
-        
-        <div class="screen" id="screen">
-            <!-- Login Screen -->
-            <div class="login-screen" id="loginScreen">
+        <div class="screen">
+            <div class="login-screen">
                 <div class="logo">🌯</div>
                 <h1 class="app-title">Dedikodu Kazanı</h1>
                 <p class="app-subtitle">AI Arkadaşların Burada</p>
                 
-                <div class="features">
-                    <span class="feature">💬 Sohbet</span>
-                    <span class="feature">🎙️ Sesli</span>
-                    <span class="feature">👥 Grup</span>
+                <div class="spacer"></div>
+                
+                <!-- Apple Sign In -->
+                <div class="apple-btn" onclick="login()">
+                    <span style="font-size: 22px;">🍎</span>
+                    <span>Apple ile devam et</span>
                 </div>
                 
-                <div class="form-card">
-                    <div class="toggle-tabs">
-                        <div class="toggle-tab active" onclick="switchTab('login')">Giriş</div>
-                        <div class="toggle-tab" onclick="switchTab('register')">Kayıt</div>
-                    </div>
-                    
-                    <h2 class="form-title">Hoş Geldin!</h2>
-                    <p class="form-subtitle">İsmini gir ve başla</p>
-                    
-                    <div class="input-group">
-                        <input type="text" placeholder="İsmin?">
-                    </div>
-                    <div class="input-group">
-                        <input type="email" placeholder="E-posta">
-                    </div>
-                    <div class="input-group">
-                        <input type="password" placeholder="Parola">
-                    </div>
-                    
-                    <button class="btn-primary" onclick="goToHome()">Başla</button>
-                </div>
-            </div>
-            
-            <!-- Home Screen -->
-            <div class="home-screen" id="homeScreen">
-                <div class="header">
-                    <div class="header-logo">🌯</div>
-                    <h1 class="header-title">Hoşgeldin!</h1>
-                    <p class="header-subtitle">AI Arkadaşların burada</p>
+                <!-- Email gösterimi -->
+                <div class="email-show">
+                    📧 hasan@example.com
                 </div>
                 
-                <div class="section-title">
-                    Karakterler
-                    <span class="badge">2/6 Açık</span>
+                <!-- Veya -->
+                <div class="or-divider">
+                    <span>veya</span>
                 </div>
                 
-                <div class="character-list">
-                    <div class="character-card" onclick="openChat()">
-                        <div class="character-avatar">👩‍🎤</div>
-                        <div class="character-info">
-                            <div class="character-name">Eda Mayan</div>
-                            <div class="character-desc">Sivri dilli, şakacı 🎭</div>
-                        </div>
-                        <div class="character-action">💬</div>
-                    </div>
-                    
-                    <div class="character-card" onclick="openChat()">
-                        <div class="character-avatar">💕</div>
-                        <div class="character-info">
-                            <div class="character-name">Ela Soyman</div>
-                            <div class="character-desc">İyi niyetli, sıcak 💕</div>
-                        </div>
-                        <div class="character-action">💬</div>
-                    </div>
+                <!-- İsim ile devam -->
+                <div class="name-card">
+                    <h3>İsminle başla</h3>
+                    <p>Hesap oluşturmadan dene</p>
+                    <input type="text" id="nameInput" placeholder="İsmin?">
+                    <button onclick="loginWithName()">Başla</button>
                 </div>
                 
-                <div class="fab" onclick="showGroupChat()">👥</div>
-                
-                <div class="bottom-nav">
-                    <div class="nav-item active">
-                        <span class="nav-icon">🏠</span>
-                        <span>Anasayfa</span>
-                    </div>
-                    <div class="nav-item">
-                        <span class="nav-icon">👥</span>
-                        <span>Sohbet</span>
-                    </div>
-                    <div class="nav-item">
-                        <span class="nav-icon">💎</span>
-                        <span>Premium</span>
-                    </div>
-                    <div class="nav-item">
-                        <span class="nav-icon">⚙️</span>
-                        <span>Ayarlar</span>
-                    </div>
+                <div class="footer">
+                    © 2026 Dedikodu Kazanı
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        let currentScreen = 'login';
-        
-        function switchTab(tab) {
-            document.querySelectorAll('.toggle-tab').forEach(t => t.classList.remove('active'));
-            event.target.classList.add('active');
+        function login() {
+            alert('🎉 Ana sayfaya yönlendiriliyorsun!');
+            // Gerçek uygulamada burada Apple Sign In olacak
         }
         
-        function goToHome() {
-            document.getElementById('loginScreen').style.display = 'none';
-            document.getElementById('homeScreen').style.display = 'block';
-            currentScreen = 'home';
-        }
-        
-        function openChat() {
-            alert('💬 Chat ekranı açılıyor...\n\n(Tam sürümde gerçek chat)');
-        }
-        
-        function showGroupChat() {
-            alert('👥 Grup sohbeti açılıyor...\n\n(Tam sürümde gerçek grup chat)');
-        }
-        
-        // Touch/drag support for mobile feel
-        const screen = document.getElementById('screen');
-        let startY = 0;
-        
-        screen.addEventListener('touchstart', e => {
-            startY = e.touches[0].clientY;
-        });
-        
-        screen.addEventListener('touchend', e => {
-            const endY = e.changedTouches[0].clientY;
-            if (startY - endY > 50) {
-                // Swipe up - next screen
+        function loginWithName() {
+            const name = document.getElementById('nameInput').value;
+            if (!name) {
+                alert('Lütfen ismini gir!');
+                return;
             }
+            alert('🎉 Hoşgeldin ' + name + '!');
+        }
+        
+        // Enter ile giriş
+        document.getElementById('nameInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') loginWithName();
         });
     </script>
 </body>
