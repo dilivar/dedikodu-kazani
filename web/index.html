@@ -39,7 +39,7 @@
         .chat-name { font-weight: bold; font-size: 16px; }
         .chat-status { color: #22C55E; font-size: 12px; }
         .chat-messages { padding: 16px; display: flex; flex-direction: column; gap: 12px; padding-bottom: 90px; }
-        .msg { max-width: 80%; padding: 12px 16px; border-radius: 18px; font-size: 14px; line-height: 1.4; }
+        .msg { max-width: 85%; padding: 12px 16px; border-radius: 18px; font-size: 14px; line-height: 1.4; }
         .msg-received { background: white; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         .msg-sent { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
         .msg-time { font-size: 10px; opacity: 0.7; margin-top: 4px; }
@@ -167,94 +167,73 @@
     <script>
         let currentChar = 'Eda';
         
-        // Kapsamlı yanıt sistemi - API yoksa da çalışır!
+        // Her karakter için özel yanıtlar - direkt tarif ver!
         const responses = {
             'Eda': {
-                'keywords': ['pirinç', 'pilav', 'tavuk', 'bezelye', 'yemek', 'tarif', 'pişir', 'mutfak', 'çorba', 'et', 'köfte', 'makarna', 'salata', 'kahvaltı', 'akşam', 'öğle'],
-                'responses': [
-                    '👩‍🍳 <b>Harika bir seçim!</b><div class="recipe-card"><div class="recipe-title">🍗 Tavuklu Bezelyeli Pilav</div><div class="recipe-item">🍚 2 su bardağı pirinç</div><div class="recipe-item">🥩 2 tavuk göğsü</div><div class="recipe-item">🫛 1 su bardağı bezelye</div><div class="recipe-item">🧅 1 soğan</div><div class="recipe-item">🧈 2 yemek kaşığı tereyağı</div></div><b>Yapılış:</b> Tavuğu haşla, pirinci soğanda kavur, bezelye ve tavuğu ekle, su ekle ve pişir! 🔥',
-                    '👩‍🍳 <b>Malzemelerine göre önerilerim:</b><div class="recipe-card"><div class="recipe-title">💡 Alternatif 1: Tavuk Sote</div><div class="recipe-item">Tavuk + soğan + bezelye + sosa</div></div><div class="recipe-card"><div class="recipe-title">💡 Alternatif 2: Pilav</div><div class="recipe-item">Pirinç + tavuk suyu + bezelye</div></div><div class="recipe-card"><div class="recipe-title">💡 Alternatif 3: Tavuk Çorbası</div><div class="recipe-item">Tavuk + pirinç + sebze</div></div>',
-                    '👩‍🍳 Bu malzemelerle <b>3 farklı yemek</b> yapabilirsin! 👇<br><br>1. 🍚 <b>Pilav</b> - Klasik ve lezzetli<br>2. 🍳 <b>Tavuk Sote</b> - Hızlı ve pratik<br>3. 🍲 <b>Çorba</b> - Hafif bir seçenek<br><br>Hangisini tercih edersin?'
-                ]
+                'tavuk': '👩‍🍳 <b>İşte 4 harika tavuk tarifi!</b><br><br><div class="recipe-card"><div class="recipe-title">🍗 1. Tavuklu Pilav</div><div class="recipe-item">🍚 2 su bardağı pirinç</div><div class="recipe-item">🥩 2 tavuk göğsü</div><div class="recipe-item">🧅 1 soğan</div><div class="recipe-item">🧈 2 yemek kaşığı tereyağı</div><div class="recipe-item">💧 4 su bardağı su</div></div><div class="recipe-card"><div class="recipe-title">🍳 2. Tavuk Sote</div><div class="recipe-item">🥩 500g tavuk</div><div class="recipe-item">🫑 2 biber</div><div class="recipe-item">🧅 1 soğan</div><div class="recipe-item">🍅 2 domates</div></div><div class="recipe-card"><div class="recipe-title">🍲 3. Tavuk Çorbası</div><div class="recipe-item">🥩 1 tavuk</div><div class="recipe-item">🥕 1 havuç</div><div class="recipe-item">🥬 1 patates</div><div class="recipe-item">🍚 1/2 su bardağı pirinç</div></div><div class="recipe-card"><div class="recipe-title">🔥 4. Fırında Tavuk</div><div class="recipe-item">🥩 1 bütün tavuk</div><div class="recipe-item">🧄 4 diş sarımsak</div><div class="recipe-item">🌿 kekik, karabiber</div><div class="recipe-item">🫒 2 yemek kaşığı zeytinyağı</div></div>',
+                
+                'pirinç': '👩‍🍳 <b>Pilav Tarifleri:</b><br><br><div class="recipe-card"><div class="recipe-title">🍚 Klasik Pilav</div><div class="recipe-item">2 su bardağı pirinç</div><div class="recipe-item">4 su bardağı su</div><div class="recipe-item">2 yemek kaşığı tereyağı</div><div class="recipe-item">Tuz, karabiber</div></div><div class="recipe-card"><div class="recipe-title">🍳 Sebzeli Pilav</div><div class="recipe-item">Pirinç + bezelye + havuç</div><div class="recipe-item">Soğan + sarımsak</div><div class="recipe-item">Zerdeçal</div></div>',
+                
+                'kıyma': '👩‍🍳 <b>Kıymalı Yemekler:</b><br><br>🥩 <b>Köfte</b> - Kıyma + soğan + ekmek + baharatlar<br>🥟 <b>Mantı</b> - Kıyma + un + su<br>🍝 <b>Kıymalı makarna</b> - Kıyma + makarna + sos<br>🫓 <b>Kıymalı pide</b> - Kıyma + pide hamuru',
+                
+                'makarna': '👩‍🍳 <b>Makarna Tarifleri:</b><br><br>🍝 <b>1. Spagetti Bolonez</b><br>Kıyma + domates sosu + makarna<br><br>🧀 <b>2. Beşamel Makarna</b><br>Süt + un + makarna + kaşar<br><br>🍳 <b>3. Kremalı Makarna</b><br>Krema + fesleğen + makarna',
+                
+                'yemek': '👩‍🍳 Ne pişirmek istersin? 👇<br><br>🍗 <b>Etli Yemekler</b><br>🥗 <b>Sebzeli Yemekler</b><br>🍲 <b>Çorbalar</b><br>🍚 <b>Pilavlar</b><br><br>Söyle neyin var, sana tarif vereyim!',
+                
+                'tarif': '👩‍🍳 Malzemelerini söyle, hemen tarif vereyim! 🍳',
+                
+                'default': '👩‍🍳 Merhaba! 👋 Ne pişirmek istersin? Malzeme listene bakarak sana tarif verebilirim!'
             },
+            
             'Ela': {
-                'keywords': ['giyim', 'stil', 'moda', 'makyaj', 'kıyafet', 'elbise', 'pantolon', 'ayakkabı', 'çanta', 'renk', 'kombin'],
-                'responses': [
-                    '💅 <b>Stil önerilerim:</b><div class="recipe-card"><div class="recipe-title">👗 Günlük Kombin</div><div class="recipe-item">👕 Beyaz t-shirt</div><div class="recipe-item">👖 Mavi kot pantolon</div><div class="recipe-item">👟 Beyaz spor ayakkabı</div><div class="recipe-item">👜 Bej çanta</div></div>Şık ve rahat! ✨',
-                    '💅 <b>Bugünkü trendler:</b><div class="recipe-card"><div class="recipe-title">🔥 2026 Trendleri</div><div class="recipe-item">🟤 Kahverengi tonları</div><div class="recipe-item">🟢 Yeşil detaylar</div><div class="recipe-item">🔵 Pastel renkler</div><div class="recipe-item">⭐ Oversized kesimler</div></div>',
-                    '💅 Hangi tarzı tercih edersin? 👇<br>• 🏖️ Rahat/Spor<br>• 👔 İş/Formal<br>• 🎉 Gece/Partili<br><br>Sana özel öneri vereyim!'
-                ]
+                'giyim': '💅 <b>Stil Önerilerim:</b><br><br><div class="recipe-card"><div class="recipe-title">👗 Günlük Kombin</div><div class="recipe-item">👕 Beyaz t-shirt</div><div class="recipe-item">👖 Mavi kot pantolon</div><div class="recipe-item">👟 Beyaz spor ayakkabı</div><div class="recipe-item">👜 Bej çanta</div></div>Şık ve rahat! ✨',
+                'makyaj': '💅 <b>Doğal Makyaj:</b><br>• BB cream<br>• Maskara<br>• Hafif ruj<br>• Kaş',
+                'default': '💅 Stilin için buradayım! Ne sormak istersin?'
             },
+            
             'Zeynep': {
-                'keywords': ['diyet', 'sağlık', 'kilo', 'zayıf', 'egzersiz', 'spor', 'beslenme', 'vitamin', 'uyku', 'stres'],
-                'responses': [
-                    '🥗 <b>Sağlıklı beslenme önerileri:</b><div class="recipe-card"><div class="recipe-title">📋 Günlük Menü</div><div class="recipe-item">🌅 Kahvaltı: Yumurta + tam ekmek</div><div class="recipe-item">🌞 Öğle: Izgara tavuk + salata</div><div class="recipe-item">🌙 Akşam: Yoğurt + meyve</div></div><b>💧</b> Günde 2-3 litre su içmeyi unutma!',
-                    '🥗 <b>Kilo kontrolü için:</b><div class="recipe-card"><div class="recipe-title">💡 İpuçları</div><div class="recipe-item">✅ Az ama sık ye</div><div class="recipe-item">✅ Şekerden kaçın</div><div class="recipe-item">✅ Bol su iç</div><div class="recipe-item">✅ Düzenli uyu</div></div>',
-                    '🥗 Sağlık konusunda ne sormak istersin?<br><br>• 🥗 Diyet önerileri<br>• 🏃 Egzersiz programı<br>• 💊 Vitamin takviyesi<br>• 😴 Uyku düzeni'
-                ]
+                'diyet': '🥗 <b>Günlük Menü:</b><br><br>🌅 <b>Kahvaltı:</b> Yumurta + tam ekmek<br>🌞 <b>Öğle:</b> Izgara tavuk + salata<br>🌙 <b>Akşam:</b> Yoğurt + meyve<br><br>💧 Günde 2-3 litre su!',
+                'kilo': '🥗 <b>Kilo Verme İpuçları:</b><br>• Az karbonhidrat<br>• Bol protein<br>• Düzenli egzersiz<br>• Su tüketimi',
+                'default': '🥗 Sağlık ve diyet için buradayım!'
             },
+            
             'Derin': {
-                'keywords': ['çocuk', 'aile', 'psikoloji', 'strateji', 'davranış', 'eğitim', 'ödev', 'uyku', 'korku'],
-                'responses': [
-                    '👶 <b>Çocuk psikolojisi önerileri:</b><div class="recipe-card"><div class="recipe-title">💡 Günlük İpuçları</div><div class="recipe-item">🎯 Her gün 15 dk kaliteli zaman</div><div class="recipe-item">📚 Kitap okuma alışkanlığı</div><div class="recipe-item">🎮 Ekran süresini sınırla</div><div class="recipe-item">💬 Duygularını ifade etmesine izin ver</div></div>',
-                    '👶 Çocuğunuz için öneriler:<div class="recipe-card"><div class="recipe-title">📋 Yaş Grubuna Göre</div><div class="recipe-item">0-3 yaş: Oyun + şarkı</div><div class="recipe-item">4-6 yaş: Resim + hikaye</div><div class="recipe-item">7-12 yaş: Sporda + kitap</div></div>',
-                    '👶 Nasıl yardımcı olabilirim?<br><br>• Çocuğun davranışları<br>• Eğitim stratejileri<br>• Uyku düzeni<br>• Korkuları anlama'
-                ]
+                'çocuk': '👶 <b>Çocuk Eğitimi:</b><br>• Oyun oynama<br>• Kitap okuma<br>• Ekran süresi kontrolü<br>• Duygusal destek',
+                'default': '👶 Çocuk psikolojisi için buradayım!'
             },
+            
             'Rüzgar': {
-                'keywords': ['ilişki', 'aşk', 'flört', 'sevgili', 'evlilik', 'kavga', 'iletişim', 'romantizm'],
-                'responses': [
-                    '💕 <b>İlişki önerileri:</b><div class="recipe-card"><div class="recipe-title">💡 İlişki İpuçları</div><div class="recipe-item">💬 Açık iletişim kur</div><div class="recipe-item">🎁 Küçük sürprizler yap</div><div class="recipe-item">⏰ Kaliteli zaman geçir</div><div class="recipe-item">🙏 Saygıyı unutma</div></div>',
-                    '💕 İlişkilerde önemli noktalar:<div class="recipe-card"><div class="recipe-title">❤️ Temel Kurallar</div><div class="recipe-item">✓ Dürüst ol</div><div class="recipe-item">✓ Dinlemeyi bil</div><div class="recipe-item">✓ Space ver</div><div class="recipe-item">✓ Kendin ol</div></div>',
-                    '💕 İlişki konusunda ne sormak istersin?<br><br>• 💕 Flört tavsiyesi<br>• 💍 Evlilik hazırlığı<br>• 💬 İletişim sorunları<br>• ❤️ Romantik fikirler'
-                ]
+                'ilişki': '💕 <b>İlişki Önerileri:</b><br>• Açık iletişim<br>• Saygı<br>• Kaliteli zaman<br>• Güven',
+                'default': '💕 İlişki danışmanınım, sor!'
             },
+            
             'Mert': {
-                'keywords': ['haber', 'gündem', 'siyaset', 'spor', 'magazin', 'dizi', 'film', 'futbol', 'fal'],
-                'responses': [
-                    '📰 <b>Gündem özeti:</b><div class="recipe-card"><div class="recipe-title">🔥 Bugün Ne Var?</div><div class="recipe-item">📱 Teknoloji dünyası hareketli</div><div class="recipe-item">⚽ Spor transfer haberleri</div><div class="recipe-item">🎬 Yeni diziler/filmler</div><div class="recipe-item">💰 Ekonomi gündemi</div></div>Hangi konuda konuşalım?',
-                    '📰 <b>Falınızı çıkarayım mı?</b> 🔮<div class="recipe-card"><div class="recipe-title">🔮 Mart 2026 Falınız</div><div class="recipe-item">⭐ Aşk: Yıldızlar yanında!</div><div class="recipe-item">💰 Para: Beklenmedik gelir</div><div class="recipe-item">💼 İş: Yeni fırsatlar</div><div class="recipe-item">🏥 Sağlık: İyi gidiyor</div></div>',
-                    '📰 Gündem hakkında konuşalım!<br><br>• 📺 Son haberler<br>• ⚽ Spor<br>• 🎬 Magazin/Dizi<br>• 🔮 Fal'
-                ]
+                'haber': '📰 <b>Gündem:</b><br>• Teknoloji<br>• Spor<br>• Magazin<br>• Ekonomi',
+                'fal': '📰 <b>Fal:</b><br>⭐ Aşk: İyi gidiyor!<br>💰 Para: Beklenmedik gelir<br>💼 İş: Yeni fırsatlar',
+                'default': '📰 Gündem ve haberler için buradayım!'
             },
+            
             'Fatih': {
-                'keywords': ['kariyer', 'iş', 'para', 'yatırım', 'borsa', 'ev', 'araba', 'maaş', 'terfi', 'CV'],
-                'responses': [
-                    '💼 <b>Kariyer önerileri:</b><div class="recipe-card"><div class="recipe-title">💡 Kariyer İpuçları</div><div class="recipe-item">📈 Kendini geliştir</div><div class="recipe-item">🤝 Networking yap</div><div class="recipe-item">🎯 Hedefini belirle</div><div class="recipe-item">⏰ Verimli çalış</div></div>',
-                    '💰 <b>Yatırım önerileri:</b><div class="recipe-card"><div class="recipe-title">📊 Yatırım Türleri</div><div class="recipe-item">📈 Borsa - Uzun vadeli</div><div class="recipe-item">🏠 Gayrimenkul - Güvenli</div><div class="recipe-item">💵 Döviz - Dikkatli</div><div class="recipe-item">📦 Kripto - Riskli</div></div><b>⚠️</b> Yatırım uzmanı değilim, danışman!',
-                    '💼 Kariyer ve para konusunda:<br><br>• 💼 İş arama/CV<br>• 💰 Yatırım fikirleri<br>• 📊 Para yönetimi<br>• 🚀 Girişimcilik'
-                ]
+                'kariyer': '💼 <b>Kariyer Önerileri:</b><br>• Kendini geliştir<br>• Networking yap<br>• Hedef belirle<br>• Verimli çalış',
+                'para': '💰 <b>Yatırım:</b><br>• Borsa (uzun vade)<br>• Gayrimenkul<br>• Döviz (dikkatli)',
+                'default': '💼 Kariyer ve para için buradayım!'
             },
+            
             'Seda': {
-                'keywords': ['oyun', 'game', 'ps5', 'xbox', 'pc', 'mobil', 'valorant', 'lol', 'minecraft', 'fortnite', 'steam'],
-                'responses': [
-                    '🎮 <b>Oyun önerileri:</b><div class="recipe-card"><div class="recipe-title">🔥 Popüler Oyunlar</div><div class="recipe-item">🎯 Valorant - FPS</div><div class="recipe-item">⚔️ League of Legends - MOBA</div><div class="recipe-item">⛏️ Minecraft - Sandbox</div><div class="recipe-item">🏕️ Fortnite - Battle Royale</div></div>Hangisi seni çeker?',
-                    '🎮 <b>Oyuncular için:</b><div class="recipe-card"><div class="recipe-title">💡 İpuçları</div><div class="recipe-item">🎧 İyi kulaklık şart</div><div class="recipe-item">⌨️ Kaliteli klavye</div><div class="recipe-item">🖱️ Gaming mouse</div><div class="recipe-item">💺 Rahat sandalye</div></div>',
-                    '🎮 Hangi tür oyunları seviyorsun?<br><br>• 🎯 FPS (Valorant, CS)<br>• ⚔️ MOBA (LoL, Dota)<br>• 🏕️ Battle Royale<br>• ⛏️ Sandbox'
-                ]
+                'oyun': '🎮 <b>Popüler Oyunlar:</b><br>• Valorant (FPS)<br>• League of Legends (MOBA)<br>• Minecraft (Sandbox)<br>• Fortnite (Battle)',
+                'default': '🎮 Oyun için buradayım!'
             }
         };
         
         const welcomeMessages = {
-            'Eda': 'Selam! 👩‍🍳 Malzemelerini söyle, sana tarif vereyim!',
-            'Ela': 'Hoşgeldin! 💅 Stilin için buradayım!',
-            'Zeynep': 'Merhaba! 🥗 Sağlık için ne yapabilirim?',
-            'Derin': 'Selam! 👶 Nasıl yardımcı olabilirim?',
-            'Rüzgar': 'Hey 💕 İlişki konusunda ne sormak istersin?',
-            'Mert': 'Selam! 📰 Gündem ne?',
-            'Fatih': 'Hoşgeldin. 💼 Kariyerin için ne yapabilirim?',
-            'Seda': 'Hey! 🎮 Hangi oyunu oynuyoruz?'
-        };
-        
-        const defaultResponses = {
-            'Eda': '👩‍🍳 Anladım! Malzeme listene bakarak sana özel tarif verebilirim. Başka ne pişirmek istersin?',
-            'Ela': '💅 Anlıyorum! Stil, moda veya giyim hakkında bir sorun varsa yardımcı olabilirim!',
-            'Zeynep': '🥗 Sağlık veya diyet hakkında sormak istediğin bir şey var mı?',
-            'Derin': '👶 Çocuk psikolojisi veya eğitim hakkında bir sorun varsa buradayım!',
-            'Rüzgar': '💕 İlişki konusunda yardımcı olabilirim. Ne sormak istersin?',
-            'Mert': '📰 Gündem, haber veya fal hakkında konuşalım mı?',
-            'Fatih': '💼 Kariyer veya para konusunda ne sormak istersin?',
-            'Seda': '🎮 Oyun hakkında bir sorun mu var? Yardımcı olayım!'
+            'Eda': '👩‍🍳 Merhaba! Ben Eda, aşçınım. Malzeme listene bakarak sana harika tarifler verebilirim! 🍳',
+            'Ela': '💅 Merhaba! Stil danışmanınım. Nasıl yardımcı olabilirim?',
+            'Zeynep': '🥗 Merhaba! Sağlık ve diyet uzmanıyım. Ne sormak istersin?',
+            'Derin': '👶 Merhaba! Çocuk psikologuyum. Nasıl yardımcı olabilirim?',
+            'Rüzgar': '💕 Merhaba! İlişki danışmanıyım. Ne konuşmak istersin?',
+            'Mert': '📰 Merhaba! Gündem uzmanıyım. Ne konuşalım?',
+            'Fatih': '💼 Merhaba! Kariyer danışmanıyım. Nasıl yardımcı olabilirim?',
+            'Seda': '🎮 Merhaba! Oyun uzmanıyım. Hangi oyunu oynuyoruz?'
         };
         
         function openChat(name, avatar, desc) {
@@ -300,28 +279,24 @@
             addMessage(text, true);
             input.value = '';
             
-            // Yanıt al
             const response = getResponse(text);
             addMessage(response, false);
         }
         
         function getResponse(text) {
             const t = text.toLowerCase();
-            const charData = responses[currentChar];
+            const charResponses = responses[currentChar];
             
-            if (!charData) return defaultResponses[currentChar];
+            if (!charResponses) return charResponses?.default || 'Anladım!';
             
-            // Anahtar kelimeleri kontrol et
-            for (const keyword of charData.keywords) {
-                if (t.includes(keyword)) {
-                    // Rastgele bir yanıt seç
-                    const randomIndex = Math.floor(Math.random() * charData.responses.length);
-                    return charData.responses[randomIndex];
+            // Tüm anahtar kelimeleri kontrol et
+            for (const key in charResponses) {
+                if (key !== 'default' && t.includes(key)) {
+                    return charResponses[key];
                 }
             }
             
-            // Hiçbir anahtar kelime yoksa default yanıt
-            return defaultResponses[currentChar];
+            return charResponses.default || 'Anladım, devam et!';
         }
         
         function handleKeyPress(e) {
