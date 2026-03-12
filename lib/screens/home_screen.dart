@@ -17,87 +17,67 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String _userName = 'Arkadaş';
   
-  // 8 karakter listesi
+  // 6 karakter listesi
   final List<Character> _characters = [
     Character(
       id: '1',
       name: 'Eda',
-      description: 'Aşçı + Sosyal 👩‍🍳',
+      description: 'Sanal Arkadaş 👩‍🍳',
       avatar: '👩‍🍳',
       personality: CharacterPersonality.funny,
       isPremium: false,
-      introMessage: 'Selam! Ben Eda, mutfakta uzmanım. Bugün ne pişirelim? 🍳',
-      expertise: 'Yemek, tarifler, mutfak',
+      introMessage: '👋 Merhaba! Ben Eda, senin sanal arkadaşın!',
+      expertise: 'Her konuda sohbet',
     ),
     Character(
       id: '2',
       name: 'Ela',
-      description: 'Stilist + Moda 💅',
+      description: 'Sanal Arkadaş 💅',
       avatar: '💅',
       personality: CharacterPersonality.warm,
       isPremium: false,
-      introMessage: 'Hoşgeldin! Stil danışmanın burada 💅 Ne giyeceksin bugün?',
-      expertise: 'Moda, stil, giyim, makyaj',
+      introMessage: '💅 Merhaba! Her konuda konuşabiliriz!',
+      expertise: 'Her konuda sohbet',
     ),
     Character(
       id: '3',
       name: 'Zeynep',
-      description: 'Sağlık + Diyet 🥗',
+      description: 'Sanal Arkadaş 🥗',
       avatar: '🥗',
       personality: CharacterPersonality.realistic,
       isPremium: true,
-      introMessage: 'Merhaba! Sağlık ve diyet konusunda yardımcı olacağım 🥗',
-      expertise: 'Sağlık, diyet, beslenme',
+      introMessage: '🥗 Merhaba! Nasıl yardımcı olabilirim?',
+      expertise: 'Her konuda sohbet',
     ),
     Character(
       id: '4',
       name: 'Derin',
-      description: 'Çocuk Psikolojisi 👶',
-      avatar: '🧒',
+      description: 'Sanal Arkadaş 👶',
+      avatar: '👶',
       personality: CharacterPersonality.psychologist,
       isPremium: true,
-      introMessage: 'Selam! Çocuk psikolojisi uzmanıyım 👶 Nasıl yardımcı olabilirim?',
-      expertise: 'Çocuk psikolojisi, eğitim',
+      introMessage: '👶 Merhaba! Nasıl hissediyorsun?',
+      expertise: 'Her konuda sohbet',
     ),
     Character(
       id: '5',
       name: 'Rüzgar',
-      description: 'İlişki Danışmanı 💕',
+      description: 'Sanal Arkadaş 💕',
       avatar: '💕',
       personality: CharacterPersonality.romantic,
       isPremium: true,
-      introMessage: 'Hoşgeldin 💕 İlişkiler konusunda konuşalım mı?',
-      expertise: 'İlişkiler, aşk, iletişim',
+      introMessage: '💕 Merhaba! Konuşmak ister misin?',
+      expertise: 'Her konuda sohbet',
     ),
     Character(
       id: '6',
       name: 'Mert',
-      description: 'Gündem + Fal 📰',
+      description: 'Sanal Arkadaş 📰',
       avatar: '📰',
       personality: CharacterPersonality.friend,
       isPremium: true,
-      introMessage: 'Selam! Gündem çok sıcak 📰 Ne konuşmak istersin?',
-      expertise: 'Gündem, haberler, fal',
-    ),
-    Character(
-      id: '7',
-      name: 'Fatih',
-      description: 'Kariyer + Para 💰',
-      avatar: '💼',
-      personality: CharacterPersonality.mentor,
-      isPremium: true,
-      introMessage: 'Merhaba! Kariyer ve para konularında yardımcı olacağım 💰',
-      expertise: 'Kariyer, yatırım, para',
-    ),
-    Character(
-      id: '8',
-      name: 'Seda',
-      description: 'Oyun + Eğlence 🎮',
-      avatar: '🎮',
-      personality: CharacterPersonality.funny,
-      isPremium: true,
-      introMessage: 'Hey! Oyun ve eğlence uzmanıyım 🎮 Hangi oyunu oynuyoruz?',
-      expertise: 'Oyun, eğlence, gaming',
+      introMessage: '📰 Merhaba! Ne konuşmak istersin?',
+      expertise: 'Her konuda sohbet',
     ),
   ];
 
@@ -109,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
         slivers: [
           // Header
           SliverAppBar(
-            expandedHeight: 180,
+            expandedHeight: 160,
             pinned: true,
             backgroundColor: const Color(0xFF8B5CF6),
             flexibleSpace: FlexibleSpaceBar(
@@ -125,11 +105,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 30),
-                      const LogoWidget(size: 60),
+                      const SizedBox(height: 20),
+                      const LogoWidget(size: 50),
                       const SizedBox(height: 8),
                       Text(
-                        'Hoşgeldin, $_userName!',
+                        'Dedikodu Kazanı 💬',
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20,
@@ -137,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       const Text(
-                        '8 AI Arkadaşın burada',
+                        'Sanal arkadaşların!',
                         style: TextStyle(color: Colors.white70, fontSize: 13),
                       ),
                     ],
@@ -145,23 +125,13 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
             ),
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.settings, color: Colors.white),
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsScreen())),
-              ),
-              IconButton(
-                icon: const Icon(Icons.crown, color: Colors.amber),
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const PremiumScreen())),
-              ),
-            ],
           ),
 
           // Karakterler bölümü
           const SliverToBoxAdapter(
             child: Padding(
               padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
-              child: Text('Karakterler', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF1A1A2E))),
+              child: Text('Arkadaşlar', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF1A1A2E))),
             ),
           ),
 
@@ -180,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   final character = _characters[index];
                   return _CharacterGridCard(
                     character: character,
-                    onTap: () => _openChat(context, character),
+                    onTap: () => _onCharacterTap(context, character),
                   );
                 },
                 childCount: _characters.length,
@@ -210,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('Grup Sohbeti', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
-                            Text('8 karakterle aynı anda!', style: TextStyle(color: Colors.white70, fontSize: 13)),
+                            Text('Tüm arkadaşların burada!', style: TextStyle(color: Colors.white70, fontSize: 13)),
                           ],
                         ),
                       ),
@@ -228,18 +198,17 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _openChat(BuildContext context, Character character) {
-    // Premium kontrolü
+  void _onCharacterTap(BuildContext context, Character character) {
     if (character.isPremium) {
-      // Premium ise ama kullanıcı premium değilse uyarı göster
-      _showPremiumDialog(context, character);
+      // Premium karakter - fiyat göster
+      _showPremiumPriceDialog(context, character);
     } else {
-      // Ücretsiz ise direkt sohbete git
+      // Ücretsiz - direkt sohbete git
       Navigator.push(context, MaterialPageRoute(builder: (_) => ChatScreen(character: character)));
     }
   }
 
-  void _showPremiumDialog(BuildContext context, Character character) {
+  void _showPremiumPriceDialog(BuildContext context, Character character) {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
@@ -254,30 +223,19 @@ class _HomeScreenState extends State<HomeScreen> {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text(character.description),
-            const SizedBox(height: 16),
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: Colors.amber.withOpacity(0.1),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: const Row(
-                children: [
-                  Icon(Icons.lock, color: Colors.amber),
-                  SizedBox(width: 8),
-                  Expanded(
-                    child: Text('Bu karakter Premium. Sadece Eda ve Ela ücretsiz!'),
-                  ),
-                ],
-              ),
-            ),
+            const Icon(Icons.diamond, color: Colors.amber, size: 50),
+            const SizedBox(height: 12),
+            const Text('💎 Premium', style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            const Text('Fiyat: 9.99€/ay', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xFF8B5CF6))),
+            const SizedBox(height: 12),
+            const Text('Ücretsiz denemek için Eda veya Ela\'yı seçin!', textAlign: TextAlign.center, style: TextStyle(color: Colors.grey)),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('İptal'),
+            child: const Text('Kapat'),
           ),
           ElevatedButton(
             onPressed: () {
@@ -312,28 +270,43 @@ class _CharacterGridCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 15, offset: const Offset(0, 5))],
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: Stack(
           children: [
-            Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(colors: [Color(0xFF8B5CF6), Color(0xFF6B4EFF)]),
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Center(child: Text(character.avatar!, style: const TextStyle(fontSize: 28))),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(colors: [Color(0xFF8B5CF6), Color(0xFF6B4EFF)]),
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                  child: Center(
+                    child: character.isPremium
+                        ? const Icon(Icons.lock, color: Colors.white, size: 28)
+                        : Text(character.avatar!, style: const TextStyle(fontSize: 28)),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(character.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14), textAlign: TextAlign.center),
+                const SizedBox(height: 4),
+                Text(character.description, style: TextStyle(color: Colors.grey[500], fontSize: 11), textAlign: TextAlign.center, maxLines: 2),
+              ],
             ),
-            const SizedBox(height: 12),
-            Text(character.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14), textAlign: TextAlign.center),
-            const SizedBox(height: 4),
-            Text(character.description, style: TextStyle(color: Colors.grey[500], fontSize: 11), textAlign: TextAlign.center, maxLines: 2),
-            const SizedBox(height: 8),
+            // Premium badge
             if (character.isPremium)
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                decoration: BoxDecoration(color: Colors.amber.withOpacity(0.2), borderRadius: BorderRadius.circular(8)),
-                child: const Text('💎 Premium', style: TextStyle(fontSize: 10, color: Colors.amber)),
+              Positioned(
+                top: 0,
+                right: 0,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(colors: [Color(0xFFFFD700), Color(0xFFFFA500)]),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: const Text('💎', style: TextStyle(fontSize: 12)),
+                ),
               ),
           ],
         ),
