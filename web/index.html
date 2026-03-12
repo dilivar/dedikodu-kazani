@@ -6,18 +6,16 @@
     <title>Dedikodu Kazanı</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        html, body { height: 100%; overflow: hidden; font-family: -apple-system, BlinkMacSystemFont, sans-serif; }
+        html, body { height: 100%; overflow: hidden; font-family: -apple-system, sans-serif; }
         :root { --primary: #8B5CF6; --bg: #F5F0FF; }
-        body { background: linear-gradient(135deg, var(--primary), #6B4EFF); display: flex; justify-content: center; align-items: center; }
-        .phone { width: 100%; height: 100%; max-width: 393px; background: var(--bg); position: relative; overflow: hidden; }
+        body { background: linear-gradient(135deg, var(--primary), #6B4EFF); display: flex; justify-content: center; }
+        .phone { width: 100%; max-width: 393px; background: var(--bg); position: relative; overflow: hidden; }
         .notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 126px; height: 37px; background: #000; border-radius: 0 0 20px 20px; z-index: 100; }
         
-        .screen { width: 100%; height: 100%; overflow-y: auto; display: none; }
+        .screen { display: none; height: 100%; overflow-y: auto; }
         .screen.active { display: block; }
         
-        .header { background: linear-gradient(135deg, var(--primary), #6B4EFF); padding: 50px 20px 20px; border-radius: 0 0 30px 30px; color: white; text-align: center; }
-        
-        .section-title { padding: 16px 20px 8px; font-size: 18px; font-weight: bold; }
+        .header { background: linear-gradient(135deg, var(--primary), #6B4EFF); padding: 50px 20px 20px; color: white; text-align: center; border-radius: 0 0 30px 30px; }
         
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 16px; }
         .card { background: white; border-radius: 16px; padding: 14px; text-align: center; }
@@ -33,11 +31,17 @@
         .chat-avatar { width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), #6B4EFF); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
         .chat-name { font-weight: bold; font-size: 16px; }
         
-        .chat-messages { padding: 16px; display: flex; flex-direction: column; gap: 12px; padding-bottom: 90px; min-height: 300px; }
-        .msg { max-width: 85%; padding: 12px 16px; border-radius: 18px; font-size: 14px; }
+        .chat-messages { padding: 16px; display: flex; flex-direction: column; gap: 12px; padding-bottom: 90px; }
+        .msg { max-width: 85%; padding: 12px 16px; border-radius: 18px; font-size: 14px; line-height: 1.5; }
         .msg-received { background: white; align-self: flex-start; border-bottom-left-radius: 4px; }
         .msg-sent { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
         .msg-time { font-size: 10px; opacity: 0.7; margin-top: 4px; }
+        
+        .typing { display: flex; gap: 4px; padding: 8px; }
+        .typing span { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; animation: typing 1.4s infinite; }
+        .typing span:nth-child(2) { animation-delay: 0.2s; }
+        .typing span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing { 0%, 60%, 100% { opacity: 0.3; } 30% { opacity: 1; } }
         
         .quick-reply { display: flex; gap: 8px; overflow-x: auto; padding: 8px 16px; background: #f5f0ff; }
         .quick-btn { background: white; border: 1px solid var(--primary); color: var(--primary); padding: 8px 16px; border-radius: 20px; font-size: 12px; white-space: nowrap; }
@@ -51,14 +55,13 @@
     <div class="phone">
         <div class="notch"></div>
         
-        <!-- HOME SCREEN -->
         <div class="screen active" id="homeScreen">
             <div class="header">
                 <h1 style="font-size:22px;font-weight:bold;">Dedikodu Kazanı 💬</h1>
-                <p style="font-size:13px;opacity:0.9;">Gerçek magazin dedikoduları! 📰</p>
+                <p style="font-size:13px;opacity:0.9;">Gerçek magazin AI! 📰</p>
             </div>
             
-            <div class="section-title">Karakterler (6)</div>
+            <div style="padding:16px 20px 8px;font-weight:bold;">Karakterler</div>
             
             <div class="grid">
                 <div class="card" onclick="openChat('Eda')">
@@ -68,6 +71,11 @@
                 <div class="card" onclick="openChat('Ela')">
                     <div class="card-avatar">💅</div>
                     <div class="card-name">Ela</div>
+                </div>
+                <div class="card" onclick="openChat('Mert')">
+                    <div class="card-badge">💎</div>
+                    <div class="card-avatar">📰</div>
+                    <div class="card-name">Mert</div>
                 </div>
                 <div class="card" onclick="openChat('Zeynep')">
                     <div class="card-badge">💎</div>
@@ -84,22 +92,15 @@
                     <div class="card-avatar">💕</div>
                     <div class="card-name">Rüzgar</div>
                 </div>
-                <div class="card" onclick="openChat('Mert')">
-                    <div class="card-badge">💎</div>
-                    <div class="card-avatar">📰</div>
-                    <div class="card-name">Mert</div>
-                </div>
             </div>
             
             <div class="fab" onclick="openGroup()">👥</div>
             
             <div class="nav">
                 <div style="display:flex;flex-direction:column;align-items:center;color:var(--primary);font-size:10px;"><span style="font-size:22px">🏠</span></div>
-                <div style="display:flex;flex-direction:column;align-items:center;color:#6B7280;font-size:10px;"><span style="font-size:22px">⚙️</span></div>
             </div>
         </div>
         
-        <!-- CHAT SCREEN -->
         <div class="screen" id="chatScreen">
             <div class="chat-header">
                 <span onclick="goHome()" style="font-size:20px;cursor:pointer;">←</span>
@@ -108,27 +109,30 @@
             </div>
             
             <div class="quick-reply">
-                <button class="quick-btn" onclick="sendQuick('Magazin haber!')">📰 Magazin</button>
-                <button class="quick-btn" onclick="sendQuick('Beren Saat!')">⭐ Beren</button>
-                <button class="quick-btn" onclick="sendQuick('Kıvanç!')">⭐ Kıvanç</button>
+                <button class="quick-btn" onclick="sendQuick('Beren Saat kim?')">Beren Saat</button>
+                <button class="quick-btn" onclick="sendQuick('Kıvanç ne yapıyor?')">Kıvanç</button>
+                <button class="quick-btn" onclick="sendQuick('Magazin haber!')">Magazin</button>
             </div>
             
             <div class="chat-messages" id="chatMessages"></div>
             
+            <div class="typing" id="typingIndicator" style="display:none;">
+                <span></span><span></span><span></span>
+            </div>
+            
             <div class="chat-input-area">
-                <input type="text" class="chat-input" id="messageInput" placeholder="Mesaj yaz..." onkeypress="handleKeyPress(event)">
+                <input type="text" class="chat-input" id="messageInput" placeholder="Soru sor..." onkeypress="handleKeyPress(event)">
                 <div class="chat-send" onclick="sendMessage()">➤</div>
             </div>
         </div>
         
-        <!-- GROUP SCREEN -->
         <div class="screen" id="groupScreen">
-            <div class="chat-header" style="background:linear-gradient(135deg, var(--primary), #6B4EFF);">
+            <div class="chat-header" style="background:linear-gradient(135deg,var(--primary),#6B4EFF);">
                 <span onclick="goHome()" style="font-size:20px;cursor:pointer;color:white;">←</span>
-                <div class="chat-name" style="color:white;">Dedikodu Grubu 🔥</div>
+                <div class="chat-name" style="color:white;">Grup 🔥</div>
             </div>
             <div class="chat-messages" id="groupMessages">
-                <div class="msg msg-received"><b>Mert:</b> Selam! Magazin çok sıcak!<div class="msg-time">14:30</div></div>
+                <div class="msg msg-received"><b>Mert:</b> Selam! Magazin sorun!<div class="msg-time">14:30</div></div>
             </div>
             <div class="chat-input-area">
                 <input type="text" class="chat-input" id="groupInput" placeholder="Gruba katıl...">
@@ -138,70 +142,65 @@
     </div>
 
     <script>
+        // Google AI API
+        const API_KEY = 'AIzaSyD92NDDcQQFU4IQDOUqyKt_IyhF-Fs3k68';
+        const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+        
         let currentChar = 'Eda';
+        let conversationHistory = [];
         
-        // REAL-TİME MAGAZİN VERİLERİ
-        const magazineData = {
-            // Gerçek kişiler ve güncel olaylar
-            'beren': '⭐ BEREN SAAT: Ekrandan uzak kaldığı dönemde hayranları onu özledi. Son Instagram paylaşımı 2 milyon beğeni aldı!',
-            'kıvanç': '⭐ KIVANÇ TATLITUĞ: Yeni dizi projesi için görüşmeler yapıyor. Ekrana geri dönüyor mu?',
-            'hadise': '⭐ HADİSE: "Gelincik" şarkısıyla listelerde zirveye oturdu! Konser turnesi başlıyor!',
-            'tarkan': '⭐ TARKAN: 3 yıl sonra yeni albüm hazırlığında! Hayranlar heyecanlı.',
-            'ajda': '⭐ AJDA PEKKAN: 76 yaşında iftar partisi verdi. Gençlik sırrı: "Pilates ve sevgi!"',
-            'demet': '⭐ DEMET AKALIN: Oğlu Aras'ın doğum gününü kutladı. Pastaya dikkat!',
-            'ebru': '⭐ EBRU ŞALLI: Fitness motivasyon videoları viral oluyor. 5 milyon takipçi!',
-            'şahan': '⭐ ŞAHAN GÖKBAKAR: "Kara Yılan" filmiyle gişede büyük başarı!',
-            'gülşen': '⭐ GÜLŞEN: Konser turne tarihleri belli oldu! 15 şehirde olacak!',
-            'irem': '⭐ İREM DERİCİ: Yeni şarkısı "Yan" tüm dijital platformlarda!',
-            'serdar': '⭐ SERDAR ORTAÇ: Yeni şarkısı "Kalbim" ile geri döndü!',
-            'ferman': '⭐ FERMAN ABDULLAYEV: Eşiyle birlikte yeni proje açıkladı!',
-            'kenan': '⭐ KENAN İMİRZALIOĞLU: Efsane tarım reklamıyla ekranlara geri döndü!',
-            'bülent': '⭐ BÜLENT ŞARKIÇ: "Cesaret" şarkısıyla TikTok\'ta viral oldu!',
-            ' defecto': '📰 MAGAZİN: Türk medya dünyası bugün çok konuşulan konularla çalkalanıyor. Ünlülerin son durumları, gizli aşklar, sürpriz barışmalar ve daha fazlası...'
-        };
+        const avatars = { 'Eda': '👩‍🍳', 'Ela': '💅', 'Mert': '📰', 'Zeynep': '🥗', 'Derin': '👶', 'Rüzgar': '💕' };
         
-        // Genel magazin haberleri
-        const generalNews = [
-            '📰 Bugün magazin dünyasında: Ünlü çift barışma haberleri çıktı! 💕',
-            '📰 Magazin: Ünlü oyuncu yeni projeye imza attı! 🎬',
-            '📰 Sıcak haber: İki ünlü arasında gizli aşk iddiaları! 👀',
-            '📰 Magazin gündemi: Sosyal medya fenomenlerinin son durumu! 📱',
-            '📰 Bugünün magazini: Yıldızların yoğun programı! ⭐'
-        ];
-        
-        function searchGossip(query) {
-            query = query.toLowerCase();
-            for (let key in magazineData) {
-                if (query.includes(key)) {
-                    return magazineData[key];
-                }
-            }
-            return generalNews[Math.floor(Math.random() * generalNews.length)];
+        const systemPrompt = `Sen bir TÜRK MAGAZİN YAPAY ZEKASISIN!
+
+GÖREVİN:
+1. Türk ünlüleri, dizileri, magazin haberleri hakkında soruları yanıtla
+2. Gerçek bilgiler ver (Beren Saat, Kıvanç Tatlıtuğ, Hadise, Tarkan, Ajda Pekkan, Demet Akalın, İrem Derici, Gülşen, Şahan Gökbakar, Kenan İmirzalıoğlu, Ebru Şallı, Serdar Ortaç, Ferman Abdullayev, Bülent Şarkacıoğlu, Hande Yener, Sibel Can, Emina, Murathan, Edis, Lil Kill, Ezgi, Meryem, Yeliz, Bülent Ortaç, Sıla, Gülben Ergen, Kenan Doğulu, Hadise, Tarkan'ın çocukları vs.)
+3. Türk dizileri (Kızılık Serbeti, Aşk-ı Memnu, Çukur, Diriliş Ertuğrul, Yalancılar ve Mumları, Ezel, Masumiyet, Kurt Seyit ve Şura, Kara Sevda vs.)
+4. Magazin dedikoduları, aşk ilişkileri, iş projeleri
+5. Güncel haberler, ödüller, etkinlikler
+
+KURALLAR:
+- Kısa ve net yanıtlar ver
+- Sorulan kişi/dizi hakkında bilgi ver
+- Emin olmadığın şeyi söyleme
+- Emoji kullan
+- Sohbet et, soruları yanıtla`;
+
+        async function getAIResponse(message) {
+            const contents = [
+                { role: 'user', parts: [{ text: systemPrompt }] },
+                ...conversationHistory.slice(-6).map(m => ({ role: m.isUser ? 'user' : 'model', parts: [{ text: m.text }] })),
+                { role: 'user', parts: [{ text: message }] }
+            ];
+            
+            const response = await fetch(API_URL + '?key=' + API_KEY, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    contents: contents,
+                    generationConfig: { temperature: 0.9, maxOutputTokens: 600 }
+                })
+            });
+            
+            if (!response.ok) throw new Error('API hatası');
+            
+            const data = await response.json();
+            return data.candidates[0].content.parts[0].text;
         }
-        
-        function getRandomGossip() {
-            const keys = Object.keys(magazineData);
-            const randomKey = keys[Math.floor(Math.random() * keys.length)];
-            return magazineData[randomKey];
-        }
-        
-        window.onload = function() {
-            // Load initial data
-        };
         
         function openChat(name) {
             currentChar = name;
             document.getElementById('homeScreen').classList.remove('active');
             document.getElementById('chatScreen').classList.add('active');
             document.getElementById('chatName').textContent = name;
+            document.getElementById('chatAvatar').textContent = avatars[name];
             
-            const avatars = { 'Eda': '👩‍🍳', 'Ela': '💅', 'Zeynep': '🥗', 'Derin': '👶', 'Rüzgar': '💕', 'Mert': '📰' };
-            document.getElementById('chatAvatar').textContent = avatars[name] || '👩‍🍳';
-            
+            conversationHistory = [];
             const chatMsgs = document.getElementById('chatMessages');
             chatMsgs.innerHTML = '';
             
-            addMessage('📰 GERÇEK MAGAZİN BURADA!\n\n' + getRandomGossip(), false);
+            addMessage('📰 Merhaba! Ben ' + name + ', Türk magazin yapay zekasıyım!\n\nHangi ünlüyü, diziyi veya magazin konusunu merak ediyorsun? Sor bakalım! 😊', false);
         }
         
         function openGroup() {
@@ -222,9 +221,18 @@
             
             const msgDiv = document.createElement('div');
             msgDiv.className = 'msg ' + (isUser ? 'msg-sent' : 'msg-received');
-            msgDiv.innerHTML = (isUser ? '' : '<b>' + currentChar + ':</b> ') + text + '<div class="msg-time">' + time + '</div>';
+            msgDiv.innerHTML = (isUser ? '' : '<b>' + currentChar + ':</b> ') + text.replace(/\n/g, '<br>') + '<div class="msg-time">' + time + '</div>';
             chatMsgs.appendChild(msgDiv);
             chatMsgs.scrollTop = chatMsgs.scrollHeight;
+        }
+        
+        function showTyping() {
+            document.getElementById('typingIndicator').style.display = 'flex';
+            document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
+        }
+        
+        function hideTyping() {
+            document.getElementById('typingIndicator').style.display = 'none';
         }
         
         function sendQuick(text) {
@@ -232,19 +240,25 @@
             sendMessage();
         }
         
-        function sendMessage() {
+        async function sendMessage() {
             const input = document.getElementById('messageInput');
             const text = input.value.trim();
             if (!text) return;
             
             addMessage(text, true);
             input.value = '';
+            showTyping();
             
-            // Gerçek arama sonucu
-            setTimeout(() => {
-                const result = searchGossip(text);
-                addMessage(result, false);
-            }, 1000);
+            try {
+                const response = await getAIResponse(text);
+                hideTyping();
+                addMessage(response, false);
+                conversationHistory.push({ text: text, isUser: true });
+                conversationHistory.push({ text: response, isUser: false });
+            } catch (e) {
+                hideTyping();
+                addMessage('Bağlantı hatası. Tekrar dene! 😔', false);
+            }
         }
         
         function sendToGroup() {
