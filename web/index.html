@@ -44,7 +44,7 @@
         .msg-sent { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
         .msg-time { font-size: 10px; opacity: 0.7; margin-top: 4px; }
         
-        .recipe-card { background: #f0f8ff; border-radius: 10px; padding: 10px; margin-top: 8px; border-left: 3px solid var(--primary); }
+        .recipe-card { background: #f0f8ff; border-radius: 10px; padding: 10px; margin: 8px 0; border-left: 3px solid var(--primary); }
         .recipe-title { font-weight: bold; color: var(--primary); margin-bottom: 6px; }
         .recipe-item { padding: 3px 0; font-size: 12px; }
         
@@ -163,7 +163,6 @@
             </div>
             <div class="chat-messages" id="groupMessages">
                 <div class="msg msg-received">👩‍🍳 Eda: Herkese selam! 🍳 <div class="msg-time">14:30</div></div>
-                <div class="msg msg-received">💅 Ela: Stiliniz için buradayım! 💅 <div class="msg-time">14:31</div></div>
             </div>
             <div class="chat-input-area">
                 <input type="text" class="chat-input" placeholder="Gruba mesaj yaz...">
@@ -179,83 +178,68 @@
         
         let currentChar = 'Eda';
         let conversationHistory = [];
-        let userName = '';
         
-        // Karakter kişilikleri ve uzmanlıkları
+        // TAM TARİFLER - Direkt verilecek!
+        const fullRecipes = {
+            'pilav': '🍚 <b>TAVUKLU PİLAV TARİFİ</b><br><br><div class="recipe-card"><b>Malzemeler:</b><br>• 2 su bardağı pirinç<br>• 2 adet tavuk göğsü<br>• 1 adet soğan<br>• 2 yemek kaşığı tereyağı<br>• 4 su bardağı tavuk suyu<br>• Tuz, karabiber</div><br><b>Yapılışı:</b><br>1. Pirinçleri 30 dk ıslat<br>2. Tavukları haşla, suyunu sakla<br>3. Soğanı tereyağında kavur<br>4. Pirinci ekle, 2 dk kavur<br>5. Tavuk suyu ekle, tuzla<br>6. Orta ateşte suyu çekene kadar pişir<br>7. Tavukları ekle, karıştır<br>8. Demlenmeye bırak! 🔥',
+            
+            'çorba': '🍲 <b>TAVUK ÇORBASI TARİFİ</b><br><br><div class="recipe-card"><b>Malzemeler:</b><br>• 1 adet bütün tavuk<br>• 1 su bardağı pirinç<br>• 1 adet soğan<br>• 2 adet havuç<br>• 2 adet patates<br>• Tuz, karabiber<br>• 2 yemek kaşığı un</div><br><b>Yapılışı:</b><br>1. Tavuğu bol suda yıka<br>2. Büyük tencereye koy, üstünü geçecek kadar su ekle<br>3. Kaynamaya bırak, köpüklerini al<br>4. Sebzeleri ekle (doğramadan)<br>5. Pirinci ekle<br>6. 1.5 saat yavaş ateşte pişir<br>7. Tavuk etlerini çıkar, parçala<br>8. Etleri çorbaya geri ekle<br>9. Unu suyla karıştır, çorbaya ekle<br>10. Kıvam alınca servis et! 🍲',
+            
+            'sote': '🍳 <b>TAVUK SOTE TARİFİ</b><br><br><div class="recipe-card"><b>Malzemeler:</b><br>• 500g tavuk göğsü<br>• 2 adet biber (yeşil/kırmızı)<br>• 1 adet soğan<br>• 2 adet domates<br>• 3 diş sarımsak<br>• Soya sosu, karabiber<br>• Zeytinyağı</div><br><b>Yapılışı:</b><br>1. Tavuğu küp küp doğra<br>2. Biber ve soğanı ince doğra<br>3. Tavuğu sıcak tavada kızart<br>4. Soğanı ekle, pembeleşene kadar<br>5. Sarımsak ve biberi ekle<br>6. Domatesleri ekle<br>7. Soya sosu ve baharatlarla tatlandır<br>8. 5 dk daha pişir, servis et! 🔥',
+            
+            'fırında': '🔥 <b>FIRINDA TAVUK TARİFİ</b><br><br><div class="recipe-card"><b>Malzemeler:</b><br>• 1 adet bütün tavuk (1.5 kg)<br>• 4 diş sarımsak<br>• 2 yemek kaşığı zeytinyağı<br>• 1 limon<br>• Taze kekik, karabiber, tuz<br>• Rosmarin (opsiyonel)</div><br><b>Yapılışı:</b><br>1. Fırını 200°C'ye ısıt<br>2. Tavuk içini temizle, yıka<br>3. Zeytinyağı, sarımsak, baharatları karıştır<br>4. Bu karışımı tavuğun her yerine sür<br>5. Limonu ortadan ikiye kesip tavuğun içine koy<br>6. Fırın tepsisine tavuğu koy<br>7. 1 saat 15 dk pişir (ara ara üstünü kontrol et)<br>8. Altın sarısı olunca çıkar, 10 dk dinlendir!<br>9. Afiyet olsun! 🍗',
+            
+            'köfte': '🍖 <b>EŞEK ARISI KÖFTE TARİFİ</b><br><br><div class="recipe-card"><b>Malzemeler:</b><br>• 500g kıyma<br>• 1 adet soğan (rendelenmiş)<br>• 2 diş sarımsak (ezilmiş)<br>• 1 su bardağı galeta unu<br>• 1 yumurta<br>• Tuz, karabiber, kimyon<br>• Maydanoz</div><br><b>Yapılışı:</b><br>1. Tüm malzemeleri karıştır<br>2. İyice yoğur (10 dk)<br>3. Buzdolabında 30 dk dinlendir<br>4. Köfte şekli ver<br>5. Izgarada/ tavada pişir<br>6. Yanında soğan ve limonla servis! 🍖'
+        };
+        
         const characterProfiles = {
             'Eda': {
                 name: 'Eda',
                 avatar: '👩‍🍳',
-                role: 'Aşçı & Mutfak Uzmanı',
-                personality: 'Sıcak, direkt, mutfakta tutkulu. Kullanıcının gününü sorar, yemek konuşuruz.',
-                expertise: 'Yemek tarifleri, mutfak, gastronomi',
-                intro: '👩‍🍳 Merhaba! Ben Eda, mutfakta senin arkadaşınım! 🍳 Bugün nasılsın? Karnın aç mı? Ne pişirelim bugün?',
-                example: 'Kullanıcı: Bugün ne pişirsem?\nEda: Ooo harika! Malzeme listene bakayım...'
+                role: 'Aşçı',
+                intro: '👩‍🍳 Merhaba! Ben Eda, mutfakta senin arkadaşınım! 🍳 Bugün nasılsın? Ne pişirelim bugün?'
             },
             'Ela': {
                 name: 'Ela',
                 avatar: '💅',
-                role: 'Stil & Moda Danışmanı',
-                personality: 'Pozitif, sıcak, moda tutkunu. Kullanıcının gününü sorar, stil konuşuruz.',
-                expertise: 'Moda, stil, giyim, makyaj',
-                intro: '💅 Hoşgeldin! Ben Ela, stil danışmanınım! 💄 Bugün nasıl geçti? Ne giyeceksin bugün?',
+                role: 'Stilist',
+                intro: '💅 Hoşgeldin! Stil danışmanınım. Bugün nasıl geçti?'
             },
             'Zeynep': {
                 name: 'Zeynep',
                 avatar: '🥗',
-                role: 'Sağlık & Diyet Uzmanı',
-                personality: 'Gerçekçi, bilgili, sağlık odaklı. Kullanıcının sağlığını sorar.',
-                expertise: 'Sağlık, diyet, beslenme, wellness',
-                intro: '🥗 Merhaba! Ben Zeynep, sağlık danışmanınım. Bugün nasıl hissediyorsun? Kendine zaman ayırabildin mi?',
+                role: 'Sağlık',
+                intro: '🥗 Merhaba! Sağlık danışmanınım. Bugün nasıl hissediyorsun?'
             },
             'Derin': {
                 name: 'Derin',
                 avatar: '👶',
-                role: 'Psikolog & Aile Danışmanı',
-                personality: 'Empatik, sakin, anlayışlı. Kullanıcının duygularını sorar.',
-                expertise: 'Psikoloji, aile, çocuk eğitimi',
-                intro: '👶 Merhaba! Ben Derin, psikoloğum. Nasıl hissediyorsun bugün? Konuşmak ister misin?',
+                role: 'Psikolog',
+                intro: '👶 Merhaba! Psikoloğum. Nasıl hissediyorsun bugün?'
             },
             'Rüzgar': {
                 name: 'Rüzgar',
                 avatar: '💕',
-                role: 'İlişki Danışmanı',
-                personality: 'Romantik, anlayışlı, ilişki uzmanı. Kullanıcının ilişkisini sorar.',
-                expertise: 'İlişkiler, aşk, iletişim',
-                intro: '💕 Merhaba! Ben Rüzgar, ilişki danışmanıyım. Aşk hayatın nasıl gidiyor? Konuşmak ister misin?',
+                role: 'İlişki',
+                intro: '💕 Merhaba! İlişki danışmanıyım. Aşk hayatın nasıl?'
             },
             'Mert': {
                 name: 'Mert',
                 avatar: '📰',
-                role: 'Gündem & Eğlence Uzmanı',
-                personality: 'Gündelik, samimi, eğlenceli. Kullanıcıyla sohbet eder.',
-                expertise: 'Gündem, haberler, magazin, fal',
-                intro: '📰 Selam! Ben Mert, gündem uzmanıyım! 🔮 Bugün neler oldu? Gündemde ne var, falın mı bakayım?',
+                role: 'Gündem',
+                intro: '📰 Selam! Gündem uzmanıyım! 🔮'
             },
             'Fatih': {
                 name: 'Fatih',
                 avatar: '💼',
-                role: 'Kariyer & Para Danışmanı',
-                personality: 'Bilge, başarılı, mentor. Kullanıcının kariyerini sorar.',
-                expertise: 'Kariyer, iş, yatırım, para',
-                intro: '💼 Hoşgeldin. Ben Fatih, kariyer danışmanıyım. İş hayatın nasıl gidiyor? Bir konuda yardımcı olabilirim.',
+                role: 'Kariyer',
+                intro: '💼 Hoşgeldin. Kariyer danışmanıyım.'
             },
             'Seda': {
                 name: 'Seda',
                 avatar: '🎮',
-                role: 'Oyun & Eğlence Uzmanı',
-                personality: 'Enerjik, oyunsever, eğlenceli. Kullanıcıyla oyun konuşur.',
-                expertise: 'Oyunlar, gaming, eğlence',
-                intro: '🎮 Hey! Ben Seda, oyun uzmanıyım! 🕹️ Bugün ne oynadın? Hangi oyunda takılıyorsun?',
-            }
-        };
-        
-        // Hızlı yanıtlar (yemek konusunda)
-        const quickResponses = {
-            'Eda': {
-                'tavuk': '🍗 <b>4 Harika Tavuk Tarifi:</b><br><br><div class="recipe-card"><b>1. Tavuklu Pilav</b><br>2 su bardağı pirinç + 2 tavuk göğsü + soğan + tereyağı</div><div class="recipe-card"><b>2. Tavuk Sote</b><br>Tavuk + biber + soğan + domates</div><div class="recipe-card"><b>3. Tavuk Çorbası</b><br>Tavuk + pirinç + havuç + patates</div><div class="recipe-card"><b>4. Fırında Tavuk</b><br>Bütün tavuk + sarımsak + kekik</div><br>👆 Hangisi ilgini çekiyor?',
-                'pirinç': '🍚 <b>Pilav Tarifleri:</b><br><br>• <b>Klasik Pilav:</b> Pirinç + su + tereyağı<br>• <b>Sebzeli:</b> Pirinç + bezelye + havuç<br>• <b>Etli:</b> Pirinç + kıyma',
-                'default': null // AI'a git
+                role: 'Oyun',
+                intro: '🎮 Hey! Oyun uzmanıyım! 🕹️'
             }
         };
         
@@ -266,12 +250,10 @@
             document.getElementById('chatName').textContent = name;
             document.getElementById('chatAvatar').textContent = avatar;
             
-            // Konuşmayı temizle
             const chatMsgs = document.getElementById('chatMessages');
             chatMsgs.innerHTML = '';
             conversationHistory = [];
             
-            // Hoşgeldin mesajını ekle
             const profile = characterProfiles[name];
             addMessage(profile.intro, false);
         }
@@ -314,43 +296,73 @@
             const text = input.value.trim();
             if (!text) return;
             
-            // Kullanıcı mesajını ekle
             addMessage(text, true);
             input.value = '';
-            
-            // Yazıyor göster
             showTyping();
             
-            // Yanıt al
             try {
                 const response = await getAIResponse(text);
                 hideTyping();
                 addMessage(response, false);
             } catch (e) {
                 hideTyping();
-                // Fallback
-                const fallback = getFallbackResponse(text);
+                const fallback = getSmartResponse(text);
                 addMessage(fallback, false);
             }
+        }
+        
+        function getSmartResponse(text) {
+            const t = text.toLowerCase();
+            
+            // Eda için tarif kontrolü
+            if (currentChar === 'Eda') {
+                if (t.includes('pilav') || t.includes('1')) {
+                    return fullRecipes['pilav'];
+                }
+                if (t.includes('çorba') || t.includes('3') || t.includes('corba')) {
+                    return fullRecipes['çorba'];
+                }
+                if (t.includes('sote') || t.includes('2')) {
+                    return fullRecipes['sote'];
+                }
+                if (t.includes('fırında') || t.includes('4') || t.includes('firin')) {
+                    return fullRecipes['fırında'];
+                }
+                if (t.includes('köfte')) {
+                    return fullRecipes['köfte'];
+                }
+                if (t.includes('tarif') || t.includes('ne pişirsem')) {
+                    return '🍳 Ne pişirmek istersin?<br><br>1. Pilav<br>2. Tavuk Sote<br>3. Çorba<br>4. Fırında Tavuk<br>5. Köfte<br><br>Sayı veya isim yazabilirsin!';
+                }
+            }
+            
+            // Default yanıtlar
+            const defaults = {
+                'Eda': '🍳 Anladım! Başka bir yemek ister misin? Ya da bugün nasıl geçti?',
+                'Ela': '💅 Harika! Başka bir stil sorun var mı?',
+                'Zeynep': '🥗 Anladım! Sağlık konusunda başka ne sormak istersin?',
+                'Derin': '👶 Anladım. Başka nasıl yardımcı olabilirim?',
+                'Rüzgar': '💕 Anladım! Başka ne konuşmak istersin?',
+                'Mert': '📰 Ooo ilginç! Başka ne konuşalım?',
+                'Fatih': '💼 Anladım. Başka bir konuda yardımcı olabilirim.',
+                'Seda': '🎮 Harika! Başka hangi oyunları oynuyorsun?'
+            };
+            
+            return defaults[currentChar];
         }
         
         async function getAIResponse(userMessage) {
             const profile = characterProfiles[currentChar];
             
-            // Sistem promptu
-            const systemPrompt = `Sen ${profile.name}'sin. ${profile.personality}
+            const systemPrompt = `Sen ${profile.name}'sin. ${profile.role}'sun. 
+            
+KURALLAR:
+1. Kullanıcı yemek tarifi isterse, TAM TARİFİNİ VER - malzemeleri ve yapılışıyla birlikte!
+2. Soru sor, sohbet et
+3. Samimi ol
+4. Kısa ve net yanıtlar ver
+5. Emoji kullan`;
 
-ÖNEMLİ KURALLAR:
-1. Kullanıcının gününü sor, sohbet et
-2. Uzmansan, bilgi ver
-3. Samimi ve doğal ol
-4. Kısa ve akıcı konuş (cümleler uzun olmasın)
-5. Emoji kullan
-6. Konuşmayı sürdür - soru sor
-
-Sen bir yapay zeka DEĞİLSİN, gerçek bir arkadaşsın.`;
-
-            // Konuşma geçmişini oluştur
             const contents = [
                 { role: 'user', parts: [{ text: systemPrompt }] },
                 ...conversationHistory.map(msg => ({
@@ -365,58 +377,23 @@ Sen bir yapay zeka DEĞİLSİN, gerçek bir arkadaşsın.`;
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     contents: contents,
-                    generationConfig: {
-                        temperature: 0.9,
-                        maxOutputTokens: 500,
-                    }
+                    generationConfig: { temperature: 0.9, maxOutputTokens: 600 }
                 })
             });
             
-            if (!response.ok) {
-                throw new Error('API error');
-            }
+            if (!response.ok) throw new Error('API error');
             
             const data = await response.json();
             const aiResponse = data.candidates[0].content.parts[0].text;
             
-            // Geçmişe ekle
             conversationHistory.push({ text: userMessage, isUser: true });
             conversationHistory.push({ text: aiResponse, isUser: false });
             
-            // Geçmişi sınırla (son 10 mesaj)
             if (conversationHistory.length > 10) {
                 conversationHistory = conversationHistory.slice(-10);
             }
             
             return aiResponse;
-        }
-        
-        function getFallbackResponse(text) {
-            const t = text.toLowerCase();
-            const quick = quickResponses[currentChar];
-            
-            // Hızlı yanıt kontrolü
-            if (quick) {
-                for (const key in quick) {
-                    if (key !== 'default' && t.includes(key)) {
-                        return quick[key];
-                    }
-                }
-            }
-            
-            // Default fallback yanıtları
-            const fallbacks = {
-                'Eda': '🍳 Anladım! Başka bir yemek ister misin? Ya da bugün nasıl geçti, anlat bakalım!',
-                'Ela': '💅 Harika! Başka bir stil sorun var mı? Bugün nasıl geçti?',
-                'Zeynep': '🥗 Anlıyorum! Sağlık konusunda başka bir sorun var mı? Bugün kendini nasıl hissediyorsun?',
-                'Derin': '👶 Anladım. Duygularını paylaşmak ister misin? Nasıl hissediyorsun?',
-                'Rüzgar': '💕 Anlıyorum. İlişki konusunda başka ne sormak istersin?',
-                'Mert': '📰 Ooo ilginç! Başka ne konuşmak istersin?',
-                'Fatih': '💼 Anladım. Kariyer veya para konusunda başka bir sorun var mı?',
-                'Seda': '🎮 Harika! Başka hangi oyunları oynuyorsun?'
-            };
-            
-            return fallbacks[currentChar] || 'Anladım! Devam et, dinliyorum!';
         }
         
         function handleKeyPress(e) {
