@@ -52,12 +52,12 @@
             background: var(--bg);
         }
         
-        .login-screen {
-            padding: 50px 24px 24px;
+        .login-screen, .home-screen {
             min-height: 100%;
-            display: flex;
-            flex-direction: column;
+            padding: 50px 24px 24px;
         }
+        
+        .home-screen { display: none; }
         
         .logo {
             width: 100px;
@@ -100,9 +100,10 @@
             cursor: pointer;
             margin-bottom: 16px;
             box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            border: none;
+            width: 100%;
+            font-size: 16px;
         }
-        
-        .apple-btn:active { transform: scale(0.98); }
         
         .email-show {
             background: rgba(255,255,255,0.15);
@@ -172,44 +173,149 @@
             cursor: pointer;
         }
         
-        .name-card button:active { transform: scale(0.98); }
-        
         .footer {
             text-align: center;
             color: rgba(255,255,255,0.5);
             font-size: 12px;
             margin-top: 30px;
         }
+        
+        /* Home Screen Styles */
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 40px 20px;
+            border-radius: 0 0 30px 30px;
+            text-align: center;
+            color: white;
+            margin: -50px -24px 20px -24px;
+        }
+        
+        .header-logo { font-size: 50px; margin-bottom: 10px; }
+        .header-title { font-size: 22px; font-weight: bold; margin-bottom: 4px; }
+        .header-subtitle { font-size: 13px; opacity: 0.8; }
+        
+        .section-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0 12px;
+            font-size: 18px;
+            font-weight: bold;
+            color: var(--text);
+        }
+        
+        .badge {
+            background: rgba(139, 92, 246, 0.1);
+            color: var(--primary);
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: normal;
+        }
+        
+        .character-card {
+            background: white;
+            border-radius: 20px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            cursor: pointer;
+        }
+        
+        .character-avatar {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+        }
+        
+        .character-info { flex: 1; }
+        .character-name { font-weight: bold; font-size: 16px; color: var(--text); }
+        .character-desc { font-size: 13px; color: #6B7280; margin-top: 2px; }
+        
+        .character-action {
+            width: 44px;
+            height: 44px;
+            background: var(--bg);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+        
+        .fab {
+            position: absolute;
+            bottom: 30px;
+            right: 20px;
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+            cursor: pointer;
+        }
+        
+        .bottom-nav {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            border-radius: 30px 30px 0 0;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            color: #6B7280;
+            font-size: 10px;
+        }
+        
+        .nav-item.active { color: var(--primary); }
+        .nav-icon { font-size: 24px; }
     </style>
 </head>
 <body>
     <div class="phone">
         <div class="notch"></div>
         <div class="screen">
-            <div class="login-screen">
+            <!-- Login Screen -->
+            <div class="login-screen" id="loginScreen">
                 <div class="logo">🌯</div>
                 <h1 class="app-title">Dedikodu Kazanı</h1>
                 <p class="app-subtitle">AI Arkadaşların Burada</p>
                 
                 <div class="spacer"></div>
                 
-                <!-- Apple Sign In -->
-                <div class="apple-btn" onclick="login()">
+                <button class="apple-btn" onclick="loginWithApple()">
                     <span style="font-size: 22px;">🍎</span>
                     <span>Apple ile devam et</span>
-                </div>
+                </button>
                 
-                <!-- Email gösterimi -->
-                <div class="email-show">
-                    📧 hasan@example.com
-                </div>
+                <div class="email-show">📧 hasan@example.com</div>
                 
-                <!-- Veya -->
-                <div class="or-divider">
-                    <span>veya</span>
-                </div>
+                <div class="or-divider"><span>veya</span></div>
                 
-                <!-- İsim ile devam -->
                 <div class="name-card">
                     <h3>İsminle başla</h3>
                     <p>Hesap oluşturmadan dene</p>
@@ -217,29 +323,87 @@
                     <button onclick="loginWithName()">Başla</button>
                 </div>
                 
-                <div class="footer">
-                    © 2026 Dedikodu Kazanı
+                <div class="footer">© 2026 Dedikodu Kazanı</div>
+            </div>
+            
+            <!-- Home Screen -->
+            <div class="home-screen" id="homeScreen">
+                <div class="header">
+                    <div class="header-logo">🌯</div>
+                    <h1 class="header-title" id="welcomeName">Hoşgeldin!</h1>
+                    <p class="header-subtitle">AI Arkadaşların burada</p>
+                </div>
+                
+                <div class="section-title">
+                    Karakterler
+                    <span class="badge">2/6 Açık</span>
+                </div>
+                
+                <div class="character-card" onclick="openChat()">
+                    <div class="character-avatar">👩‍🎤</div>
+                    <div class="character-info">
+                        <div class="character-name">Eda Mayan</div>
+                        <div class="character-desc">Sivri dilli, şakacı 🎭</div>
+                    </div>
+                    <div class="character-action">💬</div>
+                </div>
+                
+                <div class="character-card" onclick="openChat()">
+                    <div class="character-avatar">💕</div>
+                    <div class="character-info">
+                        <div class="character-name">Ela Soyman</div>
+                        <div class="character-desc">İyi niyetli, sıcak 💕</div>
+                    </div>
+                    <div class="character-action">💬</div>
+                </div>
+                
+                <div class="fab" onclick="showGroupChat()">👥</div>
+                
+                <div class="bottom-nav">
+                    <div class="nav-item active">
+                        <span class="nav-icon">🏠</span>
+                        <span>Anasayfa</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="nav-icon">💎</span>
+                        <span>Premium</span>
+                    </div>
+                    <div class="nav-item">
+                        <span class="nav-icon">⚙️</span>
+                        <span>Ayarlar</span>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        function login() {
-            alert('🎉 Ana sayfaya yönlendiriliyorsun!');
-            // Gerçek uygulamada burada Apple Sign In olacak
+        function loginWithApple() {
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('homeScreen').style.display = 'block';
+            document.getElementById('welcomeName').textContent = 'Hoşgeldin!';
         }
         
         function loginWithName() {
-            const name = document.getElementById('nameInput').value;
+            const name = document.getElementById('nameInput').value.trim();
             if (!name) {
                 alert('Lütfen ismini gir!');
                 return;
             }
-            alert('🎉 Hoşgeldin ' + name + '!');
+            document.getElementById('loginScreen').style.display = 'none';
+            document.getElementById('homeScreen').style.display = 'block';
+            document.getElementById('welcomeName').textContent = 'Hoşgeldin, ' + name + '!';
         }
         
-        // Enter ile giriş
+        function openChat() {
+            alert('💬 Chat ekranı açılıyor...');
+        }
+        
+        function showGroupChat() {
+            alert('👥 Grup sohbeti açılıyor...');
+        }
+        
+        // Enter key support
         document.getElementById('nameInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') loginWithName();
         });

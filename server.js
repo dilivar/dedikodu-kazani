@@ -3,10 +3,13 @@ const fs = require('fs');
 const path = require('path');
 
 const PORT = 8181;
+const BASE_DIR = '/home/ubuntu/.openclaw/workspace/dedikodu-kazani';
 
 const server = http.createServer((req, res) => {
     let filePath = req.url === '/' ? '/web/index.html' : req.url;
-    filePath = path.join(__dirname, 'web', filePath);
+    filePath = path.join(BASE_DIR, filePath);
+    
+    console.log('Requested:', filePath);
     
     const extname = path.extname(filePath);
     let contentType = 'text/html';
@@ -27,7 +30,7 @@ const server = http.createServer((req, res) => {
         if (error) {
             if (error.code === 'ENOENT') {
                 res.writeHead(404);
-                res.end('404 Not Found');
+                res.end('404 Not Found: ' + filePath);
             } else {
                 res.writeHead(500);
                 res.end('Server Error: ' + error.code);
@@ -39,21 +42,11 @@ const server = http.createServer((req, res) => {
     });
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, '0.0.0.0', () => {
     console.log(`
 ╔══════════════════════════════════════════════════════════════╗
-║                                                              ║
-║   🌯 Dedikodu Kazanı - iPhone Preview Server               ║
-║                                                              ║
-║   Server running at:                                        ║
+║   🌯 Dedikodu Kazanı - Server                              ║
 ║   http://localhost:${PORT}                                      ║
-║   http://<YOUR_IP>:${PORT}                                    ║
-║                                                              ║
-║   iPhone 16 Pro Max Simulator:                              ║
-║   - Screen: 430 x 932 pixels                                ║
-║   - Notch included                                           ║
-║   - iOS style frame                                          ║
-║                                                              ║
 ╚══════════════════════════════════════════════════════════════╝
     `);
 });
