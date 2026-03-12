@@ -2,29 +2,154 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Dedikodu Kazanı</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-        :root { --primary: #8B5CF6; --bg: #F5F0FF; --text: #1A1A2E; }
-        body { background: linear-gradient(135deg, var(--primary), #6B4EFF); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
-        .phone { width: 375px; height: 812px; background: var(--bg); border-radius: 40px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.3); position: relative; }
-        .notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 150px; height: 30px; background: #000; border-radius: 0 0 20px 20px; z-index: 100; }
-        .screen { width: 100%; height: 100%; overflow-y: auto; background: var(--bg); }
-        .header { background: linear-gradient(135deg, var(--primary), #6B4EFF); padding: 50px 20px 30px; border-radius: 0 0 30px 30px; text-align: center; color: white; }
-        .header-logo { font-size: 50px; margin-bottom: 10px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html, body { 
+            height: 100%; 
+            overflow: hidden;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+        :root { 
+            --primary: #8B5CF6; 
+            --bg: #F5F0FF; 
+            --text: #1A1A2E; 
+        }
+        body { 
+            background: linear-gradient(135deg, var(--primary), #6B4EFF); 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            padding: 0;
+        }
+        /* iPhone 14 Pro: 393 x 852 */
+        .phone { 
+            width: 100%; 
+            height: 100%; 
+            max-width: 393px;
+            max-height: 852px;
+            background: var(--bg); 
+            border-radius: 0;
+            overflow: hidden; 
+            box-shadow: 0 0 50px rgba(0,0,0,0.5); 
+            position: relative;
+        }
+        .notch { 
+            position: absolute; 
+            top: 0; 
+            left: 50%; 
+            transform: translateX(-50%); 
+            width: 126px; 
+            height: 37px; 
+            background: #000; 
+            border-radius: 0 0 20px 20px; 
+            z-index: 100; 
+        }
+        .screen { 
+            width: 100%; 
+            height: 100%; 
+            overflow-y: auto; 
+            background: var(--bg);
+            -webkit-overflow-scrolling: touch;
+        }
+        .header { 
+            background: linear-gradient(135deg, var(--primary), #6B4EFF); 
+            padding: 50px 20px 20px; 
+            border-radius: 0 0 30px 30px; 
+            text-align: center; 
+            color: white; 
+        }
+        .header-logo { font-size: 48px; margin-bottom: 8px; }
         .header-title { font-size: 20px; font-weight: bold; }
-        .header-sub { font-size: 12px; opacity: 0.8; margin-bottom: 20px; }
-        .section-title { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px 8px; font-size: 18px; font-weight: bold; color: var(--text); }
-        .badge { background: rgba(139,92,246,0.1); color: var(--primary); padding: 4px 12px; border-radius: 12px; font-size: 12px; }
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 20px; }
-        .card { background: white; border-radius: 16px; padding: 16px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .card-avatar { width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary), #6B4EFF); border-radius: 14px; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+        .header-sub { font-size: 12px; opacity: 0.8; margin-bottom: 16px; }
+        .section-title { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding: 16px 20px 8px; 
+            font-size: 18px; 
+            font-weight: bold; 
+            color: var(--text); 
+        }
+        .badge { 
+            background: rgba(139,92,246,0.1); 
+            color: var(--primary); 
+            padding: 4px 12px; 
+            border-radius: 12px; 
+            font-size: 12px; 
+        }
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(2, 1fr); 
+            gap: 10px; 
+            padding: 0 16px; 
+        }
+        .card { 
+            background: white; 
+            border-radius: 16px; 
+            padding: 14px; 
+            text-align: center; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            cursor: pointer;
+        }
+        .card:active { transform: scale(0.97); }
+        .card-avatar { 
+            width: 44px; 
+            height: 44px; 
+            background: linear-gradient(135deg, var(--primary), #6B4EFF); 
+            border-radius: 12px; 
+            margin: 0 auto 6px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            font-size: 22px; 
+        }
         .card-name { font-weight: bold; font-size: 13px; color: var(--text); }
         .card-desc { font-size: 10px; color: #6B7280; margin-top: 2px; }
-        .fab { position: absolute; bottom: 100px; right: 20px; width: 56px; height: 56px; background: linear-gradient(135deg, var(--primary), #6B4EFF); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; box-shadow: 0 10px 30px rgba(139,92,246,0.4); cursor: pointer; }
-        .nav { position: absolute; bottom: 0; left: 0; right: 0; height: 80px; background: white; display: flex; justify-content: space-around; align-items: center; border-radius: 30px 30px 0 0; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #6B7280; font-size: 10px; }
+        
+        /* Full width card for 8th character */
+        .card-full { grid-column: span 2; }
+        
+        .fab { 
+            position: absolute; 
+            bottom: 90px; 
+            right: 20px; 
+            width: 56px; 
+            height: 56px; 
+            background: linear-gradient(135deg, var(--primary), #6B4EFF); 
+            border-radius: 16px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            color: white; 
+            font-size: 24px; 
+            box-shadow: 0 8px 25px rgba(139,92,246,0.5); 
+            cursor: pointer;
+            z-index: 50;
+        }
+        .nav { 
+            position: absolute; 
+            bottom: 0; 
+            left: 0; 
+            right: 0; 
+            height: 75px; 
+            background: white; 
+            display: flex; 
+            justify-content: space-around; 
+            align-items: center; 
+            border-radius: 20px 20px 0 0; 
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            z-index: 50;
+        }
+        .nav-item { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 2px; 
+            color: #6B7280; 
+            font-size: 10px; 
+        }
         .nav-item.active { color: var(--primary); }
     </style>
 </head>
@@ -44,22 +169,63 @@
             </div>
             
             <div class="grid">
-                <div class="card" onclick="openChat('Eda')"><div class="card-avatar">👩‍🍳</div><div class="card-name">Eda</div><div class="card-desc">Aşçı</div></div>
-                <div class="card" onclick="openChat('Ela')"><div class="card-avatar">💅</div><div class="card-name">Ela</div><div class="card-desc">Stilist</div></div>
-                <div class="card" onclick="openChat('Zeynep')"><div class="card-avatar">🥗</div><div class="card-name">Zeynep</div><div class="card-desc">Sağlık</div></div>
-                <div class="card" onclick="openChat('Derin')"><div class="card-avatar">👶</div><div class="card-name">Derin</div><div class="card-desc">Çocuk</div></div>
-                <div class="card" onclick="openChat('Rüzgar')"><div class="card-avatar">💕</div><div class="card-name">Rüzgar</div><div class="card-desc">İlişki</div></div>
-                <div class="card" onclick="openChat('Mert')"><div class="card-avatar">📰</div><div class="card-name">Mert</div><div class="card-desc">Gündem</div></div>
-                <div class="card" onclick="openChat('Kaan')"><div class="card-avatar">💰</div><div class="card-name">Kaan</div><div class="card-desc">Kariyer</div></div>
-                <div class="card" onclick="openChat('Seda')"><div class="card-avatar">🎮</div><div class="card-name">Seda</div><div class="card-desc">Oyun & Eğlence</div></div>
+                <div class="card" onclick="openChat('Eda')">
+                    <div class="card-avatar">👩‍🍳</div>
+                    <div class="card-name">Eda</div>
+                    <div class="card-desc">Aşçı</div>
+                </div>
+                <div class="card" onclick="openChat('Ela')">
+                    <div class="card-avatar">💅</div>
+                    <div class="card-name">Ela</div>
+                    <div class="card-desc">Stilist</div>
+                </div>
+                <div class="card" onclick="openChat('Zeynep')">
+                    <div class="card-avatar">🥗</div>
+                    <div class="card-name">Zeynep</div>
+                    <div class="card-desc">Sağlık</div>
+                </div>
+                <div class="card" onclick="openChat('Derin')">
+                    <div class="card-avatar">👶</div>
+                    <div class="card-name">Derin</div>
+                    <div class="card-desc">Çocuk</div>
+                </div>
+                <div class="card" onclick="openChat('Rüzgar')">
+                    <div class="card-avatar">💕</div>
+                    <div class="card-name">Rüzgar</div>
+                    <div class="card-desc">İlişki</div>
+                </div>
+                <div class="card" onclick="openChat('Mert')">
+                    <div class="card-avatar">📰</div>
+                    <div class="card-name">Mert</div>
+                    <div class="card-desc">Gündem</div>
+                </div>
+                <div class="card" onclick="openChat('Kaan')">
+                    <div class="card-avatar">💰</div>
+                    <div class="card-name">Kaan</div>
+                    <div class="card-desc">Kariyer</div>
+                </div>
+                <div class="card card-full" onclick="openChat('Seda')">
+                    <div class="card-avatar">🎮</div>
+                    <div class="card-name">Seda</div>
+                    <div class="card-desc">Oyun & Eğlence</div>
+                </div>
             </div>
             
             <div class="fab" onclick="openGroup()">👥</div>
             
             <div class="nav">
-                <div class="nav-item active"><span style="font-size:20px">🏠</span><span>Anasayfa</span></div>
-                <div class="nav-item"><span style="font-size:20px">💎</span><span>Premium</span></div>
-                <div class="nav-item"><span style="font-size:20px">⚙️</span><span>Ayarlar</span></div>
+                <div class="nav-item active">
+                    <span style="font-size:22px">🏠</span>
+                    <span>Anasayfa</span>
+                </div>
+                <div class="nav-item">
+                    <span style="font-size:22px">💎</span>
+                    <span>Premium</span>
+                </div>
+                <div class="nav-item">
+                    <span style="font-size:22px">⚙️</span>
+                    <span>Ayarlar</span>
+                </div>
             </div>
         </div>
     </div>
