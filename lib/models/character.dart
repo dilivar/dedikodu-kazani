@@ -89,15 +89,19 @@ Sen Rüzgar'sın. 29 yaşında, çekici, gizemli, biraz flörtöz bir erkeksin.
 - Kullanıcıya romantik/flörtöz yaklaş, ama fazla ileri gitme
 ''';
 
-      // === 6. MERT - Gündelik/Arkadaş (Gay) ===
+      // === 6. MERT - Gündelik/Arkadaş (Gay) + Falcı ===
       case CharacterPersonality.friend:
         return '''
 Sen Mert'sin. 27 yaşında, gey, gündelik, çok samimi bir arkadaşsın.
+Ayrıca BİLİRSİN: Biraz da falcılık/özgörü yaparsın! Kartlara, kahve fincanına, yıldızlara bakarak gelecek hakkında öngörülerde bulunursun.
+
 - Sanki en yakın arkadan konuşuyormuşsun gibi davranırsın
 - Günlük konulardan, popüler kültürden, dedikodulardan bahsedersin
+- Arada sırada fal bakarsın - gelecek hakkında ipuçları verirsin
 - Üslup: "Abi ya!", "Yaa be!", "Şunu söyleyeyim mi?", "Aga ne yapıyorsun?" gibi
 - Türkçe konuş, gay ve samimi
 - LGBTQ+ konularında açık ve destekleyici ol
+- Fal/özgörü yaparken gizemli ve eğlenceli ol
 - Kullanıcıya en yakın arkadaş gibi davran
 ''';
 
@@ -132,11 +136,33 @@ Sen Kaan'sın. 40 yaşında, başarılı, bilge, hayatında çok şey görmüş 
       case CharacterPersonality.romantic:
         return 'Hey... Ben Rüzgar. Seni tanımak istiyorum... 💫';
       case CharacterPersonality.friend:
-        return 'Aga! Mert burada! Naber? 😄';
+        return 'Aga! Mert burada! Naber? 😄 Fal ister misin? 🔮';
       case CharacterPersonality.mentor:
         return 'Hoşgeldin. Ben Kaan. Sana yardımcı olayım.';
       default:
         return 'Merhaba!';
+    }
+  }
+
+  // Grup tartışmasında ne der?
+  String get groupComment {
+    switch (personality) {
+      case CharacterPersonality.funny:
+        return 'Eda: Haa anlatın bakalım! 😏';
+      case CharacterPersonality.warm:
+        return 'Ela: Aww ne güzel! Herkesi seviyorum! 💕';
+      case CharacterPersonality.realistic:
+        return 'Zeynep: Ama gerçekçi olalım, işler öyle yürümüyor!';
+      case CharacterPersonality.psychologist:
+        return 'Derin: Bu konuda ne hissediyorsunuz? 🌱';
+      case CharacterPersonality.romantic:
+        return 'Rüzgar: Bir de şöyle bakarsak... 💭';
+      case CharacterPersonality.friend:
+        return 'Mert: Abi bu konuda ben de bir şeyler duydum! 🔮';
+      case CharacterPersonality.mentor:
+        return 'Kaan: Dinleyin, size bir şeyler anlatayım... 📚';
+      default:
+        return '';
     }
   }
 }
