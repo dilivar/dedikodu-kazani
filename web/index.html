@@ -11,7 +11,10 @@
         body { background: linear-gradient(135deg, var(--primary), #6B4EFF); display: flex; justify-content: center; align-items: center; padding: 0; }
         .phone { width: 100%; height: 100%; max-width: 393px; max-height: 852px; background: var(--bg); border-radius: 0; overflow: hidden; box-shadow: 0 0 50px rgba(0,0,0,0.5); position: relative; }
         .notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 126px; height: 37px; background: #000; border-radius: 0 0 20px 20px; z-index: 100; }
-        .screen { width: 100%; height: 100%; overflow-y: auto; background: var(--bg); -webkit-overflow-scrolling: touch; }
+        .screen { width: 100%; height: 100%; overflow-y: auto; background: var(--bg); -webkit-overflow-scrolling: touch; display: none; }
+        .screen.active { display: block; }
+        
+        /* Home Screen */
         .header { background: linear-gradient(135deg, var(--primary), #6B4EFF); padding: 50px 20px 20px; border-radius: 0 0 30px 30px; text-align: center; color: white; }
         .header-title { font-size: 22px; font-weight: bold; }
         .header-sub { font-size: 13px; opacity: 0.9; margin-top: 4px; }
@@ -27,14 +30,37 @@
         .card-badge { position: absolute; top: 8px; right: 8px; }
         .fab { position: absolute; bottom: 90px; right: 20px; width: 56px; height: 56px; background: linear-gradient(135deg, var(--primary), #6B4EFF); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; box-shadow: 0 8px 25px rgba(139,92,246,0.5); cursor: pointer; z-index: 50; }
         .nav { position: absolute; bottom: 0; left: 0; right: 0; height: 75px; background: white; display: flex; justify-content: space-around; align-items: center; border-radius: 20px 20px 0 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 50; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 2px; color: #6B7280; font-size: 10px; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 2px; color: #6B7280; font-size: 10px; cursor: pointer; }
         .nav-item.active { color: var(--primary); }
+        
+        /* Chat Screen */
+        .chat-header { background: white; padding: 45px 16px 12px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #eee; position: sticky; top: 0; }
+        .chat-back { font-size: 20px; cursor: pointer; }
+        .chat-avatar { width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), #6B4EFF); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .chat-info { flex: 1; }
+        .chat-name { font-weight: bold; font-size: 16px; }
+        .chat-status { color: #22C55E; font-size: 12px; }
+        .chat-messages { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
+        .msg { max-width: 75%; padding: 12px 16px; border-radius: 18px; font-size: 14px; line-height: 1.4; }
+        .msg-received { background: white; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .msg-sent { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+        .msg-time { font-size: 10px; opacity: 0.7; margin-top: 4px; }
+        .chat-input-area { background: white; padding: 12px 16px; display: flex; align-items: center; gap: 12px; border-top: 1px solid #eee; position: sticky; bottom: 0; }
+        .chat-input { flex: 1; background: var(--bg); border: none; border-radius: 24px; padding: 12px 16px; font-size: 14px; outline: none; }
+        .chat-send { width: 44px; height: 44px; background: linear-gradient(135deg, var(--primary), #6B4EFF); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; }
+        
+        /* Group Chat */
+        .group-header { background: linear-gradient(135deg, var(--primary), #6B4EFF); padding: 45px 16px 16px; color: white; }
+        .group-title { font-size: 18px; font-weight: bold; }
+        .group-sub { font-size: 12px; opacity: 0.8; }
     </style>
 </head>
 <body>
     <div class="phone">
         <div class="notch"></div>
-        <div class="screen">
+        
+        <!-- Home Screen -->
+        <div class="screen active" id="homeScreen">
             <div class="header">
                 <h1 class="header-title">Hoşgeldin!</h1>
                 <p class="header-sub">gerçekten daha gerçek arkadaşlık ✨</p>
@@ -46,59 +72,51 @@
             </div>
             
             <div class="grid">
-                <!-- Eda - Ücretsiz -->
-                <div class="card" onclick="openChat('Eda')">
+                <div class="card" onclick="openChat('Eda', '👩‍🍳', 'Aşçı')">
                     <div class="card-avatar">👩‍🍳</div>
                     <div class="card-name">Eda</div>
                     <div class="card-desc">Aşçı</div>
                 </div>
-                <!-- Ela - Ücretsiz -->
-                <div class="card" onclick="openChat('Ela')">
+                <div class="card" onclick="openChat('Ela', '💅', 'Stilist')">
                     <div class="card-avatar">💅</div>
                     <div class="card-name">Ela</div>
                     <div class="card-desc">Stilist</div>
                 </div>
-                <!-- Zeynep - Premium -->
-                <div class="card" onclick="openChat('Zeynep')">
+                <div class="card" onclick="openChat('Zeynep', '🥗', 'Sağlık')">
                     <div class="card-badge"><span class="badge badge-premium">💎</span></div>
                     <div class="card-avatar">🥗</div>
                     <div class="card-name">Zeynep</div>
                     <div class="card-desc">Sağlık</div>
                 </div>
-                <!-- Derin - Premium -->
-                <div class="card" onclick="openChat('Derin')">
+                <div class="card" onclick="openChat('Derin', '👶', 'Çocuk')">
                     <div class="card-badge"><span class="badge badge-premium">💎</span></div>
                     <div class="card-avatar">👶</div>
                     <div class="card-name">Derin</div>
                     <div class="card-desc">Çocuk</div>
                 </div>
-                <!-- Rüzgar - Premium -->
-                <div class="card" onclick="openChat('Rüzgar')">
+                <div class="card" onclick="openChat('Rüzgar', '💕', 'İlişki')">
                     <div class="card-badge"><span class="badge badge-premium">💎</span></div>
                     <div class="card-avatar">💕</div>
                     <div class="card-name">Rüzgar</div>
                     <div class="card-desc">İlişki</div>
                 </div>
-                <!-- Mert - Premium -->
-                <div class="card" onclick="openChat('Mert')">
+                <div class="card" onclick="openChat('Mert', '📰', 'Gündem')">
                     <div class="card-badge"><span class="badge badge-premium">💎</span></div>
                     <div class="card-avatar">📰</div>
                     <div class="card-name">Mert</div>
                     <div class="card-desc">Gündem</div>
                 </div>
-                <!-- Fatih - Premium -->
-                <div class="card" onclick="openChat('Fatih')">
+                <div class="card" onclick="openChat('Fatih', '💼', 'Kariyer')">
                     <div class="card-badge"><span class="badge badge-premium">💎</span></div>
-                    <div class="card-avatar">💰</div>
+                    <div class="card-avatar">💼</div>
                     <div class="card-name">Fatih</div>
                     <div class="card-desc">Kariyer</div>
                 </div>
-                <!-- Seda - Premium -->
-                <div class="card" onclick="openChat('Seda')">
+                <div class="card" onclick="openChat('Seda', '🎮', 'Oyun')">
                     <div class="card-badge"><span class="badge badge-premium">💎</span></div>
                     <div class="card-avatar">🎮</div>
                     <div class="card-name">Seda</div>
-                    <div class="card-desc">Oyun & Eğlence</div>
+                    <div class="card-desc">Oyun</div>
                 </div>
             </div>
             
@@ -110,11 +128,158 @@
                 <div class="nav-item"><span style="font-size:22px">⚙️</span><span>Ayarlar</span></div>
             </div>
         </div>
+        
+        <!-- Chat Screen -->
+        <div class="screen" id="chatScreen">
+            <div class="chat-header">
+                <span class="chat-back" onclick="goHome()">←</span>
+                <div class="chat-avatar" id="chatAvatar">👩‍🍳</div>
+                <div class="chat-info">
+                    <div class="chat-name" id="chatName">Eda</div>
+                    <div class="chat-status">● Çevrimiçi</div>
+                </div>
+            </div>
+            <div class="chat-messages" id="chatMessages">
+                <div class="msg msg-received" id="firstMessage">
+                    Selam! Ben Eda 🍳 Nasıl yardımcı olabilirim?
+                    <div class="msg-time">Şimdi</div>
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="messageInput" placeholder="Mesaj yaz..." onkeypress="handleKeyPress(event)">
+                <div class="chat-send" onclick="sendMessage()">➤</div>
+            </div>
+        </div>
+        
+        <!-- Group Screen -->
+        <div class="screen" id="groupScreen">
+            <div class="group-header">
+                <span class="chat-back" onclick="goHome()">←</span>
+                <div class="group-title">Grup Sohbeti</div>
+                <div class="group-sub">8 kişi aktif</div>
+            </div>
+            <div class="chat-messages" id="groupMessages">
+                <div class="msg msg-received">
+                    👩‍🍳 Eda: Herkese selam! Bugün ne yapalım?
+                    <div class="msg-time">14:30</div>
+                </div>
+                <div class="msg msg-received">
+                    💅 Ela: Harika bir gün! Stil konuşalım mı?
+                    <div class="msg-time">14:31</div>
+                </div>
+                <div class="msg msg-received">
+                    📰 Mert: Gündem çok sıcak! Konuşalım mu?
+                    <div class="msg-time">14:32</div>
+                </div>
+            </div>
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" placeholder="Gruba mesaj yaz...">
+                <div class="chat-send">➤</div>
+            </div>
+        </div>
     </div>
 
     <script>
-        function openChat(name) { alert('💬 ' + name + ' ile sohbet başlıyor...'); }
-        function openGroup() { alert('👥 Grup sohbeti başlıyor...'); }
+        let currentChar = '';
+        
+        // Karakterlere göre hoşgeldin mesajları
+        const welcomeMessages = {
+            'Eda': 'Selam! Ben Eda 🍳 Nasıl yardımcı olabilirim?',
+            'Ela': 'Hoşgeldin! 💅 Stilin için buradayım!',
+            'Zeynep': 'Merhaba! 🥗 Sağlık konusunda ne konuşmak istersin?',
+            'Derin': 'Selam! 👶 Çocukların için nasıl yardımcı olabilirim?',
+            'Rüzgar': 'Hey 💕 İlişkiler konusunda konuşalım mı?',
+            'Mert': 'Selam! 📰 Gündem ne? Konuşalım!',
+            'Fatih': 'Hoşgeldin. 💼 Kariyerin için ne yapabilirim?',
+            'Seda': 'Hey! 🎮 Hangi oyunu oynuyoruz?'
+        };
+        
+        function openChat(name, avatar, desc) {
+            currentChar = name;
+            document.getElementById('homeScreen').classList.remove('active');
+            document.getElementById('chatScreen').classList.add('active');
+            document.getElementById('chatName').textContent = name;
+            document.getElementById('chatAvatar').textContent = avatar;
+            
+            // Hoşgeldin mesajını güncelle
+            const firstMsg = document.getElementById('firstMessage');
+            firstMsg.innerHTML = welcomeMessages[name] + '<div class="msg-time">Şimdi</div>';
+            
+            // Mesajları temizle (sadece ilk mesaj kalsın)
+            document.getElementById('chatMessages').innerHTML = 
+                '<div class="msg msg-received">' + welcomeMessages[name] + '<div class="msg-time">Şimdi</div></div>';
+        }
+        
+        function openGroup() {
+            document.getElementById('homeScreen').classList.remove('active');
+            document.getElementById('groupScreen').classList.add('active');
+        }
+        
+        function goHome() {
+            document.getElementById('chatScreen').classList.remove('active');
+            document.getElementById('groupScreen').classList.remove('active');
+            document.getElementById('homeScreen').classList.add('active');
+        }
+        
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+            if (!text) return;
+            
+            const now = new Date();
+            const time = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
+            
+            // Kullanıcı mesajını ekle
+            const chatMsgs = document.getElementById('chatMessages');
+            chatMsgs.innerHTML += '<div class="msg msg-sent">' + text + '<div class="msg-time">' + time + '</div></div>';
+            
+            input.value = '';
+            
+            // Scroll to bottom
+            chatMsgs.scrollTop = chatMsgs.scrollHeight;
+            
+            // 1 saniye sonra yanıt ver
+            setTimeout(() => {
+                const response = getResponse(text);
+                chatMsgs.innerHTML += '<div class="msg msg-received">' + response + '<div class="msg-time">' + time + '</div></div>';
+                chatMsgs.scrollTop = chatMsgs.scrollHeight;
+            }, 1000);
+        }
+        
+        function handleKeyPress(e) {
+            if (e.key === 'Enter') sendMessage();
+        }
+        
+        function getResponse(text) {
+            const t = text.toLowerCase();
+            
+            if (t.includes('merhaba') || t.includes('selam')) {
+                return 'Selam! 👋 Nasıl yardımcı olabilirim?';
+            }
+            if (t.includes('nasılsın')) {
+                return 'İyiyim, sen nasılsın? 😊';
+            }
+            if (t.includes('yemek') || t.includes('tarif')) {
+                return currentChar === 'Eda' ? 'Ne pişirmek istersin? 🍳' : 'Bu konuda uzman arkadaşlarımdan birine sorabilirsin!';
+            }
+            if (t.includes('stil') || t.includes('moda')) {
+                return currentChar === 'Ela' ? 'Harika bir stil öneriyim! 💅' : 'Ela bu konuda çok iyi!';
+            }
+            if (t.includes('sağlık') || t.includes('diyet')) {
+                return currentChar === 'Zeynep' ? 'Sağlıklı beslenmek önemli! 🥗' : 'Zeynep bu konuda yardımcı olabilir!';
+            }
+            if (t.includes('ilişki') || t.includes('aşk')) {
+                return currentChar === 'Rüzgar' ? 'Aşk hayatın nasıl? 💕' : 'Rüzgar bu konuda uzman!';
+            }
+            if (t.includes('oyun') || t.includes('game')) {
+                return currentChar === 'Seda' ? 'Hangi oyunu oynuyoruz? 🎮' : 'Seda oyun konusunda uzman!';
+            }
+            if (t.includes('kariyer') || t.includes('para')) {
+                return currentChar === 'Fatih' ? 'Kariyerin için ne yapabilirim? 💼' : 'Fatih bu konuda yardımcı olabilir!';
+            }
+            
+            return 'Anlıyorum! 😊 Devam et, dinliyorum!';
+        }
     </script>
 </body>
 </html>
