@@ -61,9 +61,9 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
     Character(
       id: '5',
-      name: 'Rüzgar',
+      name: 'Batu',
       description: 'Sanal Arkadaş 💕',
-      avatar: '💕',
+      avatar: 'B',
       personality: CharacterPersonality.romantic,
       isPremium: true,
       introMessage: '💕 Merhaba! Konuşmak ister misin?',
@@ -71,9 +71,9 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
     Character(
       id: '6',
-      name: 'Mert',
+      name: 'Mete',
       description: 'Sanal Arkadaş 📰',
-      avatar: '📰',
+      avatar: 'M',
       personality: CharacterPersonality.friend,
       isPremium: true,
       introMessage: '📰 Merhaba! Ne konuşmak istersin?',
