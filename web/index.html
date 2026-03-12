@@ -17,7 +17,7 @@
         .header-sub { font-size: 13px; opacity: 0.9; margin-top: 4px; }
         .section-title { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px 8px; font-size: 18px; font-weight: bold; color: var(--text); }
         .badge { background: rgba(139,92,246,0.1); color: var(--primary); padding: 4px 10px; border-radius: 10px; font-size: 11px; }
-        .badge-premium { background: linear-gradient(135deg, #FFD700, #FFA500); color: white; }
+        .badge-premium { background: linear-gradient(135deg, #FFD700, #FFA500); color: white; font-size: 10px; }
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 16px; }
         .card { background: white; border-radius: 16px; padding: 14px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); cursor: pointer; position: relative; }
         .card:active { transform: scale(0.97); }
@@ -46,46 +46,59 @@
             </div>
             
             <div class="grid">
-                <div class="card" onclick="openChat('Seda')">
-                    <div class="card-badge"><span class="badge badge-premium">💎</span></div>
-                    <div class="card-avatar">🎮</div>
-                    <div class="card-name">Seda</div>
-                    <div class="card-desc">Oyun & Eğlence</div>
-                </div>
+                <!-- Eda - Ücretsiz -->
                 <div class="card" onclick="openChat('Eda')">
                     <div class="card-avatar">👩‍🍳</div>
                     <div class="card-name">Eda</div>
                     <div class="card-desc">Aşçı</div>
                 </div>
+                <!-- Ela - Ücretsiz -->
                 <div class="card" onclick="openChat('Ela')">
                     <div class="card-avatar">💅</div>
                     <div class="card-name">Ela</div>
                     <div class="card-desc">Stilist</div>
                 </div>
+                <!-- Zeynep - Premium -->
                 <div class="card" onclick="openChat('Zeynep')">
+                    <div class="card-badge"><span class="badge badge-premium">💎</span></div>
                     <div class="card-avatar">🥗</div>
                     <div class="card-name">Zeynep</div>
                     <div class="card-desc">Sağlık</div>
                 </div>
+                <!-- Derin - Premium -->
                 <div class="card" onclick="openChat('Derin')">
+                    <div class="card-badge"><span class="badge badge-premium">💎</span></div>
                     <div class="card-avatar">👶</div>
                     <div class="card-name">Derin</div>
                     <div class="card-desc">Çocuk</div>
                 </div>
+                <!-- Rüzgar - Premium -->
                 <div class="card" onclick="openChat('Rüzgar')">
+                    <div class="card-badge"><span class="badge badge-premium">💎</span></div>
                     <div class="card-avatar">💕</div>
                     <div class="card-name">Rüzgar</div>
                     <div class="card-desc">İlişki</div>
                 </div>
+                <!-- Mert - Premium -->
                 <div class="card" onclick="openChat('Mert')">
+                    <div class="card-badge"><span class="badge badge-premium">💎</span></div>
                     <div class="card-avatar">📰</div>
                     <div class="card-name">Mert</div>
                     <div class="card-desc">Gündem</div>
                 </div>
+                <!-- Fatih - Premium -->
                 <div class="card" onclick="openChat('Fatih')">
+                    <div class="card-badge"><span class="badge badge-premium">💎</span></div>
                     <div class="card-avatar">💰</div>
                     <div class="card-name">Fatih</div>
                     <div class="card-desc">Kariyer</div>
+                </div>
+                <!-- Seda - Premium -->
+                <div class="card" onclick="openChat('Seda')">
+                    <div class="card-badge"><span class="badge badge-premium">💎</span></div>
+                    <div class="card-avatar">🎮</div>
+                    <div class="card-name">Seda</div>
+                    <div class="card-desc">Oyun & Eğlence</div>
                 </div>
             </div>
             
