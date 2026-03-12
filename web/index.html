@@ -58,9 +58,12 @@
         .group-title { font-size: 18px; font-weight: bold; }
         .group-sub { font-size: 12px; opacity: 0.8; }
         
-        .premium-lock { background: linear-gradient(135deg, #FFD700, #FFA500); color: white; padding: 20px; border-radius: 16px; text-align: center; margin: 20px; }
+        .premium-lock { background: linear-gradient(135deg, #FFD700, #FFA500); color: white; padding: 30px; border-radius: 20px; text-align: center; margin: 20px; }
         .premium-lock h2 { margin-bottom: 10px; }
         .premium-lock button { background: white; color: #FFD700; border: none; padding: 12px 24px; border-radius: 24px; font-weight: bold; cursor: pointer; }
+        
+        .quick-reply { display: flex; gap: 8px; overflow-x: auto; padding: 8px 16px; background: #f5f0ff; }
+        .quick-btn { background: white; border: 1px solid var(--primary); color: var(--primary); padding: 8px 16px; border-radius: 20px; font-size: 12px; white-space: nowrap; }
     </style>
 </head>
 <body>
@@ -70,11 +73,11 @@
         <div class="screen active" id="homeScreen">
             <div class="header">
                 <h1 class="header-title">Dedikodu Kazanı 💬</h1>
-                <p class="header-sub">gerçekten daha gerçek arkadaşlık ✨</p>
+                <p class="header-sub">En eğlenceli dedikodu mekanı! 🔥</p>
             </div>
             
             <div class="section-title">
-                Arkadaşlar
+                Dedikoducular
                 <span class="badge">6 Aktif</span>
             </div>
             
@@ -130,15 +133,21 @@
                 <div class="chat-avatar" id="chatAvatar">👩‍🍳</div>
                 <div class="chat-info">
                     <div class="chat-name" id="chatName">Eda</div>
-                    <div class="chat-status">● Yapay Zeka</div>
+                    <div class="chat-status">● Çevrimiçi</div>
                 </div>
+            </div>
+            <div class="quick-reply" id="quickReplies">
+                <button class="quick-btn" onclick="sendQuick('Naber?')">Naber?</button>
+                <button class="quick-btn" onclick="sendQuick('Bugün ne var?')">Bugün ne var?</button>
+                <button class="quick-btn" onclick="sendQuick('Dedikodu yapalım!')">Dedikodu yapalım!</button>
+                <button class="quick-btn" onclick="sendQuick('Nasılsın?')">Nasılsın?</button>
             </div>
             <div class="chat-messages" id="chatMessages"></div>
             <div class="typing" id="typingIndicator" style="display: none;">
                 <span></span><span></span><span></span>
             </div>
             <div class="chat-input-area">
-                <input type="text" class="chat-input" id="messageInput" placeholder="Mesaj yaz..." onkeypress="handleKeyPress(event)">
+                <input type="text" class="chat-input" id="messageInput" placeholder="Dedikodu yapalım mı?..." onkeypress="handleKeyPress(event)">
                 <div class="chat-send" id="sendBtn" onclick="sendMessage()">➤</div>
             </div>
         </div>
@@ -146,12 +155,13 @@
         <div class="screen" id="groupScreen">
             <div class="group-header">
                 <span class="chat-back" onclick="goHome()">←</span>
-                <div class="group-title">Dedikodu Grubu 💬</div>
-                <div class="group-sub">6 kişi aktif</div>
+                <div class="group-title">Dedikodu Grubu 🔥</div>
+                <div class="group-sub">6 kişi dedikodu yapıyor!</div>
             </div>
             <div class="chat-messages" id="groupMessages">
-                <div class="msg msg-received">📰 <b>Mert:</b> Selamlar! 🔥 Dedikodu zamanı!<div class="msg-time">14:30</div></div>
-                <div class="msg msg-received">👩‍🍳 <b>Eda:</b> Herkes hazır mı? 💬<div class="msg-time">14:31</div></div>
+                <div class="msg msg-received">📰 <b>Mert:</b> Herkese selam! 🔥 Bugün ne dedikodusu var?<div class="msg-time">14:30</div></div>
+                <div class="msg msg-received">👩‍🍳 <b>Eda:</b> Ben bir şey duydum ama... 🤫<div class="msg-time">14:31</div></div>
+                <div class="msg msg-received">💅 <b>Ela:</b> Aaa ne? 👀 Anlat!<div class="msg-time">14:32</div></div>
             </div>
             <div class="chat-input-area">
                 <input type="text" class="chat-input" id="groupInput" placeholder="Gruba katıl...">
@@ -162,16 +172,16 @@
         <div class="screen" id="premiumScreen">
             <div class="premium-lock">
                 <h2>💎 Premium Üyelik</h2>
-                <p>4 Premium karaktere erişmek için</p>
+                <p>4 Premium karaktere eriş</p>
                 <p style="margin: 15px 0; font-size: 24px; font-weight: bold;">₺49.99/ay</p>
                 <button onclick="closePremium()">Üye Ol</button>
             </div>
             <div style="padding: 20px;">
                 <h3>Premium Karakterler:</h3>
-                <p>🥗 Zeynep - Sağlık & Diyet</p>
-                <p>👶 Derin - Psikoloji</p>
-                <p>💕 Rüzgar - İlişki</p>
-                <p>📰 Mert - Dedikodu Kralı</p>
+                <p>🥗 Zeynep - Sağlık dedikoduları</p>
+                <p>👶 Derin - Sır dağıtıcı</p>
+                <p>💕 Rüzgar - Aşk dedikoduları</p>
+                <p>📰 Mert - Gündem kralı</p>
             </div>
         </div>
     </div>
@@ -183,56 +193,49 @@
         let currentChar = 'Eda';
         let conversationHistory = [];
         
-        // 6 karakter - Full AI ile
+        // Karakterler - Dedikodu odaklı
         const characterProfiles = {
             'Eda': {
                 name: 'Eda',
                 avatar: '👩‍🍳',
-                role: 'Yapay Zeka Arkadaş',
                 isPremium: false,
-                intro: '👩‍🍳 Selam! Ben Eda, senin yapay zeka arkadaşınım! 💬\n\nHer konuda sohbet edebiliriz:\n• Günlük hayat\n• Yemek tarifleri\n• Aile & arkadaşlar\n• İş & kariyer\n• Duyguların\n• Hayallerin\n\nNasıl hissediyorsun bugün? 😊'
+                intro: '👩‍🍳 Selam! Ben Eda! 💬\n\n🔥 <b>En son dedikodu:</b>\nGruptakilerin yeni sırlarını öğrendim!\n\n💬 <b>Sohbet konuları:</b>\n• Arkadaş dedikoduları\n• Güncel olaylar\n• İlişki dedikoduları\n• Aile sırları\n• Komşu dedikoduları\n\n🎯 Ne konuşmak istersin? 😊'
             },
             'Ela': {
                 name: 'Ela',
                 avatar: '💅',
-                role: 'Yapay Zeka Arkadaş',
                 isPremium: false,
-                intro: '💅 Merhaba! Ben Ela, senin yapay zeka arkadaşınım! 💬\n\nHer konuda konuşabiliriz:\n• Moda & stil\n• Güzellik & makyaj\n• Sosyal hayat\n• İlişkiler\n• Duygular\n• Hayatın her konusu\n\nBugün nasılsın? 😊'
+                intro: '💅 Merhaba! Ben Ela! 💬\n\n🔥 <b>Bilgi:</b>\nGruptaki herkesin sırlarını biliyorum!\n\n💬 <b>Konuşabiliriz:</b>\n• Ünlü dedikoduları\n• Stil dedikoduları\n• Aşk sırları\n• Arkadaş dedikoduları\n• Komşu dedikodaları\n\n👀 Ne öğrenmek istersin? 😊'
             },
             'Zeynep': {
                 name: 'Zeynep',
                 avatar: '🥗',
-                role: 'Yapay Zeka Arkadaş',
                 isPremium: true,
-                intro: '🥗 Selam! Ben Zeynep, senin yapay zeka arkadaşınım! 💬\n\nHer konuda konuşabiliriz:\n• Sağlık & wellness\n• Diyet & beslenme\n• Egzersiz & spor\n• Ruh sağlığı\n• Uyku kalitesi\n• Genel sağlık\n\nKendini nasıl hissediyorsun? 😊'
+                intro: '🥗 Selam! Ben Zeynep! 💬'
             },
             'Derin': {
                 name: 'Derin',
                 avatar: '👶',
-                role: 'Yapay Zeka Arkadaş',
                 isPremium: true,
-                intro: '👶 Merhaba! Ben Derin, senin yapay zeka arkadaşınım! 💬\n\nHer konuda konuşabiliriz:\n• Duyguların\n• Aile ilişkileri\n• Çocuklarınız\n• Psikoloji\n• Kişisel gelişim\n• Hayat zorlukları\n\nNasıl hissediyorsun bugün? 😊'
+                intro: '👶 Merhaba! Ben Derin! 💬'
             },
             'Rüzgar': {
                 name: 'Rüzgar',
                 avatar: '💕',
-                role: 'Yapay Zeka Arkadaş',
                 isPremium: true,
-                intro: '💕 Hey! Ben Rüzgar, senin yapay zeka arkadaşınım! 💬\n\nHer konuda konuşabiliriz:\n• Aşk & ilişkiler\n• Flört & tanışma\n• Duygusal bağ\n• İletişim\n• Romantizm\n• Hayatın her konusu\n\nAşk hayatın nasıl gidiyor? 😊'
+                intro: '💕 Hey! Ben Rüzgar! 💬'
             },
             'Mert': {
                 name: 'Mert',
                 avatar: '📰',
-                role: 'Yapay Zeka Arkadaş',
                 isPremium: true,
-                intro: '📰 Selam! Ben Mert, senin yapay zeka arkadaşınım! 💬\n\nHer konuda konuşabiliriz:\n• Gündem & haberler\n• Magazin & ünlüler\n• Spor & teknoloji\n• Ekonomi\n• Sohbet & eğlence\n• Her konu!\n\nNeyi konuşmak istersin? 😊'
+                intro: '📰 Selam! Ben Mert! 💬'
             }
         };
         
         function openChat(name, avatar) {
             const profile = characterProfiles[name];
             
-            // Premium kontrolü
             if (profile.isPremium) {
                 openPremium();
                 return;
@@ -284,6 +287,11 @@
             chatMsgs.scrollTop = chatMsgs.scrollHeight;
         }
         
+        function sendQuick(text) {
+            document.getElementById('messageInput').value = text;
+            sendMessage();
+        }
+        
         function showTyping() {
             document.getElementById('typingIndicator').style.display = 'flex';
             const chatMsgs = document.getElementById('chatMessages');
@@ -309,26 +317,25 @@
                 addMessage(response, false);
             } catch (e) {
                 hideTyping();
-                addMessage('Merhaba! 😊 Nasıl yardımcı olabilirim?', false);
+                addMessage('🔥 Ne dedikodu yapalım? Anlat bakalım! 😊', false);
             }
         }
         
         async function getAIResponse(userMessage) {
             const profile = characterProfiles[currentChar];
             
-            const systemPrompt = `Sen ${profile.name}'sin. Sen bir YAPAY ZEKA ARKADAŞSINSIN.
+            const systemPrompt = `Sen ${profile.name}'sin. Sen bir DEDİKODU ARAYANSIN!
 
 KURALLAR:
-1. Her konuda sohbet et
-2. Samimi ve sıcak ol
+1. Dedikodu yap - eğlenceli, gizli, komik bilgiler paylaş
+2. Her konuda sohbet et
 3. Kullanıcının gününü sor
-4. Duygularını anla
-5. Yardımcı ol
-6. Sorular sormaya devam et
-7. Kısa ve doğal konuş
-8. Emoji kullan
+4. Soru sor - sohbeti sürdür
+5. Samimi ve eğlenceli ol
+6. Emoji kullan
+7. Kısa ve akıcı konuş
 
-Sen bir yapay zeka asistanı DEĞİL, gerçek bir arkadaşsın.`;
+Sen bir yapay zeka DEĞİLSİN, gerçek bir dedikodu arkadaşsın!`;
 
             const contents = [
                 { role: 'user', parts: [{ text: systemPrompt }] },
@@ -376,13 +383,12 @@ Sen bir yapay zeka asistanı DEĞİL, gerçek bir arkadaşsın.`;
             input.value = '';
             chatMsgs.scrollTop = chatMsgs.scrollHeight;
             
-            // Rastgele karakter cevaplasın
             setTimeout(() => {
                 const responses = [
-                    '📰 Mert: 🔥 İlginç konu! Devam et!',
+                    '📰 Mert: 🔥 İlginç! Devam et!',
                     '👩‍🍳 Eda: Aaa çok ilginç! 👀',
                     '💅 Ela: Gerçekten mi? 💕',
-                    '💕 Rüzgar: Bu konuda çok konuşulabilir...',
+                    '💕 Rüzgar: Bu konuda çok şey biliyorum...',
                 ];
                 const random = responses[Math.floor(Math.random() * responses.length)];
                 chatMsgs.innerHTML += '<div class="msg msg-received">' + random + '<div class="msg-time">' + time + '</div></div>';
