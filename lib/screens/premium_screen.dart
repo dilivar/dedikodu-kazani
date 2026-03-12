@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:dedikodu_kazani/screens/home_screen.dart';
 
 class PremiumScreen extends StatelessWidget {
   const PremiumScreen({super.key});
@@ -7,122 +6,98 @@ class PremiumScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFF5F0FF),
       appBar: AppBar(
-        title: const Text('💎 Premium'),
-        backgroundColor: Colors.amber,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_new, color: Color(0xFF1A1A2E)),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: const Text('💎 Premium', style: TextStyle(color: Color(0xFF1A1A2E), fontWeight: FontWeight.bold)),
+        centerTitle: true,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            // Header
-            const Text(
-              '🌟 Premium\'a Geç',
-              style: TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
+            // Hero
+            Container(
+              padding: const EdgeInsets.all(30),
+              decoration: BoxDecoration(
+                gradient: const LinearGradient(
+                  colors: [Color(0xFF8B5CF6), Color(0xFF6B4EFF)],
+                ),
+                borderRadius: BorderRadius.circular(24),
+              ),
+              child: Column(
+                children: [
+                  const Text('🌟', style: TextStyle(fontSize: 60)),
+                  const SizedBox(height: 12),
+                  const Text(
+                    'Premium\'a Geç',
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: Colors.white),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    '8 arkadaşın tüm özelliklerini aç',
+                    style: TextStyle(color: Colors.white70),
+                  ),
+                ],
               ),
             ),
-            const SizedBox(height: 8),
-            const Text(
-              'Tüm karakterlerin kilidini aç!',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.grey,
-              ),
-            ),
-            const SizedBox(height: 32),
+            const SizedBox(height: 24),
 
-            // Premium özellikler
-            _buildFeature(
-              icon: '👥',
-              title: 'Tüm Karakterler',
-              desc: '5 yerine sınırsız karakter',
-            ),
-            _buildFeature(
-              icon: '🎙️',
-              title: 'Sesli Konuşma',
-              desc: 'Karakterlerle sesli sohbet',
-            ),
-            _buildFeature(
-              icon: '🚫',
-              title: 'Reklamsız',
-              desc: 'Kesintisiz deneyim',
-            ),
-            _buildFeature(
-              icon: '💬',
-              title: 'Grup Sohbet',
-              desc: 'Tüm karakterlerle aynı anda',
-            ),
+            // Özellikler
+            _buildFeature('🎮', 'Seda', 'Oyun & Eğlence'),
+            _buildFeature('💕', 'Rüzgar', 'İlişki Danışmanı'),
+            _buildFeature('📰', 'Mert', 'Gündem & Fal'),
+            _buildFeature('💰', 'Fatih', 'Kariyer & Para'),
+            _buildFeature('🥗', 'Zeynep', 'Sağlık & Diyet'),
+            _buildFeature('👶', 'Derin', 'Çocuk Psikolojisi'),
+            _buildFeature('🎙️', 'Grup Araması', 'Sesli sohbet'),
+            _buildFeature('📷', 'Medya Paylaşımı', 'Foto & Belge'),
 
-            const SizedBox(height: 32),
+            const SizedBox(height: 24),
 
             // Fiyat
             Container(
               padding: const EdgeInsets.all(24),
               decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [Colors.amber, Colors.amber[300]!],
-                ),
+                color: Colors.white,
                 borderRadius: BorderRadius.circular(20),
+                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 20)],
               ),
               child: Column(
                 children: [
-                  const Text(
-                    'Aylık',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
+                  const Text('Aylık', style: TextStyle(color: Color(0xFF6B7280))),
                   const SizedBox(height: 8),
-                  const Text(
-                    '₺49.99',
-                    style: TextStyle(
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('₺', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                      Text('49.99', style: TextStyle(fontSize: 48, fontWeight: FontWeight.bold)),
+                    ],
                   ),
-                  const Text(
-                    '/ay',
-                    style: TextStyle(fontSize: 16),
-                  ),
+                  const Text('/ay', style: TextStyle(color: Color(0xFF6B7280))),
                   const SizedBox(height: 16),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        // Ödeme entegrasyonu buraya
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Yakında! Ödeme sistemi geliyor...'),
-                          ),
-                        );
-                      },
+                      onPressed: () {},
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        foregroundColor: Colors.amber,
+                        backgroundColor: const Color(0xFF8B5CF6),
                         padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                       ),
-                      child: const Text(
-                        'Premium Al',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      child: const Text('Premium Al', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
                     ),
                   ),
+                  const SizedBox(height: 12),
+                  const Text('İstediğin zaman iptal edebilirsin', style: TextStyle(color: Color(0xFF6B7280), fontSize: 12)),
                 ],
               ),
-            ),
-
-            const SizedBox(height: 24),
-
-            // İptal notu
-            const Text(
-              'İstediğin zaman iptal edebilirsin',
-              style: TextStyle(color: Colors.grey),
             ),
           ],
         ),
@@ -130,35 +105,36 @@ class PremiumScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildFeature({
-    required String icon,
-    required String title,
-    required String desc,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
+  Widget _buildFeature(String emoji, String title, String desc) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+      ),
       child: Row(
         children: [
-          Text(icon, style: const TextStyle(fontSize: 32)),
+          Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              color: const Color(0xFFF5F0FF),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Center(child: Text(emoji, style: const TextStyle(fontSize: 24))),
+          ),
           const SizedBox(width: 16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  desc,
-                  style: const TextStyle(color: Colors.grey),
-                ),
+                Text(title, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+                Text(desc, style: const TextStyle(color: Color(0xFF6B7280), fontSize: 13)),
               ],
             ),
           ),
+          const Icon(Icons.lock_open, color: Color(0xFF8B5CF6)),
         ],
       ),
     );
