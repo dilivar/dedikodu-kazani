@@ -17,11 +17,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String _userName = 'Arkadaş';
   
+  // 7 karakter listesi
   final List<Character> _characters = [
     Character(
       id: '1',
       name: 'Eda Mayan',
-      description: 'Sivri dilli, şakacı 🎭',
+      description: 'Direkt + Eleştirel 🎭',
       avatar: '👩‍🎤',
       personality: CharacterPersonality.funny,
       isPremium: false,
@@ -29,10 +30,50 @@ class _HomeScreenState extends State<HomeScreen> {
     Character(
       id: '2',
       name: 'Ela Soyman',
-      description: 'İyi niyetli, sıcak 💕',
+      description: 'İyimser + Kibar 💕',
       avatar: '💕',
       personality: CharacterPersonality.warm,
       isPremium: false,
+    ),
+    Character(
+      id: '3',
+      name: 'Zeynep Solmas',
+      description: 'Gerçekçi + Mantıklı 📊',
+      avatar: '👩‍💼',
+      personality: CharacterPersonality.realistic,
+      isPremium: true,
+    ),
+    Character(
+      id: '4',
+      name: 'Derin Yılmaz',
+      description: 'Psikolog + Empatik 🌸',
+      avatar: '🧠',
+      personality: CharacterPersonality.psychologist,
+      isPremium: true,
+    ),
+    Character(
+      id: '5',
+      name: 'Rüzgar Petek',
+      description: 'Romantik + Flörtöz 💘',
+      avatar: '💨',
+      personality: CharacterPersonality.romantic,
+      isPremium: true,
+    ),
+    Character(
+      id: '6',
+      name: 'Mert Arslan',
+      description: 'Arkadaş + Falcı 🔮',
+      avatar: '🏳️‍🌈',
+      personality: CharacterPersonality.friend,
+      isPremium: true,
+    ),
+    Character(
+      id: '7',
+      name: 'Kaan Bilge',
+      description: 'Mentor + Bilge 📚',
+      avatar: '👨‍💼',
+      personality: CharacterPersonality.mentor,
+      isPremium: true,
     ),
   ];
 
@@ -44,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
         slivers: [
           // Header
           SliverAppBar(
-            expandedHeight: 200,
+            expandedHeight: 180,
             pinned: true,
             backgroundColor: const Color(0xFF8B5CF6),
             flexibleSpace: FlexibleSpaceBar(
@@ -60,21 +101,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      const SizedBox(height: 40),
-                      const LogoWidget(size: 70),
-                      const SizedBox(height: 12),
+                      const SizedBox(height: 30),
+                      const LogoWidget(size: 60),
+                      const SizedBox(height: 8),
                       Text(
                         'Hoşgeldin, $_userName!',
                         style: const TextStyle(
                           color: Colors.white,
-                          fontSize: 22,
+                          fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-                      const SizedBox(height: 4),
                       const Text(
-                        'AI Arkadaşların burada',
-                        style: TextStyle(color: Colors.white70, fontSize: 14),
+                        '7 AI Arkadaşın burada',
+                        style: TextStyle(color: Colors.white70, fontSize: 13),
                       ),
                     ],
                   ),
@@ -84,78 +124,39 @@ class _HomeScreenState extends State<HomeScreen> {
             actions: [
               IconButton(
                 icon: const Icon(Icons.settings, color: Colors.white),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SettingsScreen()),
-                  );
-                },
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const SettingsScreen())),
               ),
               IconButton(
                 icon: const Icon(Icons.crown, color: Colors.amber),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const PremiumScreen()),
-                  );
-                },
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const PremiumScreen())),
               ),
             ],
           ),
 
           // Karakterler bölümü
-          SliverToBoxAdapter(
+          const SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.all(20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Karakterler',
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF1A1A2E),
-                        ),
-                      ),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFF8B5CF6).withOpacity(0.1),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: const Text(
-                          '2/6 Açık',
-                          style: TextStyle(
-                            color: Color(0xFF8B5CF6),
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 16),
-                ],
-              ),
+              padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
+              child: Text('Karakterler', style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xFF1A1A2E))),
             ),
           ),
 
-          // Karakter listesi
+          // Karakter grid (2'li)
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            sliver: SliverList(
+            sliver: SliverGrid(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 0.85,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+              ),
               delegate: SliverChildBuilderDelegate(
                 (context, index) {
                   final character = _characters[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 12),
-                    child: _CharacterCard(
-                      character: character,
-                      onTap: () => _openChat(character),
-                    ),
+                  return _CharacterGridCard(
+                    character: character,
+                    onTap: () => _openChat(character),
                   );
                 },
                 childCount: _characters.length,
@@ -168,26 +169,13 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const GroupChatScreen()),
-                  );
-                },
+                onTap: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const GroupChatScreen())),
                 child: Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFF8B5CF6), Color(0xFF6B4EFF)],
-                    ),
+                    gradient: const LinearGradient(colors: [Color(0xFF8B5CF6), Color(0xFF6B4EFF)]),
                     borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: const Color(0xFF8B5CF6).withOpacity(0.3),
-                        blurRadius: 15,
-                        offset: const Offset(0, 8),
-                      ),
-                    ],
+                    boxShadow: [BoxShadow(color: const Color(0xFF8B5CF6).withOpacity(0.3), blurRadius: 15, offset: const Offset(0, 8))],
                   ),
                   child: const Row(
                     children: [
@@ -197,18 +185,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                              'Grup Sohbeti',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Text(
-                              'Tüm karakterlerle konuş',
-                              style: TextStyle(color: Colors.white70, fontSize: 13),
-                            ),
+                            Text('Grup Sohbeti', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
+                            Text('7 karakterle aynı anda!', style: TextStyle(color: Colors.white70, fontSize: 13)),
                           ],
                         ),
                       ),
@@ -220,27 +198,22 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
 
-          const SliverToBoxAdapter(
-            child: SizedBox(height: 100),
-          ),
+          const SliverToBoxAdapter(child: SizedBox(height: 100)),
         ],
       ),
     );
   }
 
   void _openChat(Character character) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => ChatScreen(character: character)),
-    );
+    Navigator.push(context, MaterialPageRoute(builder: (_) => ChatScreen(character: character)));
   }
 }
 
-class _CharacterCard extends StatelessWidget {
+class _CharacterGridCard extends StatelessWidget {
   final Character character;
   final VoidCallback onTap;
 
-  const _CharacterCard({required this.character, required this.onTap});
+  const _CharacterGridCard({required this.character, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -251,83 +224,31 @@ class _CharacterCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 15,
-              offset: const Offset(0, 5),
-            ),
-          ],
+          boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 15, offset: const Offset(0, 5))],
         ),
-        child: Row(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               width: 60,
               height: 60,
               decoration: BoxDecoration(
-                gradient: const LinearGradient(
-                  colors: [Color(0xFF8B5CF6), Color(0xFF6B4EFF)],
-                ),
+                gradient: const LinearGradient(colors: [Color(0xFF8B5CF6), Color(0xFF6B4EFF)]),
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: Center(
-                child: Text(character.avatar!, style: const TextStyle(fontSize: 28)),
-              ),
+              child: Center(child: Text(character.avatar!, style: const TextStyle(fontSize: 28))),
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(
-                        character.name,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 17,
-                          color: Color(0xFF1A1A2E),
-                        ),
-                      ),
-                      if (character.isPremium) ...[
-                        const SizedBox(width: 8),
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                          decoration: BoxDecoration(
-                            color: Colors.amber.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: const Text(
-                            '💎',
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ),
-                      ],
-                    ],
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    character.description,
-                    style: TextStyle(
-                      color: Colors.grey[500],
-                      fontSize: 13,
-                    ),
-                  ),
-                ],
+            const SizedBox(height: 12),
+            Text(character.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14), textAlign: TextAlign.center),
+            const SizedBox(height: 4),
+            Text(character.description, style: TextStyle(color: Colors.grey[500], fontSize: 11), textAlign: TextAlign.center, maxLines: 2),
+            const SizedBox(height: 8),
+            if (character.isPremium)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(color: Colors.amber.withOpacity(0.2), borderRadius: BorderRadius.circular(8)),
+                child: const Text('💎 Premium', style: TextStyle(fontSize: 10, color: Colors.amber)),
               ),
-            ),
-            Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: const Color(0xFFF5F0FF),
-                borderRadius: BorderRadius.circular(14),
-              ),
-              child: const Icon(
-                Icons.chat_bubble_outline,
-                color: Color(0xFF8B5CF6),
-              ),
-            ),
           ],
         ),
       ),
