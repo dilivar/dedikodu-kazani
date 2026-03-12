@@ -69,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
     ),
     Character(
       id: '7',
-      name: 'Kaan Bilge',
+      name: 'Fatih Bilge',
       description: 'Mentor + Bilge 📚',
       avatar: '👨‍💼',
       personality: CharacterPersonality.mentor,
