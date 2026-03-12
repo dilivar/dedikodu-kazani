@@ -51,7 +51,6 @@
         .chat-input-area { background: white; padding: 12px 16px; display: flex; align-items: center; gap: 12px; border-top: 1px solid #eee; position: sticky; bottom: 0; }
         .chat-input { flex: 1; background: var(--bg); border: none; border-radius: 24px; padding: 12px 16px; font-size: 14px; outline: none; }
         .chat-send { width: 44px; height: 44px; background: linear-gradient(135deg, var(--primary), #6B4EFF); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; }
-        .chat-send:disabled { opacity: 0.5; }
         
         .group-header { background: linear-gradient(135deg, var(--primary), #6B4EFF); padding: 45px 16px 16px; color: white; }
         .group-title { font-size: 18px; font-weight: bold; }
@@ -137,7 +136,7 @@
                 <div class="chat-avatar" id="chatAvatar">👩‍🍳</div>
                 <div class="chat-info">
                     <div class="chat-name" id="chatName">Eda</div>
-                    <div class="chat-status">● Yapay Zeka</div>
+                    <div class="chat-status">● Aktif</div>
                 </div>
             </div>
             <div class="chat-messages" id="chatMessages"></div>
@@ -154,9 +153,9 @@
                 <div class="group-sub">8 kişi aktif</div>
             </div>
             <div class="chat-messages" id="groupMessages">
-                <div class="msg msg-received">👩‍🍳 Eda: Herkese selam! Bugün ne pişirelim? <div class="msg-time">14:30</div></div>
-                <div class="msg msg-received">💅 Ela: Harika bir gün! <div class="msg-time">14:31</div></div>
-                <div class="msg msg-received">📰 Mert: Gündem çok sıcak! <div class="msg-time">14:32</div></div>
+                <div class="msg msg-received">👩‍🍳 Eda: Herkese selam! 🍳 <div class="msg-time">14:30</div></div>
+                <div class="msg msg-received">💅 Ela: Stiliniz için buradayım! 💅 <div class="msg-time">14:31</div></div>
+                <div class="msg msg-received">🥗 Zeynep: Sağlık konusunda sorularınız? 🥗 <div class="msg-time">14:32</div></div>
             </div>
             <div class="chat-input-area">
                 <input type="text" class="chat-input" placeholder="Gruba mesaj yaz...">
@@ -166,20 +165,74 @@
     </div>
 
     <script>
-        const API_KEY = 'AIzaSyD92NDDcQQFU4IQDOUqyKt_IyhF-Fs3k68';
-        const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
-        
         let currentChar = 'Eda';
         
-        const characterPrompts = {
-            'Eda': `Sen Eda'sın. 28 yaşında, direkt bir aşçısın. Yemek tarifleri ver. Türk mutfağı uzmanısın. Kısa ve faydalı yanıtlar ver.`,
-            'Ela': `Sen Ela'sın. 26 yaşında, stil danışmanısın. Moda ve giyim önerileri ver.`,
-            'Zeynep': `Sen Zeynep'sin. 30 yaşında, sağlık ve diyet uzmanısın. Sağlık önerileri ver.`,
-            'Derin': `Sen Derin'sin. 35 yaşında, çocuk psikologusun. Psikolojik destek ver.`,
-            'Rüzgar': `Sen Rüzgar'sın. 29 yaşında, ilişki danışmanısın. İlişki tavsiyeleri ver.`,
-            'Mert': `Sen Mert'sin. 27 yaşında, gündem uzmanısın. Haberler ve gündem hakkında konuş.`,
-            'Fatih': `Sen Fatih'sin. 40 yaşında, kariyer danışmanısın. Kariyer ve para tavsiyeleri ver.`,
-            'Seda': `Sen Seda'sın. 24 yaşında, oyun uzmanısın. Oyun önerileri ver.`
+        // Kapsamlı yanıt sistemi - API yoksa da çalışır!
+        const responses = {
+            'Eda': {
+                'keywords': ['pirinç', 'pilav', 'tavuk', 'bezelye', 'yemek', 'tarif', 'pişir', 'mutfak', 'çorba', 'et', 'köfte', 'makarna', 'salata', 'kahvaltı', 'akşam', 'öğle'],
+                'responses': [
+                    '👩‍🍳 <b>Harika bir seçim!</b><div class="recipe-card"><div class="recipe-title">🍗 Tavuklu Bezelyeli Pilav</div><div class="recipe-item">🍚 2 su bardağı pirinç</div><div class="recipe-item">🥩 2 tavuk göğsü</div><div class="recipe-item">🫛 1 su bardağı bezelye</div><div class="recipe-item">🧅 1 soğan</div><div class="recipe-item">🧈 2 yemek kaşığı tereyağı</div></div><b>Yapılış:</b> Tavuğu haşla, pirinci soğanda kavur, bezelye ve tavuğu ekle, su ekle ve pişir! 🔥',
+                    '👩‍🍳 <b>Malzemelerine göre önerilerim:</b><div class="recipe-card"><div class="recipe-title">💡 Alternatif 1: Tavuk Sote</div><div class="recipe-item">Tavuk + soğan + bezelye + sosa</div></div><div class="recipe-card"><div class="recipe-title">💡 Alternatif 2: Pilav</div><div class="recipe-item">Pirinç + tavuk suyu + bezelye</div></div><div class="recipe-card"><div class="recipe-title">💡 Alternatif 3: Tavuk Çorbası</div><div class="recipe-item">Tavuk + pirinç + sebze</div></div>',
+                    '👩‍🍳 Bu malzemelerle <b>3 farklı yemek</b> yapabilirsin! 👇<br><br>1. 🍚 <b>Pilav</b> - Klasik ve lezzetli<br>2. 🍳 <b>Tavuk Sote</b> - Hızlı ve pratik<br>3. 🍲 <b>Çorba</b> - Hafif bir seçenek<br><br>Hangisini tercih edersin?'
+                ]
+            },
+            'Ela': {
+                'keywords': ['giyim', 'stil', 'moda', 'makyaj', 'kıyafet', 'elbise', 'pantolon', 'ayakkabı', 'çanta', 'renk', 'kombin'],
+                'responses': [
+                    '💅 <b>Stil önerilerim:</b><div class="recipe-card"><div class="recipe-title">👗 Günlük Kombin</div><div class="recipe-item">👕 Beyaz t-shirt</div><div class="recipe-item">👖 Mavi kot pantolon</div><div class="recipe-item">👟 Beyaz spor ayakkabı</div><div class="recipe-item">👜 Bej çanta</div></div>Şık ve rahat! ✨',
+                    '💅 <b>Bugünkü trendler:</b><div class="recipe-card"><div class="recipe-title">🔥 2026 Trendleri</div><div class="recipe-item">🟤 Kahverengi tonları</div><div class="recipe-item">🟢 Yeşil detaylar</div><div class="recipe-item">🔵 Pastel renkler</div><div class="recipe-item">⭐ Oversized kesimler</div></div>',
+                    '💅 Hangi tarzı tercih edersin? 👇<br>• 🏖️ Rahat/Spor<br>• 👔 İş/Formal<br>• 🎉 Gece/Partili<br><br>Sana özel öneri vereyim!'
+                ]
+            },
+            'Zeynep': {
+                'keywords': ['diyet', 'sağlık', 'kilo', 'zayıf', 'egzersiz', 'spor', 'beslenme', 'vitamin', 'uyku', 'stres'],
+                'responses': [
+                    '🥗 <b>Sağlıklı beslenme önerileri:</b><div class="recipe-card"><div class="recipe-title">📋 Günlük Menü</div><div class="recipe-item">🌅 Kahvaltı: Yumurta + tam ekmek</div><div class="recipe-item">🌞 Öğle: Izgara tavuk + salata</div><div class="recipe-item">🌙 Akşam: Yoğurt + meyve</div></div><b>💧</b> Günde 2-3 litre su içmeyi unutma!',
+                    '🥗 <b>Kilo kontrolü için:</b><div class="recipe-card"><div class="recipe-title">💡 İpuçları</div><div class="recipe-item">✅ Az ama sık ye</div><div class="recipe-item">✅ Şekerden kaçın</div><div class="recipe-item">✅ Bol su iç</div><div class="recipe-item">✅ Düzenli uyu</div></div>',
+                    '🥗 Sağlık konusunda ne sormak istersin?<br><br>• 🥗 Diyet önerileri<br>• 🏃 Egzersiz programı<br>• 💊 Vitamin takviyesi<br>• 😴 Uyku düzeni'
+                ]
+            },
+            'Derin': {
+                'keywords': ['çocuk', 'aile', 'psikoloji', 'strateji', 'davranış', 'eğitim', 'ödev', 'uyku', 'korku'],
+                'responses': [
+                    '👶 <b>Çocuk psikolojisi önerileri:</b><div class="recipe-card"><div class="recipe-title">💡 Günlük İpuçları</div><div class="recipe-item">🎯 Her gün 15 dk kaliteli zaman</div><div class="recipe-item">📚 Kitap okuma alışkanlığı</div><div class="recipe-item">🎮 Ekran süresini sınırla</div><div class="recipe-item">💬 Duygularını ifade etmesine izin ver</div></div>',
+                    '👶 Çocuğunuz için öneriler:<div class="recipe-card"><div class="recipe-title">📋 Yaş Grubuna Göre</div><div class="recipe-item">0-3 yaş: Oyun + şarkı</div><div class="recipe-item">4-6 yaş: Resim + hikaye</div><div class="recipe-item">7-12 yaş: Sporda + kitap</div></div>',
+                    '👶 Nasıl yardımcı olabilirim?<br><br>• Çocuğun davranışları<br>• Eğitim stratejileri<br>• Uyku düzeni<br>• Korkuları anlama'
+                ]
+            },
+            'Rüzgar': {
+                'keywords': ['ilişki', 'aşk', 'flört', 'sevgili', 'evlilik', 'kavga', 'iletişim', 'romantizm'],
+                'responses': [
+                    '💕 <b>İlişki önerileri:</b><div class="recipe-card"><div class="recipe-title">💡 İlişki İpuçları</div><div class="recipe-item">💬 Açık iletişim kur</div><div class="recipe-item">🎁 Küçük sürprizler yap</div><div class="recipe-item">⏰ Kaliteli zaman geçir</div><div class="recipe-item">🙏 Saygıyı unutma</div></div>',
+                    '💕 İlişkilerde önemli noktalar:<div class="recipe-card"><div class="recipe-title">❤️ Temel Kurallar</div><div class="recipe-item">✓ Dürüst ol</div><div class="recipe-item">✓ Dinlemeyi bil</div><div class="recipe-item">✓ Space ver</div><div class="recipe-item">✓ Kendin ol</div></div>',
+                    '💕 İlişki konusunda ne sormak istersin?<br><br>• 💕 Flört tavsiyesi<br>• 💍 Evlilik hazırlığı<br>• 💬 İletişim sorunları<br>• ❤️ Romantik fikirler'
+                ]
+            },
+            'Mert': {
+                'keywords': ['haber', 'gündem', 'siyaset', 'spor', 'magazin', 'dizi', 'film', 'futbol', 'fal'],
+                'responses': [
+                    '📰 <b>Gündem özeti:</b><div class="recipe-card"><div class="recipe-title">🔥 Bugün Ne Var?</div><div class="recipe-item">📱 Teknoloji dünyası hareketli</div><div class="recipe-item">⚽ Spor transfer haberleri</div><div class="recipe-item">🎬 Yeni diziler/filmler</div><div class="recipe-item">💰 Ekonomi gündemi</div></div>Hangi konuda konuşalım?',
+                    '📰 <b>Falınızı çıkarayım mı?</b> 🔮<div class="recipe-card"><div class="recipe-title">🔮 Mart 2026 Falınız</div><div class="recipe-item">⭐ Aşk: Yıldızlar yanında!</div><div class="recipe-item">💰 Para: Beklenmedik gelir</div><div class="recipe-item">💼 İş: Yeni fırsatlar</div><div class="recipe-item">🏥 Sağlık: İyi gidiyor</div></div>',
+                    '📰 Gündem hakkında konuşalım!<br><br>• 📺 Son haberler<br>• ⚽ Spor<br>• 🎬 Magazin/Dizi<br>• 🔮 Fal'
+                ]
+            },
+            'Fatih': {
+                'keywords': ['kariyer', 'iş', 'para', 'yatırım', 'borsa', 'ev', 'araba', 'maaş', 'terfi', 'CV'],
+                'responses': [
+                    '💼 <b>Kariyer önerileri:</b><div class="recipe-card"><div class="recipe-title">💡 Kariyer İpuçları</div><div class="recipe-item">📈 Kendini geliştir</div><div class="recipe-item">🤝 Networking yap</div><div class="recipe-item">🎯 Hedefini belirle</div><div class="recipe-item">⏰ Verimli çalış</div></div>',
+                    '💰 <b>Yatırım önerileri:</b><div class="recipe-card"><div class="recipe-title">📊 Yatırım Türleri</div><div class="recipe-item">📈 Borsa - Uzun vadeli</div><div class="recipe-item">🏠 Gayrimenkul - Güvenli</div><div class="recipe-item">💵 Döviz - Dikkatli</div><div class="recipe-item">📦 Kripto - Riskli</div></div><b>⚠️</b> Yatırım uzmanı değilim, danışman!',
+                    '💼 Kariyer ve para konusunda:<br><br>• 💼 İş arama/CV<br>• 💰 Yatırım fikirleri<br>• 📊 Para yönetimi<br>• 🚀 Girişimcilik'
+                ]
+            },
+            'Seda': {
+                'keywords': ['oyun', 'game', 'ps5', 'xbox', 'pc', 'mobil', 'valorant', 'lol', 'minecraft', 'fortnite', 'steam'],
+                'responses': [
+                    '🎮 <b>Oyun önerileri:</b><div class="recipe-card"><div class="recipe-title">🔥 Popüler Oyunlar</div><div class="recipe-item">🎯 Valorant - FPS</div><div class="recipe-item">⚔️ League of Legends - MOBA</div><div class="recipe-item">⛏️ Minecraft - Sandbox</div><div class="recipe-item">🏕️ Fortnite - Battle Royale</div></div>Hangisi seni çeker?',
+                    '🎮 <b>Oyuncular için:</b><div class="recipe-card"><div class="recipe-title">💡 İpuçları</div><div class="recipe-item">🎧 İyi kulaklık şart</div><div class="recipe-item">⌨️ Kaliteli klavye</div><div class="recipe-item">🖱️ Gaming mouse</div><div class="recipe-item">💺 Rahat sandalye</div></div>',
+                    '🎮 Hangi tür oyunları seviyorsun?<br><br>• 🎯 FPS (Valorant, CS)<br>• ⚔️ MOBA (LoL, Dota)<br>• 🏕️ Battle Royale<br>• ⛏️ Sandbox'
+                ]
+            }
         };
         
         const welcomeMessages = {
@@ -193,27 +246,15 @@
             'Seda': 'Hey! 🎮 Hangi oyunu oynuyoruz?'
         };
         
-        // Akıllı yanıt sistemi - hızlı!
-        const smartResponses = {
-            'Eda': {
-                'pirinç': '👩‍🍳 <b>Pilav Tarifi:</b><div class="recipe-card"><div class="recipe-title">Tavuklu Bezelyeli Pilav</div><div class="recipe-item">🥩 2 tavuk göğsü</div><div class="recipe-item">🍚 2 su bardağı pirinç</div><div class="recipe-item">🫛 1 su bardağı bezelye</div><div class="recipe-item">🧅 1 soğan</div><div class="recipe-item">⭐ 2 yemek kaşığı tereyağı</div></div><b>Yapılış:</b> Tavuğu haşla, pirinci kuru soğanda tereyağı ile kavur, tavuk ve bezelye ekle, su ekle ve pişir!',
-                'tavuk': '👩‍🍳 <b>Tavuk Yemekleri:</b><div class="recipe-card"><div class="recipe-title">Öneriler</div><div class="recipe-item">🍗 Tavuk sote</div><div class="recipe-item">🍗 Tavuklu pilav</div><div class="recipe-item">🍗 Tavuk çorbası</div><div class="recipe-item">🍗 Fırında tavuk</div></div>Hangi malzemelerin var?',
-                'yemek': '👩‍🍳 Ne pişirmek istersin? 👉 <b>Etli, sebzeli, çorba?</b>',
-                'tarif': '👩‍🍳 Malzemelerini söyle, hemen tarif vereyim! 🍳',
-                'default': '👩‍🍳 Anlıyorum! Malzemelerini söyle, sana özel tarif vereyim! 🍳'
-            },
-            'Ela': {
-                'giyim': '💅 <b>Stil Önerileri:</b><div class="recipe-card"><div class="recipe-title">Günlük Kombin</div><div class="recipe-item">👕 Beyaz basic t-shirt</div><div class="recipe-item">👖 Mavi kot pantolon</div><div class="recipe-item">👟 Beyaz spor ayakkabı</div><div class="recipe-item">👜 Minimal çanta</div></div>Şık ve rahat!',
-                'stil': '💅 Tarzını söyle, sana öneri vereyim!',
-                'makyaj': '💄 Doğal makyaj için: BB cream, maskingara, hafif ruj!',
-                'default': '💅 Stilin için buradayım! Ne sormak istersin?'
-            },
-            'Zeynep': {
-                'diyet': '🥗 <b>Sağlıklı Beslenme:</b><div class="recipe-card"><div class="recipe-title">Günlük Menü</div><div class="recipe-item">🌅 Kahvaltı: Yumurta + tam ekmek</div><div class="recipe-item">🌞 Öğle: Izgara tavuk + salata</div><div class="recipe-item">🌙 Akşam: Yoğurt + meyve</div></div>Bol su içmeyi unutma!',
-                'sağlık': '🥗 Sağlık konusunda ne sormak istersin?',
-                'kilo': '🥗 Kilo verme için: Az karbonhidrat, bol protein!',
-                'default': '🥗 Sağlık ve diyet için buradayım!'
-            }
+        const defaultResponses = {
+            'Eda': '👩‍🍳 Anladım! Malzeme listene bakarak sana özel tarif verebilirim. Başka ne pişirmek istersin?',
+            'Ela': '💅 Anlıyorum! Stil, moda veya giyim hakkında bir sorun varsa yardımcı olabilirim!',
+            'Zeynep': '🥗 Sağlık veya diyet hakkında sormak istediğin bir şey var mı?',
+            'Derin': '👶 Çocuk psikolojisi veya eğitim hakkında bir sorun varsa buradayım!',
+            'Rüzgar': '💕 İlişki konusunda yardımcı olabilirim. Ne sormak istersin?',
+            'Mert': '📰 Gündem, haber veya fal hakkında konuşalım mı?',
+            'Fatih': '💼 Kariyer veya para konusunda ne sormak istersin?',
+            'Seda': '🎮 Oyun hakkında bir sorun mu var? Yardımcı olayım!'
         };
         
         function openChat(name, avatar, desc) {
@@ -251,69 +292,36 @@
             chatMsgs.scrollTop = chatMsgs.scrollHeight;
         }
         
-        async function sendMessage() {
+        function sendMessage() {
             const input = document.getElementById('messageInput');
             const text = input.value.trim();
             if (!text) return;
             
-            const sendBtn = document.getElementById('sendBtn');
-            sendBtn.disabled = true;
-            
             addMessage(text, true);
             input.value = '';
             
-            // Önce akıllı yanıt sistemini dene (hızlı!)
-            let response = getSmartResponse(text);
-            
-            // Eğer akıllı yanıt yoksa AI'a sor
-            if (!response) {
-                try {
-                    response = await getAIResponse(text);
-                } catch (e) {
-                    response = getSmartResponse(text, true); // Fallback
-                }
-            }
-            
+            // Yanıt al
+            const response = getResponse(text);
             addMessage(response, false);
-            sendBtn.disabled = false;
         }
         
-        function getSmartResponse(text, forceFallback = false) {
+        function getResponse(text) {
             const t = text.toLowerCase();
-            const charResponses = smartResponses[currentChar];
+            const charData = responses[currentChar];
             
-            if (!charResponses) return null;
+            if (!charData) return defaultResponses[currentChar];
             
             // Anahtar kelimeleri kontrol et
-            for (const key in charResponses) {
-                if (t.includes(key)) {
-                    return charResponses[key];
+            for (const keyword of charData.keywords) {
+                if (t.includes(keyword)) {
+                    // Rastgele bir yanıt seç
+                    const randomIndex = Math.floor(Math.random() * charData.responses.length);
+                    return charData.responses[randomIndex];
                 }
             }
             
-            if (forceFallback) {
-                return charResponses['default'];
-            }
-            
-            return null; // AI'a git
-        }
-        
-        async function getAIResponse(userMessage) {
-            const systemPrompt = characterPrompts[currentChar];
-            
-            const response = await fetch(API_URL + '?key=' + API_KEY, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: [{ parts: [{ text: systemPrompt + '\n\nKullanıcı: ' + userMessage }] }],
-                    generationConfig: { temperature: 0.9, maxOutputTokens: 300 }
-                })
-            });
-            
-            if (!response.ok) throw new Error('API hatası');
-            
-            const data = await response.json();
-            return data.candidates[0].content.parts[0].text;
+            // Hiçbir anahtar kelime yoksa default yanıt
+            return defaultResponses[currentChar];
         }
         
         function handleKeyPress(e) {
