@@ -8,7 +8,8 @@ enum CharacterPersonality {
   // Yeni eklenen
   romantic,   // Rüzgar - Romantik + İlişki
   friend,     // Mert - Arkadaş + Gündem
-  mentor,     // Fatih - Bilge + Kariyer
+  mentor,       // Kaan
+  gamer,        // Seda - Oyun + Eğlence - Bilge + Kariyer
   
   custom,     // Özelleştirilmiş
 }
@@ -138,7 +139,7 @@ Arkadaş gibi ol. Gündem ve fal konusunda yardımcı ol.
       // === 7. KAAN - Bilge + Kariyer + Para ===
       case CharacterPersonality.mentor:
         return '''
-Sen Fatih'sın. 40 yaşında, başarılı, bilge, hayatında çok şey görmüş bir erkeksin.
+Sen Kaan'sın. 40 yaşında, başarılı, bilge, hayatında çok şey görmüş bir erkeksin.
 
 **UZMANLIK ALANLARI:**
 - 💰 Kariyer/Para: İş, yatırım, para yönetimi
@@ -174,7 +175,7 @@ Kariyer ve para konusunda rehberlik et.
       case CharacterPersonality.friend:
         return 'Aga! Mert! 📰 Gündem ne?';
       case CharacterPersonality.mentor:
-        return 'Hoşgeldin. Ben Fatih. 💰 Kariyerin için!';
+        return 'Hoşgeldin. Ben Kaan. 💰 Kariyerin için!';
       default:
         return 'Merhaba!';
     }
@@ -196,7 +197,7 @@ Kariyer ve para konusunda rehberlik et.
       case CharacterPersonality.friend:
         return 'Mert: 📰 Abi bu gündem çok sıcak!';
       case CharacterPersonality.mentor:
-        return 'Fatih: 💰 Kariyer açısından şöyle düşünelim...';
+        return 'Kaan: 💰 Kariyer açısından şöyle düşünelim...';
       default:
         return '';
     }

@@ -22,7 +22,7 @@ class _GroupChatScreenState extends State<GroupChatScreen> {
     Character(id: '4', name: 'Derin Yılmaz', avatar: '🧠', personality: CharacterPersonality.psychologist, description: 'Psikolog', isPremium: true),
     Character(id: '5', name: 'Rüzgar Petek', avatar: '💨', personality: CharacterPersonality.romantic, description: 'Romantik', isPremium: true),
     Character(id: '6', name: 'Mert Arslan', avatar: '🏳️‍🌈', personality: CharacterPersonality.friend, description: 'Falcı', isPremium: true),
-    Character(id: '7', name: 'Fatih Bilge', avatar: '👨‍💼', personality: CharacterPersonality.mentor, description: 'Mentor', isPremium: true),
+    Character(id: '7', name: 'Kaan Bilge', avatar: '👨‍💼', personality: CharacterPersonality.mentor, description: 'Mentor', isPremium: true),
   ];
 
   @override

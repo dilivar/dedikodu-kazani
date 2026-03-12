@@ -6,14 +6,12 @@
     <title>Dedikodu Kazanı</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
-        :root { --primary: #8B5CF6; --primary-dark: #6B4EFF; --bg: #F5F0FF; --text: #1A1A2E; }
-        body { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        :root { --primary: #8B5CF6; --bg: #F5F0FF; --text: #1A1A2E; }
+        body { background: linear-gradient(135deg, var(--primary), #6B4EFF); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
         .phone { width: 375px; height: 812px; background: var(--bg); border-radius: 40px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.3); position: relative; }
         .notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 150px; height: 30px; background: #000; border-radius: 0 0 20px 20px; z-index: 100; }
         .screen { width: 100%; height: 100%; overflow-y: auto; background: var(--bg); }
-        .login-screen, .home-screen { display: none; }
-        .home-screen.active { display: block; }
-        .header { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); padding: 50px 20px 30px; border-radius: 0 0 30px 30px; text-align: center; color: white; }
+        .header { background: linear-gradient(135deg, var(--primary), #6B4EFF); padding: 50px 20px 30px; border-radius: 0 0 30px 30px; text-align: center; color: white; }
         .header-logo { font-size: 50px; margin-bottom: 10px; }
         .header-title { font-size: 20px; font-weight: bold; }
         .header-sub { font-size: 12px; opacity: 0.8; margin-bottom: 20px; }
@@ -21,10 +19,10 @@
         .badge { background: rgba(139,92,246,0.1); color: var(--primary); padding: 4px 12px; border-radius: 12px; font-size: 12px; }
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; padding: 0 20px; }
         .card { background: white; border-radius: 16px; padding: 16px; text-align: center; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .card-avatar { width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: 14px; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+        .card-avatar { width: 50px; height: 50px; background: linear-gradient(135deg, var(--primary), #6B4EFF); border-radius: 14px; margin: 0 auto 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
         .card-name { font-weight: bold; font-size: 13px; color: var(--text); }
         .card-desc { font-size: 10px; color: #6B7280; margin-top: 2px; }
-        .fab { position: absolute; bottom: 100px; right: 20px; width: 56px; height: 56px; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; box-shadow: 0 10px 30px rgba(139,92,246,0.4); cursor: pointer; }
+        .fab { position: absolute; bottom: 100px; right: 20px; width: 56px; height: 56px; background: linear-gradient(135deg, var(--primary), #6B4EFF); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; box-shadow: 0 10px 30px rgba(139,92,246,0.4); cursor: pointer; }
         .nav { position: absolute; bottom: 0; left: 0; right: 0; height: 80px; background: white; display: flex; justify-content: space-around; align-items: center; border-radius: 30px 30px 0 0; }
         .nav-item { display: flex; flex-direction: column; align-items: center; gap: 4px; color: #6B7280; font-size: 10px; }
         .nav-item.active { color: var(--primary); }
@@ -34,75 +32,41 @@
     <div class="phone">
         <div class="notch"></div>
         <div class="screen">
-            <!-- Home Screen -->
-            <div class="home-screen active" id="homeScreen">
-                <div class="header">
-                    <div class="header-logo">🌯</div>
-                    <h1 class="header-title">Hoşgeldin!</h1>
-                    <p class="header-sub">7 AI Arkadaşın</p>
-                </div>
-                
-                <div class="section-title">
-                    Karakterler
-                    <span class="badge">7 Aktif</span>
-                </div>
-                
-                <div class="grid">
-                    <div class="card" onclick="openChat('Eda')">
-                        <div class="card-avatar">👩‍🍳</div>
-                        <div class="card-name">Eda</div>
-                        <div class="card-desc">Aşçı</div>
-                    </div>
-                    <div class="card" onclick="openChat('Ela')">
-                        <div class="card-avatar">💅</div>
-                        <div class="card-name">Ela</div>
-                        <div class="card-desc">Stilist</div>
-                    </div>
-                    <div class="card" onclick="openChat('Zeynep')">
-                        <div class="card-avatar">🥗</div>
-                        <div class="card-name">Zeynep</div>
-                        <div class="card-desc">Sağlık</div>
-                    </div>
-                    <div class="card" onclick="openChat('Derin')">
-                        <div class="card-avatar">👶</div>
-                        <div class="card-name">Derin</div>
-                        <div class="card-desc">Çocuk</div>
-                    </div>
-                    <div class="card" onclick="openChat('Rüzgar')">
-                        <div class="card-avatar">💕</div>
-                        <div class="card-name">Rüzgar</div>
-                        <div class="card-desc">İlişki</div>
-                    </div>
-                    <div class="card" onclick="openChat('Mert')">
-                        <div class="card-avatar">📰</div>
-                        <div class="card-name">Mert</div>
-                        <div class="card-desc">Gündem</div>
-                    </div>
-                    <div class="card" onclick="openChat('Fatih')" style="grid-column: span 2;">
-                        <div class="card-avatar">💰</div>
-                        <div class="card-name">Fatih</div>
-                        <div class="card-desc">Kariyer</div>
-                    </div>
-                </div>
-                
-                <div class="fab" onclick="openGroup()">👥</div>
-                
-                <div class="nav">
-                    <div class="nav-item active"><span style="font-size:20px">🏠</span><span>Anasayfa</span></div>
-                    <div class="nav-item"><span style="font-size:20px">💎</span><span>Premium</span></div>
-                    <div class="nav-item"><span style="font-size:20px">⚙️</span><span>Ayarlar</span></div>
-                </div>
+            <div class="header">
+                <div class="header-logo">💬</div>
+                <h1 class="header-title">Hoşgeldin!</h1>
+                <p class="header-sub">8 gerçek arkadaşın</p>
+            </div>
+            
+            <div class="section-title">
+                Arkadaşlar
+                <span class="badge">8 Aktif</span>
+            </div>
+            
+            <div class="grid">
+                <div class="card" onclick="openChat('Eda')"><div class="card-avatar">👩‍🍳</div><div class="card-name">Eda</div><div class="card-desc">Aşçı</div></div>
+                <div class="card" onclick="openChat('Ela')"><div class="card-avatar">💅</div><div class="card-name">Ela</div><div class="card-desc">Stilist</div></div>
+                <div class="card" onclick="openChat('Zeynep')"><div class="card-avatar">🥗</div><div class="card-name">Zeynep</div><div class="card-desc">Sağlık</div></div>
+                <div class="card" onclick="openChat('Derin')"><div class="card-avatar">👶</div><div class="card-name">Derin</div><div class="card-desc">Çocuk</div></div>
+                <div class="card" onclick="openChat('Rüzgar')"><div class="card-avatar">💕</div><div class="card-name">Rüzgar</div><div class="card-desc">İlişki</div></div>
+                <div class="card" onclick="openChat('Mert')"><div class="card-avatar">📰</div><div class="card-name">Mert</div><div class="card-desc">Gündem</div></div>
+                <div class="card" onclick="openChat('Kaan')"><div class="card-avatar">💰</div><div class="card-name">Kaan</div><div class="card-desc">Kariyer</div></div>
+                <div class="card" onclick="openChat('Seda')"><div class="card-avatar">🎮</div><div class="card-name">Seda</div><div class="card-desc">Oyun & Eğlence</div></div>
+            </div>
+            
+            <div class="fab" onclick="openGroup()">👥</div>
+            
+            <div class="nav">
+                <div class="nav-item active"><span style="font-size:20px">🏠</span><span>Anasayfa</span></div>
+                <div class="nav-item"><span style="font-size:20px">💎</span><span>Premium</span></div>
+                <div class="nav-item"><span style="font-size:20px">⚙️</span><span>Ayarlar</span></div>
             </div>
         </div>
     </div>
 
     <script>
-        function openChat(name) {
-            alert('💬 ' + name + ' ile sohbet başlıyor...');
-        }
-        function openGroup() {
-            window.location.href = 'group_call.html';
-        }
+        function openChat(name) { alert('💬 ' + name + ' ile sohbet başlıyor...'); }
+        function openGroup() { alert('👥 Grup sohbeti başlıyor...'); }
     </script>
 </body>
 </html>
