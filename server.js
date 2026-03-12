@@ -5,7 +5,7 @@ const path = require('path');
 const PORT = 8181;
 
 const server = http.createServer((req, res) => {
-    let filePath = req.url === '/' ? '/preview.html' : req.url;
+    let filePath = req.url === '/' ? '/web/index.html' : req.url;
     filePath = path.join(__dirname, 'web', filePath);
     
     const extname = path.extname(filePath);
