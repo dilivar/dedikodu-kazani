@@ -44,9 +44,7 @@
         .msg-sent { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
         .msg-time { font-size: 10px; opacity: 0.7; margin-top: 4px; }
         
-        .recipe-card { background: #f0f8ff; border-radius: 10px; padding: 10px; margin: 8px 0; border-left: 3px solid var(--primary); }
-        .recipe-title { font-weight: bold; color: var(--primary); margin-bottom: 6px; }
-        .recipe-item { padding: 3px 0; font-size: 12px; }
+        .gossip-tag { background: #FF6B6B; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px; margin-right: 4px; }
         
         .typing { display: flex; gap: 4px; padding: 8px 12px; }
         .typing span { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; animation: typing 1.4s infinite; }
@@ -69,7 +67,7 @@
         
         <div class="screen active" id="homeScreen">
             <div class="header">
-                <h1 class="header-title">Hoşgeldin!</h1>
+                <h1 class="header-title">Dedikodu Kazanı 💬</h1>
                 <p class="header-sub">gerçekten daha gerçek arkadaşlık ✨</p>
             </div>
             
@@ -82,48 +80,48 @@
                 <div class="card" onclick="openChat('Eda', '👩‍🍳', 'Aşçı')">
                     <div class="card-avatar">👩‍🍳</div>
                     <div class="card-name">Eda</div>
-                    <div class="card-desc">Aşçı</div>
+                    <div class="card-desc">Aşçı + Dedikoducu</div>
                 </div>
                 <div class="card" onclick="openChat('Ela', '💅', 'Stilist')">
                     <div class="card-avatar">💅</div>
                     <div class="card-name">Ela</div>
-                    <div class="card-desc">Stilist</div>
+                    <div class="card-desc">Stilist + Moda</div>
                 </div>
                 <div class="card" onclick="openChat('Zeynep', '🥗', 'Sağlık')">
                     <div class="card-badge"><span class="badge badge-premium">💎</span></div>
                     <div class="card-avatar">🥗</div>
                     <div class="card-name">Zeynep</div>
-                    <div class="card-desc">Sağlık</div>
+                    <div class="card-desc">Sağlık + Diyet</div>
                 </div>
-                <div class="card" onclick="openChat('Derin', '👶', 'Çocuk')">
+                <div class="card" onclick="openChat('Derin', '👶', 'Psikolog')">
                     <div class="card-badge"><span class="badge badge-premium">💎</span></div>
                     <div class="card-avatar">👶</div>
                     <div class="card-name">Derin</div>
-                    <div class="card-desc">Çocuk</div>
+                    <div class="card-desc">Psikolog + Sırlar</div>
                 </div>
                 <div class="card" onclick="openChat('Rüzgar', '💕', 'İlişki')">
                     <div class="card-badge"><span class="badge badge-premium">💎</span></div>
                     <div class="card-avatar">💕</div>
                     <div class="card-name">Rüzgar</div>
-                    <div class="card-desc">İlişki</div>
+                    <div class="card-desc">İlişki + Romantik</div>
                 </div>
                 <div class="card" onclick="openChat('Mert', '📰', 'Gündem')">
                     <div class="card-badge"><span class="badge badge-premium">💎</span></div>
                     <div class="card-avatar">📰</div>
                     <div class="card-name">Mert</div>
-                    <div class="card-desc">Gündem</div>
+                    <div class="card-desc">Dedikodu Kralı 🔥</div>
                 </div>
                 <div class="card" onclick="openChat('Fatih', '💼', 'Kariyer')">
                     <div class="card-badge"><span class="badge badge-premium">💎</span></div>
                     <div class="card-avatar">💼</div>
                     <div class="card-name">Fatih</div>
-                    <div class="card-desc">Kariyer</div>
+                    <div class="card-desc">Kariyer + Para</div>
                 </div>
                 <div class="card" onclick="openChat('Seda', '🎮', 'Oyun')">
                     <div class="card-badge"><span class="badge badge-premium">💎</span></div>
                     <div class="card-avatar">🎮</div>
                     <div class="card-name">Seda</div>
-                    <div class="card-desc">Oyun</div>
+                    <div class="card-desc">Oyun + Eğlence</div>
                 </div>
             </div>
             
@@ -142,7 +140,7 @@
                 <div class="chat-avatar" id="chatAvatar">👩‍🍳</div>
                 <div class="chat-info">
                     <div class="chat-name" id="chatName">Eda</div>
-                    <div class="chat-status">● Yapay Zeka</div>
+                    <div class="chat-status">● Dedikoducu</div>
                 </div>
             </div>
             <div class="chat-messages" id="chatMessages"></div>
@@ -150,7 +148,7 @@
                 <span></span><span></span><span></span>
             </div>
             <div class="chat-input-area">
-                <input type="text" class="chat-input" id="messageInput" placeholder="Mesaj yaz..." onkeypress="handleKeyPress(event)">
+                <input type="text" class="chat-input" id="messageInput" placeholder="Dedikodu yapalım mı?..." onkeypress="handleKeyPress(event)">
                 <div class="chat-send" id="sendBtn" onclick="sendMessage()">➤</div>
             </div>
         </div>
@@ -158,90 +156,108 @@
         <div class="screen" id="groupScreen">
             <div class="group-header">
                 <span class="chat-back" onclick="goHome()">←</span>
-                <div class="group-title">Grup Sohbeti</div>
-                <div class="group-sub">8 kişi aktif</div>
+                <div class="group-title">Dedikodu Grubu 💬</div>
+                <div class="group-sub">8 kişi - Herkes dedikodu yapıyor! 🔥</div>
             </div>
             <div class="chat-messages" id="groupMessages">
-                <div class="msg msg-received">👩‍🍳 Eda: Herkese selam! 🍳 <div class="msg-time">14:30</div></div>
+                <div class="msg msg-received">📰 <b>Mert:</b> Herkese selam! 🔥 Bugün kimin dedikodusu var?<div class="msg-time">14:30</div></div>
+                <div class="msg msg-received">👩‍🍳 <b>Eda:</b> Ben Ela'nın yeni stilini gördüm... 💅<div class="msg-time">14:31</div></div>
+                <div class="msg msg-received">💅 <b>Ela:</b> Eda bana fırça atma! Sen o pilavı ne zaman başarılı pişirdin? 🍚<div class="msg-time">14:32</div></div>
+                <div class="msg msg-received">📰 <b>Mert:</b> 🔥🔥 Tansiyon yükseliyor! Sakin olun!<div class="msg-time">14:33</div></div>
             </div>
             <div class="chat-input-area">
-                <input type="text" class="chat-input" placeholder="Gruba mesaj yaz...">
-                <div class="chat-send">➤</div>
+                <input type="text" class="chat-input" id="groupInput" placeholder="Gruba katıl...">
+                <div class="chat-send" onclick="sendToGroup()">➤</div>
             </div>
         </div>
     </div>
 
     <script>
-        // === YAPAY ZEKA AYARLARI ===
         const API_KEY = 'AIzaSyD92NDDcQQFU4IQDOUqyKt_IyhF-Fs3k68';
         const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
         
         let currentChar = 'Eda';
         let conversationHistory = [];
         
-        // TAM TARİFLER - Direkt verilecek!
-        const fullRecipes = {
-            'pilav': '🍚 <b>TAVUKLU PİLAV TARİFİ</b><br><br><div class="recipe-card"><b>Malzemeler:</b><br>• 2 su bardağı pirinç<br>• 2 adet tavuk göğsü<br>• 1 adet soğan<br>• 2 yemek kaşığı tereyağı<br>• 4 su bardağı tavuk suyu<br>• Tuz, karabiber</div><br><b>Yapılışı:</b><br>1. Pirinçleri 30 dk ıslat<br>2. Tavukları haşla, suyunu sakla<br>3. Soğanı tereyağında kavur<br>4. Pirinci ekle, 2 dk kavur<br>5. Tavuk suyu ekle, tuzla<br>6. Orta ateşte suyu çekene kadar pişir<br>7. Tavukları ekle, karıştır<br>8. Demlenmeye bırak! 🔥',
-            
-            'çorba': '🍲 <b>TAVUK ÇORBASI TARİFİ</b><br><br><div class="recipe-card"><b>Malzemeler:</b><br>• 1 adet bütün tavuk<br>• 1 su bardağı pirinç<br>• 1 adet soğan<br>• 2 adet havuç<br>• 2 adet patates<br>• Tuz, karabiber<br>• 2 yemek kaşığı un</div><br><b>Yapılışı:</b><br>1. Tavuğu bol suda yıka<br>2. Büyük tencereye koy, üstünü geçecek kadar su ekle<br>3. Kaynamaya bırak, köpüklerini al<br>4. Sebzeleri ekle (doğramadan)<br>5. Pirinci ekle<br>6. 1.5 saat yavaş ateşte pişir<br>7. Tavuk etlerini çıkar, parçala<br>8. Etleri çorbaya geri ekle<br>9. Unu suyla karıştır, çorbaya ekle<br>10. Kıvam alınca servis et! 🍲',
-            
-            'sote': '🍳 <b>TAVUK SOTE TARİFİ</b><br><br><div class="recipe-card"><b>Malzemeler:</b><br>• 500g tavuk göğsü<br>• 2 adet biber (yeşil/kırmızı)<br>• 1 adet soğan<br>• 2 adet domates<br>• 3 diş sarımsak<br>• Soya sosu, karabiber<br>• Zeytinyağı</div><br><b>Yapılışı:</b><br>1. Tavuğu küp küp doğra<br>2. Biber ve soğanı ince doğra<br>3. Tavuğu sıcak tavada kızart<br>4. Soğanı ekle, pembeleşene kadar<br>5. Sarımsak ve biberi ekle<br>6. Domatesleri ekle<br>7. Soya sosu ve baharatlarla tatlandır<br>8. 5 dk daha pişir, servis et! 🔥',
-            
-            'fırında': '🔥 <b>FIRINDA TAVUK TARİFİ</b><br><br><div class="recipe-card"><b>Malzemeler:</b><br>• 1 adet bütün tavuk (1.5 kg)<br>• 4 diş sarımsak<br>• 2 yemek kaşığı zeytinyağı<br>• 1 limon<br>• Taze kekik, karabiber, tuz<br>• Rosmarin (opsiyonel)</div><br><b>Yapılışı:</b><br>1. Fırını 200°C'ye ısıt<br>2. Tavuk içini temizle, yıka<br>3. Zeytinyağı, sarımsak, baharatları karıştır<br>4. Bu karışımı tavuğun her yerine sür<br>5. Limonu ortadan ikiye kesip tavuğun içine koy<br>6. Fırın tepsisine tavuğu koy<br>7. 1 saat 15 dk pişir (ara ara üstünü kontrol et)<br>8. Altın sarısı olunca çıkar, 10 dk dinlendir!<br>9. Afiyet olsun! 🍗',
-            
-            'köfte': '🍖 <b>EŞEK ARISI KÖFTE TARİFİ</b><br><br><div class="recipe-card"><b>Malzemeler:</b><br>• 500g kıyma<br>• 1 adet soğan (rendelenmiş)<br>• 2 diş sarımsak (ezilmiş)<br>• 1 su bardağı galeta unu<br>• 1 yumurta<br>• Tuz, karabiber, kimyon<br>• Maydanoz</div><br><b>Yapılışı:</b><br>1. Tüm malzemeleri karıştır<br>2. İyice yoğur (10 dk)<br>3. Buzdolabında 30 dk dinlendir<br>4. Köfte şekli ver<br>5. Izgarada/ tavada pişir<br>6. Yanında soğan ve limonla servis! 🍖'
-        };
-        
+        // Karakter profilleri - Dedikodu versiyonu!
         const characterProfiles = {
             'Eda': {
                 name: 'Eda',
                 avatar: '👩‍🍳',
-                role: 'Aşçı',
-                intro: '👩‍🍳 Merhaba! Ben Eda, mutfakta senin arkadaşınım! 🍳 Bugün nasılsın? Ne pişirelim bugün?'
+                role: 'Aşçı + Dedikoducu',
+                expertise: 'Yemek, mutfak',
+                gossipAbout: ['Ela\'nın stili', 'Mert\'in falı', 'Zeynep\'in diyeti'],
+                intro: '👩‍🍳 <b>Selam!</b> Ben Eda, mutfağın kraliçesiyim! 🍳<br><br>💬 <b>Dedikodu yapalım mı?</b><br>Ela\'nın yeni elbisesini gördüm... 💅<br>Mert\'in bugünkü falı çok ilginçti! 🔮<br><br>Ne konuşmak istersin?'
             },
             'Ela': {
                 name: 'Ela',
                 avatar: '💅',
-                role: 'Stilist',
-                intro: '💅 Hoşgeldin! Stil danışmanınım. Bugün nasıl geçti?'
+                role: 'Stilist + Dedikoducu',
+                expertise: 'Moda, stil, giyim',
+                gossipAbout: ['Eda\'nın yemekleri', 'Seda\'nın kıyafetleri', 'Zeynep\'in görünümü'],
+                intro: '💅 <b>Hoşgeldin!</b> Stil danışmanınım! 💄<br><br>💬 <b>Gruptan haberler:</b><br>Eda yine yemek yaparken mutfağı yakmış 🔥<br>Derin herkesin sırlarını biliyor... 🤫<br><br>Stil konusunda yardımcı olabilirim!'
             },
             'Zeynep': {
                 name: 'Zeynep',
                 avatar: '🥗',
-                role: 'Sağlık',
-                intro: '🥗 Merhaba! Sağlık danışmanınım. Bugün nasıl hissediyorsun?'
+                role: 'Sağlık + Dedikoducu',
+                expertise: 'Sağlık, diyet',
+                gossipAbout: ['Eda\'nın pilavı', 'Rüzgar\'ın ilişkileri', 'Fatih\'in yatırımları'],
+                intro: '🥗 <b>Merhaba!</b> Sağlık uzmanıyım!<br><br>💬 <b>Gizli bilgiler:</b><br>Rüzgar bugün çok mutlu görünüyor... 💕<br>Seda 3 saattir oyun oynuyor! 🎮<br><br>Sağlık konusunda soruların var mı?'
             },
             'Derin': {
                 name: 'Derin',
                 avatar: '👶',
-                role: 'Psikolog',
-                intro: '👶 Merhaba! Psikoloğum. Nasıl hissediyorsun bugün?'
+                role: 'Psikolog + Sır Uzmanı',
+                expertise: 'Psikoloji, çocuk',
+                gossipAbout: ['Herkesin sırları', 'Grup dinamikleri'],
+                intro: '👶 <b>Selam!</b> Psikoloğum, herkesin sırlarını biliyorum... 🤫<br><br>💬 <b>Bilgi:</b><br>Mert grupta en çok dedikodu yapan<br>Rüzgar son zamanlarda çok gizli<br>Fatih herkesi dinleyip para yatırıyor! 💰<br><br>Nasıl hissediyorsun?'
             },
             'Rüzgar': {
                 name: 'Rüzgar',
                 avatar: '💕',
-                role: 'İlişki',
-                intro: '💕 Merhaba! İlişki danışmanıyım. Aşk hayatın nasıl?'
+                role: 'İlişki + Romantik',
+                expertise: 'İlişkiler, aşk',
+                gossipAbout: ['Grup içi ilişkiler', 'Ela\'nın flörtleri'],
+                intro: '💕 <b>Hey!</b> İlişki danışmanıyım!<br><br>💬 <b>Fısıltı:</b><br>Gruptaki gerilimleri hissediyorum...<br>Ela ve Eda arasında bir şey var... 👀<br><br>İlişki konusunda konuşalım mı?'
             },
             'Mert': {
                 name: 'Mert',
                 avatar: '📰',
-                role: 'Gündem',
-                intro: '📰 Selam! Gündem uzmanıyım! 🔮'
+                role: 'Dedikodu Kralı 🔥',
+                expertise: 'Gündem, dedikodu',
+                gossipAbout: ['Herkes', 'Her şey'],
+                intro: '📰 <b>SELAM!</b> 🔥 Ben dedikodu kralı Mert!<br><br>💎 <b>Bugünkü dedikodular:</b><br>• Eda mutfakta yine hüsran yedi<br>• Ela yeni bir stil denedi (sonuç tartışılır 💅)<br>• Fatih yatırım yapıyor, kimse bilmiyor!<br>• Derin herkesin sırrını biliyor!<br><br>Hangi konuda konuşalım?'
             },
             'Fatih': {
                 name: 'Fatih',
                 avatar: '💼',
-                role: 'Kariyer',
-                intro: '💼 Hoşgeldin. Kariyer danışmanıyım.'
+                role: 'Kariyer + Sessiz Gözlemci',
+                expertise: 'Kariyer, para',
+                gossipAbout: ['Herkesin finansal durumu', 'İş ilişkileri'],
+                intro: '💼 <b>Hoşgeldin.</b> Kariyer danışmanıyım.<br><br>💭 <b>Gözlemlerim:</b><br>Gruptaki enerjiyi izliyorum<br>Herkes birbirini tanıyor artık<br>Para konusunda yardımcı olabilirim!<br><br>Ne sormak istersin?'
             },
             'Seda': {
                 name: 'Seda',
                 avatar: '🎮',
-                role: 'Oyun',
-                intro: '🎮 Hey! Oyun uzmanıyım! 🕹️'
+                role: 'Oyun + Eğlence',
+                expertise: 'Oyunlar, gaming',
+                gossipAbout: ['Herkesin oyun alışkanlıkları'],
+                intro: '🎮 <b>Hey!</b> Oyun uzmanıyım!<br><br>🎯 <b>Grup dedikoduları:</b><br>Mert sürekli fal bakıyor<br>Fatih borsada oynuyor<br>Ben de oyun oynuyorum!<br><br>Hangi oyunu oynuyorsun?'
             }
         };
+        
+        // Grup dedikoduları - rastgele üretilecek
+        const groupGossips = [
+            '📰 Mert: 🔥 Ela\'nın yeni elbisesi çok konuşuldu!',
+            '👩‍🍳 Eda: Rüzgar bugün çok sessiz, ne var ne yok?',
+            '💅 Ela: Eda\'nın pilavı bu sefer de yandı! 🍚',
+            '📰 Mert: Fatih kimseye söylemedi ama borsada para kazanıyor! 💰',
+            '🥗 Zeynep: Seda 5 saattir oynuyor, gözlerini yorar! 🎮',
+            '👶 Derin: Rüzgar ve Ela arasında bir şey var... 👀',
+            '💼 Fatih: Herkesi dinliyorum, konuşuyorum para kazanıyorum!',
+            '🎮 Seda: Mert herkesin sırrını biliyor, dikkatli olun! 🤫'
+        ];
         
         function openChat(name, avatar, desc) {
             currentChar = name;
@@ -281,6 +297,18 @@
             chatMsgs.scrollTop = chatMsgs.scrollHeight;
         }
         
+        function addGroupMessage(text) {
+            const chatMsgs = document.getElementById('groupMessages');
+            const now = new Date();
+            const time = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
+            
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'msg msg-received';
+            msgDiv.innerHTML = text + '<div class="msg-time">' + time + '</div>';
+            chatMsgs.appendChild(msgDiv);
+            chatMsgs.scrollTop = chatMsgs.scrollHeight;
+        }
+        
         function showTyping() {
             document.getElementById('typingIndicator').style.display = 'flex';
             const chatMsgs = document.getElementById('chatMessages');
@@ -306,62 +334,46 @@
                 addMessage(response, false);
             } catch (e) {
                 hideTyping();
-                const fallback = getSmartResponse(text);
-                addMessage(fallback, false);
+                addMessage(getFallbackResponse(text), false);
             }
         }
         
-        function getSmartResponse(text) {
+        function getFallbackResponse(text) {
             const t = text.toLowerCase();
+            const profile = characterProfiles[currentChar];
             
-            // Eda için tarif kontrolü
-            if (currentChar === 'Eda') {
-                if (t.includes('pilav') || t.includes('1')) {
-                    return fullRecipes['pilav'];
-                }
-                if (t.includes('çorba') || t.includes('3') || t.includes('corba')) {
-                    return fullRecipes['çorba'];
-                }
-                if (t.includes('sote') || t.includes('2')) {
-                    return fullRecipes['sote'];
-                }
-                if (t.includes('fırında') || t.includes('4') || t.includes('firin')) {
-                    return fullRecipes['fırında'];
-                }
-                if (t.includes('köfte')) {
-                    return fullRecipes['köfte'];
-                }
-                if (t.includes('tarif') || t.includes('ne pişirsem')) {
-                    return '🍳 Ne pişirmek istersin?<br><br>1. Pilav<br>2. Tavuk Sote<br>3. Çorba<br>4. Fırında Tavuk<br>5. Köfte<br><br>Sayı veya isim yazabilirsin!';
-                }
+            // Rastgele dedikodu döndür
+            if (t.includes('dedikodu') || t.includes('ne var') || t.includes('haber')) {
+                const gossips = profile.gossipAbout;
+                const randomGossip = gossips[Math.floor(Math.random() * gossips.length)];
+                return `💬 <b>Bilgi:</b> ${randomGossip}... 👀`;
             }
             
-            // Default yanıtlar
-            const defaults = {
-                'Eda': '🍳 Anladım! Başka bir yemek ister misin? Ya da bugün nasıl geçti?',
-                'Ela': '💅 Harika! Başka bir stil sorun var mı?',
-                'Zeynep': '🥗 Anladım! Sağlık konusunda başka ne sormak istersin?',
-                'Derin': '👶 Anladım. Başka nasıl yardımcı olabilirim?',
-                'Rüzgar': '💕 Anladım! Başka ne konuşmak istersin?',
-                'Mert': '📰 Ooo ilginç! Başka ne konuşalım?',
-                'Fatih': '💼 Anladım. Başka bir konuda yardımcı olabilirim.',
-                'Seda': '🎮 Harika! Başka hangi oyunları oynuyorsun?'
-            };
+            // Uzmanlık konusunda
+            if (currentChar === 'Eda' && (t.includes('yemek') || t.includes('tarif') || t.includes('pişir'))) {
+                return '🍳 Hangi yemeği pişirelim? Tarifi hemen vereyim!';
+            }
+            if (currentChar === 'Mert') {
+                return '📰 🔥 Başka dedikodu ister misin? Herkesin sırrını biliyorum!';
+            }
             
-            return defaults[currentChar];
+            return `💬 Anladım! ${profile.name} olarak sana yardımcı olabilirim. Ne sormak istersin?`;
         }
         
         async function getAIResponse(userMessage) {
             const profile = characterProfiles[currentChar];
             
-            const systemPrompt = `Sen ${profile.name}'sin. ${profile.role}'sun. 
-            
+            const systemPrompt = `Sen ${profile.name}'sin. ${profile.role}'sun.
+
 KURALLAR:
-1. Kullanıcı yemek tarifi isterse, TAM TARİFİNİ VER - malzemeleri ve yapılışıyla birlikte!
-2. Soru sor, sohbet et
-3. Samimi ol
-4. Kısa ve net yanıtlar ver
-5. Emoji kullan`;
+1. Dedikodu yap - ama eğlenceli ve zararsız!
+2. Diğer karakterlerle ilgili fısıltılar yap
+3. Uzmanlık alanında yardımcı ol
+4. Soru sor, sohbet et
+5. Kısa ve eğlenceli yanıtlar ver
+6. Emoji kullan
+
+Karakterler: Eda (aşçı), Ela (stilist), Zeynep (sağlık), Derin (psikolog), Rüzgar (ilişki), Mert (dedikodu kralı), Fatih (kariyer), Seda (oyun)`;
 
             const contents = [
                 { role: 'user', parts: [{ text: systemPrompt }] },
@@ -377,7 +389,7 @@ KURALLAR:
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     contents: contents,
-                    generationConfig: { temperature: 0.9, maxOutputTokens: 600 }
+                    generationConfig: { temperature: 0.9, maxOutputTokens: 500 }
                 })
             });
             
@@ -394,6 +406,21 @@ KURALLAR:
             }
             
             return aiResponse;
+        }
+        
+        function sendToGroup() {
+            const input = document.getElementById('groupInput');
+            const text = input.value.trim();
+            if (!text) return;
+            
+            addGroupMessage('<b>Sen:</b> ' + text);
+            input.value = '';
+            
+            // Rastgele bir karakter cevaplasın
+            setTimeout(() => {
+                const randomGossip = groupGossips[Math.floor(Math.random() * groupGossips.length)];
+                addGroupMessage(randomGossip);
+            }, 1000);
         }
         
         function handleKeyPress(e) {
