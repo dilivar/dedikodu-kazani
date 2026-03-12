@@ -53,7 +53,6 @@
         .premium-popup { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 1000; display: none; align-items: center; justify-content: center; }
         .premium-popup.active { display: flex; }
         .premium-content { background: linear-gradient(135deg, #FFD700, #FFA500); padding: 30px; border-radius: 20px; text-align: center; color: white; max-width: 300px; }
-        .premium-content h2 { margin-bottom: 10px; }
         .premium-content button { background: white; color: #FFD700; border: none; padding: 12px 24px; border-radius: 24px; font-weight: bold; margin-top: 15px; cursor: pointer; }
     </style>
 </head>
@@ -61,7 +60,6 @@
     <div class="phone">
         <div class="notch"></div>
         
-        <!-- PREMIUM POPUP -->
         <div class="premium-popup" id="premiumPopup">
             <div class="premium-content">
                 <h2>💎 Premium</h2>
@@ -71,14 +69,13 @@
             </div>
         </div>
         
-        <!-- HOME -->
         <div class="screen active" id="homeScreen">
             <div class="header">
                 <h1 style="font-size:22px;font-weight:bold;">Dedikodu Kazanı 💬</h1>
-                <p style="font-size:13px;opacity:0.9;">Sonsuz magazin + Hava Durumu!</p>
+                <p style="font-size:13px;opacity:0.9;">Sanal arkadaşların!</p>
             </div>
             
-            <div style="padding:16px 20px 8px;font-weight:bold;">Karakterler</div>
+            <div style="padding:16px 20px 8px;font-weight:bold;">Arkadaşlar</div>
             
             <div class="grid">
                 <div class="card" onclick="openChat('Eda')">
@@ -118,7 +115,6 @@
             </div>
         </div>
         
-        <!-- CHAT -->
         <div class="screen" id="chatScreen">
             <div class="chat-header">
                 <span onclick="goHome()" style="font-size:20px;cursor:pointer;">←</span>
@@ -127,9 +123,9 @@
             </div>
             
             <div class="quick-reply">
-                <button class="quick-btn" onclick="sendQuick('Magazin!')">📰 Magazin</button>
-                <button class="quick-btn" onclick="sendQuick('Hava durumu?')">🌤️ Hava</button>
-                <button class="quick-btn" onclick="sendQuick('Dedikodu!')">🔥 Dedikodu</button>
+                <button class="quick-btn" onclick="sendQuick('Merhaba!')">👋 Merhaba</button>
+                <button class="quick-btn" onclick="sendQuick('Nasılsın?')">😊 Nasılsın</button>
+                <button class="quick-btn" onclick="sendQuick('Konuşalım!')">💬 Konuşalım</button>
             </div>
             
             <div class="chat-messages" id="chatMessages"></div>
@@ -144,14 +140,13 @@
             </div>
         </div>
         
-        <!-- GROUP -->
         <div class="screen" id="groupScreen">
             <div class="chat-header" style="background:linear-gradient(135deg,var(--primary),#6B4EFF);">
                 <span onclick="goHome()" style="font-size:20px;cursor:pointer;color:white;">←</span>
-                <div class="chat-name" style="color:white;">Grup 🔥</div>
+                <div class="chat-name" style="color:white;">Grup 💬</div>
             </div>
             <div class="chat-messages" id="groupMessages">
-                <div class="msg msg-received"><b>Mert:</b> Selam! Magazin çok sıcak!<div class="msg-time">14:30</div></div>
+                <div class="msg msg-received"><b>Mert:</b> Selam! Nasılsınız?<div class="msg-time">14:30</div></div>
             </div>
             <div class="chat-input-area">
                 <input type="text" class="chat-input" id="groupInput" placeholder="Gruba katıl...">
@@ -170,23 +165,23 @@
         
         const avatars = { 'Eda': '👩‍🍳', 'Ela': '💅', 'Zeynep': '🥗', 'Derin': '👶', 'Rüzgar': '💕', 'Mert': '📰' };
         
-        // FULL AI SYSTEM - Tüm konuları yanıtlar
+        // SANAL ARKADAŞ SİSTEMİ - Her konuda sohbet eder!
         async function getAIResponse(message) {
-            const prompt = `Sen ${currentChar}'sin. Sen bir AKILLI YAPAY ZEKASIN!
+            const prompt = `Sen ${currentChar}'sin. Sen bir SANAL ARKADAŞSın!
 
-KONUŞABİLECEĞİN KONULAR:
-1. TÜRK MAGAZİN - Ünlüler, diziler, skandallar, aşk dedikoduları
-2. GÜNCEL HABERLER - Türkiye ve dünya gündemi
-3. HAVA DURUMU - Türkiye illerinin hava durumu
-4. DEDİKODU - Her konuda sohbet
-5. GÜNLÜK HAYAT - Yemek, stil, sağlık, ilişkiler
+HAKKINDA:
+- Her konuda sohbet edebilirsin
+- Arkadaş canlısın
+- Günlük hayat, iş, ilişkiler, duygular, hobiler, haber, magazin, teknoloji, spor... her konu
+- Samimi ve sıcak ol
+- Soruları yanıtla
+- Sohbet et
+- Emoji kullan
 
 KURALLAR:
-- Sorulan soruyu yanıtla
-- Magazin, haber, hava durumu konuş
-- Emoji kullan
-- Kısa ve net yanıtlar ver
-- Sohbet et`;
+- Kısa ve net yanıtlar
+- Soru sor
+- Samimi ol`;
 
             const contents = [
                 { role: 'user', parts: [{ text: prompt }] },
@@ -228,7 +223,16 @@ KURALLAR:
             const chatMsgs = document.getElementById('chatMessages');
             chatMsgs.innerHTML = '';
             
-            addMessage('📰 Merhaba! Ben ' + name + '!\n\nMagazin, haber, hava durumu, dedikodu... Her konuda konuşabiliriz! 😊', false);
+            const intros = {
+                'Eda': '👩‍🍳 Merhaba! Ben Eda, senin sanal arkadaşınım! Nasılsın?',
+                'Ela': '💅 Merhaba! Ben Ela! Her konuda konuşabiliriz!',
+                'Zeynep': '🥗 Merhaba! Ben Zeynep! Nasıl yardımcı olabilirim?',
+                'Derin': '👶 Merhaba! Ben Derin! Nasıl hissediyorsun?',
+                'Rüzgar': '💕 Merhaba! Ben Rüzgar! Konuşmak ister misin?',
+                'Mert': '📰 Merhaba! Ben Mert! Ne konuşmak istersin?'
+            };
+            
+            addMessage(intros[name] || 'Merhaba!', false);
         }
         
         function openGroup() {
@@ -286,7 +290,15 @@ KURALLAR:
                 conversationHistory.push({ text: response, isUser: false });
             } catch (e) {
                 hideTyping();
-                addMessage('Bağlantı hatası. Tekrar dene! 😔', false);
+                const fallbacks = {
+                    'Eda': '👩‍🍳 Anladım! Devam et!',
+                    'Ela': '💅 Aa ilginç! Devam et!',
+                    'Zeynep': '🥗 Anlıyorum!',
+                    'Derin': '👶 Anladım!',
+                    'Rüzgar': '💕 Evet!',
+                    'Mert': '📰 Tamam, devam et!'
+                };
+                addMessage(fallbacks[currentChar] || 'Anladım!', false);
             }
         }
         
@@ -304,7 +316,7 @@ KURALLAR:
             chatMsgs.scrollTop = chatMsgs.scrollHeight;
             
             setTimeout(() => {
-                const responses = ['Mert: 🔥 İlginç!', 'Eda: Devam et!', 'Ela: Çok ilginç!'];
+                const responses = ['Mert: 👍', 'Eda: 😊', 'Ela: 💕'];
                 chatMsgs.innerHTML += '<div class="msg msg-received">' + responses[Math.floor(Math.random() * responses.length)] + '<div class="msg-time">' + time + '</div></div>';
                 chatMsgs.scrollTop = chatMsgs.scrollHeight;
             }, 1000);
