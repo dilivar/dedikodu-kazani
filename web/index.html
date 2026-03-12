@@ -13,7 +13,9 @@
         
         .header { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); padding: 50px 20px 20px; color: white; border-radius: 0 0 30px 30px; text-align: center; }
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 16px; }
-        .card { background: white; border-radius: 16px; padding: 14px; text-align: center; cursor: pointer; }
+        .card { background: white; border-radius: 16px; padding: 14px; text-align: center; cursor: pointer; position: relative; }
+        .card.blur { opacity: 0.5; }
+        .card.blur .avatar { filter: blur(3px); }
         
         .avatar { width: 44px; height: 44px; border-radius: 12px; margin: 0 auto 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; color: white; }
         .avatar-e { background: linear-gradient(135deg, #FF6B6B, #EE5A24); }
@@ -24,6 +26,8 @@
         .avatar-m { background: linear-gradient(135deg, #74B9FF, #0984E3); }
         
         .card-name { font-weight: bold; font-size: 13px; color: #2D3436; }
+        
+        .premium-badge { position: absolute; top: 8px; right: 8px; font-size: 14px; }
         
         .premium-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
         .premium-modal.active { display: flex; }
@@ -47,7 +51,7 @@
         .msg-time { font-size: 10px; opacity: 0.7; margin-top: 4px; }
         
         .quick-reply { display: flex; gap: 8px; overflow-x: auto; padding: 8px 16px; background: #f5f0ff; }
-        .quick-btn { background: white; border: 1px solid #8B5CF6; color: #8B5CF6; padding: 8px 16px; border-radius: 20px; font-size: 12px; white-space: nowrap; }
+        .quick-btn { background: white; border: 1px solid #8B5CF6; color: #8B5CF6; padding: 8px 14px; border-radius: 20px; font-size: 11px; white-space: nowrap; }
         
         .chat-input-area { background: white; padding: 12px 16px; display: flex; gap: 12px; border-top: 1px solid #eee; position: sticky; bottom: 0; }
         .chat-input { flex: 1; background: #F5F0FF; border: none; border-radius: 24px; padding: 12px 16px; font-size: 14px; outline: none; }
@@ -61,7 +65,7 @@
                 <h2>💎 Premium</h2>
                 <p id="premiumCharName">Karakter</p>
                 <div class="price">9.99€/ay</div>
-                <p>Ücretsiz denemek için Eda veya Ela'yı seçin!</p>
+                <p>Ücretsiz denemek için Eda'yı seçin!</p>
                 <button onclick="closePremium()">Kapat</button>
             </div>
         </div>
@@ -75,32 +79,33 @@
             <div style="padding:16px 20px 8px;font-weight:bold;">Arkadaşlar</div>
             
             <div class="grid">
-                <div class="card" id="card-Eda" onclick="openChat('Eda')">
+                <div class="card" onclick="openChat('Eda')">
                     <div class="avatar avatar-e">E</div>
                     <div class="card-name">Eda</div>
                 </div>
-                <div class="card" id="card-Ela" onclick="openChat('Ela')">
+                <div class="card blur" onclick="showPremium('Ela')">
+                    <div class="premium-badge">💎</div>
                     <div class="avatar avatar-el">El</div>
                     <div class="card-name">Ela</div>
                 </div>
-                <div class="card" id="card-Mila" onclick="showPremium('Mila')">
-                    <div style="position:absolute;top:8px;right:8px;font-size:14px;">💎</div>
-                    <div class="avatar avatar-z" style="opacity:0.5;">Mi</div>
-                    <div class="card-name">Mila</div>
-                </div>
-                <div class="card" id="card-Teo" onclick="showPremium('Teo')">
-                    <div style="position:absolute;top:8px;right:8px;font-size:14px;">💎</div>
-                    <div class="avatar avatar-d" style="opacity:0.5;">T</div>
+                <div class="card blur" onclick="showPremium('Teo')">
+                    <div class="premium-badge">💎</div>
+                    <div class="avatar avatar-d">T</div>
                     <div class="card-name">Teo</div>
                 </div>
-                <div class="card" id="card-Batu" onclick="showPremium('Batu')">
-                    <div style="position:absolute;top:8px;right:8px;font-size:14px;">💎</div>
-                    <div class="avatar avatar-r" style="opacity:0.5;">B</div>
+                <div class="card blur" onclick="showPremium('Mila')">
+                    <div class="premium-badge">💎</div>
+                    <div class="avatar avatar-z">Mi</div>
+                    <div class="card-name">Mila</div>
+                </div>
+                <div class="card blur" onclick="showPremium('Batu')">
+                    <div class="premium-badge">💎</div>
+                    <div class="avatar avatar-r">B</div>
                     <div class="card-name">Batu</div>
                 </div>
-                <div class="card" id="card-Mete" onclick="showPremium('Mete')">
-                    <div style="position:absolute;top:8px;right:8px;font-size:14px;">💎</div>
-                    <div class="avatar avatar-m" style="opacity:0.5;">M</div>
+                <div class="card blur" onclick="showPremium('Mete')">
+                    <div class="premium-badge">💎</div>
+                    <div class="avatar avatar-m">M</div>
                     <div class="card-name">Mete</div>
                 </div>
             </div>
@@ -114,9 +119,11 @@
             </div>
             
             <div class="quick-reply">
-                <button class="quick-btn" onclick="sendQuick('Merhaba!')">👋</button>
-                <button class="quick-btn" onclick="sendQuick('Nasılsın?')">😊</button>
-                <button class="quick-btn" onclick="sendQuick('Neler yapıyorsun?')">💬</button>
+                <button class="quick-btn" onclick="sendQuick('Merhaba!')">👋 Merhaba</button>
+                <button class="quick-btn" onclick="sendQuick('Nasılsın?')">😊 Nasıl</button>
+                <button class="quick-btn" onclick="sendQuick('Neler yapıyorsun?')">💬 Ne yapıyorsun</button>
+                <button class="quick-btn" onclick="sendQuick('Bana bir şey anlat!')">📖 Anlat</button>
+                <button class="quick-btn" onclick="sendQuick('Ne düşünüyorsun?')">🤔 Düşünce</button>
             </div>
             
             <div class="chat-messages" id="chatMessages"></div>
@@ -145,11 +152,13 @@
             'Eda': {
                 greetings: ['Selam! Nasılsın?', 'Merhaba! Bugün neler yapıyorsun?', 'Hey! Uzun zaman oldu!'],
                 howareyou: ['İyiyim, sen nasılsın? 😊', 'Harika!', 'Meşgulüm, sen?'],
+                tell: ['Bir olay anlatayım mı?', 'Cidden mi?', 'Vay be! 👀'],
                 default: ['Aa ilginç! 😄', 'Vay be! 👀', 'Devam et!', 'Helal olsun! 😎', 'Ciddi misin? 😱']
             },
             'Ela': {
                 greetings: ['Merhaba! Nasılsın?', 'Selam!', 'Hey!'],
                 howareyou: ['Harika görünüyorsun!', 'İyiyim! 😊', 'Güzel geçiyor! ✨'],
+                tell: ['Harika bir şey var!', 'Dinle!', 'Cidden mi? 😍'],
                 default: ['Aww ne tatlı! 💕', 'Çok ilginç! 😍', 'Harika! 😊', 'Vay!']
             }
         };
@@ -163,6 +172,9 @@
             }
             if (msg.includes('nasılsın') || msg.includes('naber')) {
                 return responses.howareyou[Math.floor(Math.random() * responses.howareyou.length)];
+            }
+            if (msg.includes('anlat') || msg.includes('tell')) {
+                return responses.tell[Math.floor(Math.random() * responses.tell.length)];
             }
             return responses.default[Math.floor(Math.random() * responses.default.length)];
         }
@@ -178,9 +190,7 @@
         }
         
         function openChat(name) {
-            console.log('Opening chat for:', name);
             currentChar = name;
-            
             document.getElementById('homeScreen').style.display = 'none';
             document.getElementById('chatScreen').classList.add('active');
             document.getElementById('chatName').textContent = name;
@@ -194,11 +204,7 @@
             
             const hellos = {
                 'Eda': 'Merhaba! Ben Eda! Nasılsın?',
-                'Ela': 'Merhaba! Hoşgeldin!',
-                'Mila': 'Merhaba! Ben Mila!',
-                'Teo': 'Merhaba! Ben Teo!',
-                'Batu': 'Merhaba! Ben Batu!',
-                'Mete': 'Merhaba! Ben Mete!'
+                'Ela': 'Merhaba! Ben Ela!'
             };
             addMessage(hellos[name] || 'Merhaba!', false);
         }
