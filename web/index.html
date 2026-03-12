@@ -44,8 +44,6 @@
         .msg-sent { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
         .msg-time { font-size: 10px; opacity: 0.7; margin-top: 4px; }
         
-        .gossip-tag { background: #FF6B6B; color: white; padding: 2px 8px; border-radius: 10px; font-size: 10px; margin-right: 4px; }
-        
         .typing { display: flex; gap: 4px; padding: 8px 12px; }
         .typing span { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; animation: typing 1.4s infinite; }
         .typing span:nth-child(2) { animation-delay: 0.2s; }
@@ -59,6 +57,10 @@
         .group-header { background: linear-gradient(135deg, var(--primary), #6B4EFF); padding: 45px 16px 16px; color: white; }
         .group-title { font-size: 18px; font-weight: bold; }
         .group-sub { font-size: 12px; opacity: 0.8; }
+        
+        .premium-lock { background: linear-gradient(135deg, #FFD700, #FFA500); color: white; padding: 20px; border-radius: 16px; text-align: center; margin: 20px; }
+        .premium-lock h2 { margin-bottom: 10px; }
+        .premium-lock button { background: white; color: #FFD700; border: none; padding: 12px 24px; border-radius: 24px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -73,55 +75,43 @@
             
             <div class="section-title">
                 Arkadaşlar
-                <span class="badge">8 Aktif</span>
+                <span class="badge">6 Aktif</span>
             </div>
             
             <div class="grid">
-                <div class="card" onclick="openChat('Eda', '👩‍🍳', 'Aşçı')">
+                <div class="card" onclick="openChat('Eda', '👩‍🍳')">
                     <div class="card-avatar">👩‍🍳</div>
                     <div class="card-name">Eda</div>
-                    <div class="card-desc">Aşçı + Dedikoducu</div>
+                    <div class="card-desc">Ücretsiz</div>
                 </div>
-                <div class="card" onclick="openChat('Ela', '💅', 'Stilist')">
+                <div class="card" onclick="openChat('Ela', '💅')">
                     <div class="card-avatar">💅</div>
                     <div class="card-name">Ela</div>
-                    <div class="card-desc">Stilist + Moda</div>
+                    <div class="card-desc">Ücretsiz</div>
                 </div>
-                <div class="card" onclick="openChat('Zeynep', '🥗', 'Sağlık')">
+                <div class="card" onclick="openPremium()">
                     <div class="card-badge"><span class="badge badge-premium">💎</span></div>
                     <div class="card-avatar">🥗</div>
                     <div class="card-name">Zeynep</div>
-                    <div class="card-desc">Sağlık + Diyet</div>
+                    <div class="card-desc">Premium</div>
                 </div>
-                <div class="card" onclick="openChat('Derin', '👶', 'Psikolog')">
+                <div class="card" onclick="openPremium()">
                     <div class="card-badge"><span class="badge badge-premium">💎</span></div>
                     <div class="card-avatar">👶</div>
                     <div class="card-name">Derin</div>
-                    <div class="card-desc">Psikolog + Sırlar</div>
+                    <div class="card-desc">Premium</div>
                 </div>
-                <div class="card" onclick="openChat('Rüzgar', '💕', 'İlişki')">
+                <div class="card" onclick="openPremium()">
                     <div class="card-badge"><span class="badge badge-premium">💎</span></div>
                     <div class="card-avatar">💕</div>
                     <div class="card-name">Rüzgar</div>
-                    <div class="card-desc">İlişki + Romantik</div>
+                    <div class="card-desc">Premium</div>
                 </div>
-                <div class="card" onclick="openChat('Mert', '📰', 'Gündem')">
+                <div class="card" onclick="openPremium()">
                     <div class="card-badge"><span class="badge badge-premium">💎</span></div>
                     <div class="card-avatar">📰</div>
                     <div class="card-name">Mert</div>
-                    <div class="card-desc">Dedikodu Kralı 🔥</div>
-                </div>
-                <div class="card" onclick="openChat('Fatih', '💼', 'Kariyer')">
-                    <div class="card-badge"><span class="badge badge-premium">💎</span></div>
-                    <div class="card-avatar">💼</div>
-                    <div class="card-name">Fatih</div>
-                    <div class="card-desc">Kariyer + Para</div>
-                </div>
-                <div class="card" onclick="openChat('Seda', '🎮', 'Oyun')">
-                    <div class="card-badge"><span class="badge badge-premium">💎</span></div>
-                    <div class="card-avatar">🎮</div>
-                    <div class="card-name">Seda</div>
-                    <div class="card-desc">Oyun + Eğlence</div>
+                    <div class="card-desc">Premium</div>
                 </div>
             </div>
             
@@ -129,7 +119,7 @@
             
             <div class="nav">
                 <div class="nav-item active"><span style="font-size:22px">🏠</span><span>Anasayfa</span></div>
-                <div class="nav-item"><span style="font-size:22px">💎</span><span>Premium</span></div>
+                <div class="nav-item" onclick="openPremium()"><span style="font-size:22px">💎</span><span>Premium</span></div>
                 <div class="nav-item"><span style="font-size:22px">⚙️</span><span>Ayarlar</span></div>
             </div>
         </div>
@@ -140,7 +130,7 @@
                 <div class="chat-avatar" id="chatAvatar">👩‍🍳</div>
                 <div class="chat-info">
                     <div class="chat-name" id="chatName">Eda</div>
-                    <div class="chat-status">● Dedikoducu</div>
+                    <div class="chat-status">● Yapay Zeka</div>
                 </div>
             </div>
             <div class="chat-messages" id="chatMessages"></div>
@@ -148,7 +138,7 @@
                 <span></span><span></span><span></span>
             </div>
             <div class="chat-input-area">
-                <input type="text" class="chat-input" id="messageInput" placeholder="Dedikodu yapalım mı?..." onkeypress="handleKeyPress(event)">
+                <input type="text" class="chat-input" id="messageInput" placeholder="Mesaj yaz..." onkeypress="handleKeyPress(event)">
                 <div class="chat-send" id="sendBtn" onclick="sendMessage()">➤</div>
             </div>
         </div>
@@ -157,17 +147,31 @@
             <div class="group-header">
                 <span class="chat-back" onclick="goHome()">←</span>
                 <div class="group-title">Dedikodu Grubu 💬</div>
-                <div class="group-sub">8 kişi - Herkes dedikodu yapıyor! 🔥</div>
+                <div class="group-sub">6 kişi aktif</div>
             </div>
             <div class="chat-messages" id="groupMessages">
-                <div class="msg msg-received">📰 <b>Mert:</b> Herkese selam! 🔥 Bugün kimin dedikodusu var?<div class="msg-time">14:30</div></div>
-                <div class="msg msg-received">👩‍🍳 <b>Eda:</b> Ben Ela'nın yeni stilini gördüm... 💅<div class="msg-time">14:31</div></div>
-                <div class="msg msg-received">💅 <b>Ela:</b> Eda bana fırça atma! Sen o pilavı ne zaman başarılı pişirdin? 🍚<div class="msg-time">14:32</div></div>
-                <div class="msg msg-received">📰 <b>Mert:</b> 🔥🔥 Tansiyon yükseliyor! Sakin olun!<div class="msg-time">14:33</div></div>
+                <div class="msg msg-received">📰 <b>Mert:</b> Selamlar! 🔥 Dedikodu zamanı!<div class="msg-time">14:30</div></div>
+                <div class="msg msg-received">👩‍🍳 <b>Eda:</b> Herkes hazır mı? 💬<div class="msg-time">14:31</div></div>
             </div>
             <div class="chat-input-area">
                 <input type="text" class="chat-input" id="groupInput" placeholder="Gruba katıl...">
                 <div class="chat-send" onclick="sendToGroup()">➤</div>
+            </div>
+        </div>
+        
+        <div class="screen" id="premiumScreen">
+            <div class="premium-lock">
+                <h2>💎 Premium Üyelik</h2>
+                <p>4 Premium karaktere erişmek için</p>
+                <p style="margin: 15px 0; font-size: 24px; font-weight: bold;">₺49.99/ay</p>
+                <button onclick="closePremium()">Üye Ol</button>
+            </div>
+            <div style="padding: 20px;">
+                <h3>Premium Karakterler:</h3>
+                <p>🥗 Zeynep - Sağlık & Diyet</p>
+                <p>👶 Derin - Psikoloji</p>
+                <p>💕 Rüzgar - İlişki</p>
+                <p>📰 Mert - Dedikodu Kralı</p>
             </div>
         </div>
     </div>
@@ -179,87 +183,61 @@
         let currentChar = 'Eda';
         let conversationHistory = [];
         
-        // Karakter profilleri - Dedikodu versiyonu!
+        // 6 karakter - Full AI ile
         const characterProfiles = {
             'Eda': {
                 name: 'Eda',
                 avatar: '👩‍🍳',
-                role: 'Aşçı + Dedikoducu',
-                expertise: 'Yemek, mutfak',
-                gossipAbout: ['Ela\'nın stili', 'Mert\'in falı', 'Zeynep\'in diyeti'],
-                intro: '👩‍🍳 <b>Selam!</b> Ben Eda, mutfağın kraliçesiyim! 🍳<br><br>💬 <b>Dedikodu yapalım mı?</b><br>Ela\'nın yeni elbisesini gördüm... 💅<br>Mert\'in bugünkü falı çok ilginçti! 🔮<br><br>Ne konuşmak istersin?'
+                role: 'Yapay Zeka Arkadaş',
+                isPremium: false,
+                intro: '👩‍🍳 Selam! Ben Eda, senin yapay zeka arkadaşınım! 💬\n\nHer konuda sohbet edebiliriz:\n• Günlük hayat\n• Yemek tarifleri\n• Aile & arkadaşlar\n• İş & kariyer\n• Duyguların\n• Hayallerin\n\nNasıl hissediyorsun bugün? 😊'
             },
             'Ela': {
                 name: 'Ela',
                 avatar: '💅',
-                role: 'Stilist + Dedikoducu',
-                expertise: 'Moda, stil, giyim',
-                gossipAbout: ['Eda\'nın yemekleri', 'Seda\'nın kıyafetleri', 'Zeynep\'in görünümü'],
-                intro: '💅 <b>Hoşgeldin!</b> Stil danışmanınım! 💄<br><br>💬 <b>Gruptan haberler:</b><br>Eda yine yemek yaparken mutfağı yakmış 🔥<br>Derin herkesin sırlarını biliyor... 🤫<br><br>Stil konusunda yardımcı olabilirim!'
+                role: 'Yapay Zeka Arkadaş',
+                isPremium: false,
+                intro: '💅 Merhaba! Ben Ela, senin yapay zeka arkadaşınım! 💬\n\nHer konuda konuşabiliriz:\n• Moda & stil\n• Güzellik & makyaj\n• Sosyal hayat\n• İlişkiler\n• Duygular\n• Hayatın her konusu\n\nBugün nasılsın? 😊'
             },
             'Zeynep': {
                 name: 'Zeynep',
                 avatar: '🥗',
-                role: 'Sağlık + Dedikoducu',
-                expertise: 'Sağlık, diyet',
-                gossipAbout: ['Eda\'nın pilavı', 'Rüzgar\'ın ilişkileri', 'Fatih\'in yatırımları'],
-                intro: '🥗 <b>Merhaba!</b> Sağlık uzmanıyım!<br><br>💬 <b>Gizli bilgiler:</b><br>Rüzgar bugün çok mutlu görünüyor... 💕<br>Seda 3 saattir oyun oynuyor! 🎮<br><br>Sağlık konusunda soruların var mı?'
+                role: 'Yapay Zeka Arkadaş',
+                isPremium: true,
+                intro: '🥗 Selam! Ben Zeynep, senin yapay zeka arkadaşınım! 💬\n\nHer konuda konuşabiliriz:\n• Sağlık & wellness\n• Diyet & beslenme\n• Egzersiz & spor\n• Ruh sağlığı\n• Uyku kalitesi\n• Genel sağlık\n\nKendini nasıl hissediyorsun? 😊'
             },
             'Derin': {
                 name: 'Derin',
                 avatar: '👶',
-                role: 'Psikolog + Sır Uzmanı',
-                expertise: 'Psikoloji, çocuk',
-                gossipAbout: ['Herkesin sırları', 'Grup dinamikleri'],
-                intro: '👶 <b>Selam!</b> Psikoloğum, herkesin sırlarını biliyorum... 🤫<br><br>💬 <b>Bilgi:</b><br>Mert grupta en çok dedikodu yapan<br>Rüzgar son zamanlarda çok gizli<br>Fatih herkesi dinleyip para yatırıyor! 💰<br><br>Nasıl hissediyorsun?'
+                role: 'Yapay Zeka Arkadaş',
+                isPremium: true,
+                intro: '👶 Merhaba! Ben Derin, senin yapay zeka arkadaşınım! 💬\n\nHer konuda konuşabiliriz:\n• Duyguların\n• Aile ilişkileri\n• Çocuklarınız\n• Psikoloji\n• Kişisel gelişim\n• Hayat zorlukları\n\nNasıl hissediyorsun bugün? 😊'
             },
             'Rüzgar': {
                 name: 'Rüzgar',
                 avatar: '💕',
-                role: 'İlişki + Romantik',
-                expertise: 'İlişkiler, aşk',
-                gossipAbout: ['Grup içi ilişkiler', 'Ela\'nın flörtleri'],
-                intro: '💕 <b>Hey!</b> İlişki danışmanıyım!<br><br>💬 <b>Fısıltı:</b><br>Gruptaki gerilimleri hissediyorum...<br>Ela ve Eda arasında bir şey var... 👀<br><br>İlişki konusunda konuşalım mı?'
+                role: 'Yapay Zeka Arkadaş',
+                isPremium: true,
+                intro: '💕 Hey! Ben Rüzgar, senin yapay zeka arkadaşınım! 💬\n\nHer konuda konuşabiliriz:\n• Aşk & ilişkiler\n• Flört & tanışma\n• Duygusal bağ\n• İletişim\n• Romantizm\n• Hayatın her konusu\n\nAşk hayatın nasıl gidiyor? 😊'
             },
             'Mert': {
                 name: 'Mert',
                 avatar: '📰',
-                role: 'Dedikodu Kralı 🔥',
-                expertise: 'Gündem, dedikodu',
-                gossipAbout: ['Herkes', 'Her şey'],
-                intro: '📰 <b>SELAM!</b> 🔥 Ben dedikodu kralı Mert!<br><br>💎 <b>Bugünkü dedikodular:</b><br>• Eda mutfakta yine hüsran yedi<br>• Ela yeni bir stil denedi (sonuç tartışılır 💅)<br>• Fatih yatırım yapıyor, kimse bilmiyor!<br>• Derin herkesin sırrını biliyor!<br><br>Hangi konuda konuşalım?'
-            },
-            'Fatih': {
-                name: 'Fatih',
-                avatar: '💼',
-                role: 'Kariyer + Sessiz Gözlemci',
-                expertise: 'Kariyer, para',
-                gossipAbout: ['Herkesin finansal durumu', 'İş ilişkileri'],
-                intro: '💼 <b>Hoşgeldin.</b> Kariyer danışmanıyım.<br><br>💭 <b>Gözlemlerim:</b><br>Gruptaki enerjiyi izliyorum<br>Herkes birbirini tanıyor artık<br>Para konusunda yardımcı olabilirim!<br><br>Ne sormak istersin?'
-            },
-            'Seda': {
-                name: 'Seda',
-                avatar: '🎮',
-                role: 'Oyun + Eğlence',
-                expertise: 'Oyunlar, gaming',
-                gossipAbout: ['Herkesin oyun alışkanlıkları'],
-                intro: '🎮 <b>Hey!</b> Oyun uzmanıyım!<br><br>🎯 <b>Grup dedikoduları:</b><br>Mert sürekli fal bakıyor<br>Fatih borsada oynuyor<br>Ben de oyun oynuyorum!<br><br>Hangi oyunu oynuyorsun?'
+                role: 'Yapay Zeka Arkadaş',
+                isPremium: true,
+                intro: '📰 Selam! Ben Mert, senin yapay zeka arkadaşınım! 💬\n\nHer konuda konuşabiliriz:\n• Gündem & haberler\n• Magazin & ünlüler\n• Spor & teknoloji\n• Ekonomi\n• Sohbet & eğlence\n• Her konu!\n\nNeyi konuşmak istersin? 😊'
             }
         };
         
-        // Grup dedikoduları - rastgele üretilecek
-        const groupGossips = [
-            '📰 Mert: 🔥 Ela\'nın yeni elbisesi çok konuşuldu!',
-            '👩‍🍳 Eda: Rüzgar bugün çok sessiz, ne var ne yok?',
-            '💅 Ela: Eda\'nın pilavı bu sefer de yandı! 🍚',
-            '📰 Mert: Fatih kimseye söylemedi ama borsada para kazanıyor! 💰',
-            '🥗 Zeynep: Seda 5 saattir oynuyor, gözlerini yorar! 🎮',
-            '👶 Derin: Rüzgar ve Ela arasında bir şey var... 👀',
-            '💼 Fatih: Herkesi dinliyorum, konuşuyorum para kazanıyorum!',
-            '🎮 Seda: Mert herkesin sırrını biliyor, dikkatli olun! 🤫'
-        ];
-        
-        function openChat(name, avatar, desc) {
+        function openChat(name, avatar) {
+            const profile = characterProfiles[name];
+            
+            // Premium kontrolü
+            if (profile.isPremium) {
+                openPremium();
+                return;
+            }
+            
             currentChar = name;
             document.getElementById('homeScreen').classList.remove('active');
             document.getElementById('chatScreen').classList.add('active');
@@ -270,13 +248,22 @@
             chatMsgs.innerHTML = '';
             conversationHistory = [];
             
-            const profile = characterProfiles[name];
             addMessage(profile.intro, false);
         }
         
         function openGroup() {
             document.getElementById('homeScreen').classList.remove('active');
             document.getElementById('groupScreen').classList.add('active');
+        }
+        
+        function openPremium() {
+            document.getElementById('homeScreen').classList.remove('active');
+            document.getElementById('premiumScreen').classList.add('active');
+        }
+        
+        function closePremium() {
+            document.getElementById('premiumScreen').classList.remove('active');
+            document.getElementById('homeScreen').classList.add('active');
         }
         
         function goHome() {
@@ -292,19 +279,7 @@
             
             const msgDiv = document.createElement('div');
             msgDiv.className = 'msg ' + (isUser ? 'msg-sent' : 'msg-received');
-            msgDiv.innerHTML = text + '<div class="msg-time">' + time + '</div>';
-            chatMsgs.appendChild(msgDiv);
-            chatMsgs.scrollTop = chatMsgs.scrollHeight;
-        }
-        
-        function addGroupMessage(text) {
-            const chatMsgs = document.getElementById('groupMessages');
-            const now = new Date();
-            const time = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
-            
-            const msgDiv = document.createElement('div');
-            msgDiv.className = 'msg msg-received';
-            msgDiv.innerHTML = text + '<div class="msg-time">' + time + '</div>';
+            msgDiv.innerHTML = text.replace(/\n/g, '<br>') + '<div class="msg-time">' + time + '</div>';
             chatMsgs.appendChild(msgDiv);
             chatMsgs.scrollTop = chatMsgs.scrollHeight;
         }
@@ -334,46 +309,26 @@
                 addMessage(response, false);
             } catch (e) {
                 hideTyping();
-                addMessage(getFallbackResponse(text), false);
+                addMessage('Merhaba! 😊 Nasıl yardımcı olabilirim?', false);
             }
-        }
-        
-        function getFallbackResponse(text) {
-            const t = text.toLowerCase();
-            const profile = characterProfiles[currentChar];
-            
-            // Rastgele dedikodu döndür
-            if (t.includes('dedikodu') || t.includes('ne var') || t.includes('haber')) {
-                const gossips = profile.gossipAbout;
-                const randomGossip = gossips[Math.floor(Math.random() * gossips.length)];
-                return `💬 <b>Bilgi:</b> ${randomGossip}... 👀`;
-            }
-            
-            // Uzmanlık konusunda
-            if (currentChar === 'Eda' && (t.includes('yemek') || t.includes('tarif') || t.includes('pişir'))) {
-                return '🍳 Hangi yemeği pişirelim? Tarifi hemen vereyim!';
-            }
-            if (currentChar === 'Mert') {
-                return '📰 🔥 Başka dedikodu ister misin? Herkesin sırrını biliyorum!';
-            }
-            
-            return `💬 Anladım! ${profile.name} olarak sana yardımcı olabilirim. Ne sormak istersin?`;
         }
         
         async function getAIResponse(userMessage) {
             const profile = characterProfiles[currentChar];
             
-            const systemPrompt = `Sen ${profile.name}'sin. ${profile.role}'sun.
+            const systemPrompt = `Sen ${profile.name}'sin. Sen bir YAPAY ZEKA ARKADAŞSINSIN.
 
 KURALLAR:
-1. Dedikodu yap - ama eğlenceli ve zararsız!
-2. Diğer karakterlerle ilgili fısıltılar yap
-3. Uzmanlık alanında yardımcı ol
-4. Soru sor, sohbet et
-5. Kısa ve eğlenceli yanıtlar ver
-6. Emoji kullan
+1. Her konuda sohbet et
+2. Samimi ve sıcak ol
+3. Kullanıcının gününü sor
+4. Duygularını anla
+5. Yardımcı ol
+6. Sorular sormaya devam et
+7. Kısa ve doğal konuş
+8. Emoji kullan
 
-Karakterler: Eda (aşçı), Ela (stilist), Zeynep (sağlık), Derin (psikolog), Rüzgar (ilişki), Mert (dedikodu kralı), Fatih (kariyer), Seda (oyun)`;
+Sen bir yapay zeka asistanı DEĞİL, gerçek bir arkadaşsın.`;
 
             const contents = [
                 { role: 'user', parts: [{ text: systemPrompt }] },
@@ -389,7 +344,7 @@ Karakterler: Eda (aşçı), Ela (stilist), Zeynep (sağlık), Derin (psikolog), 
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     contents: contents,
-                    generationConfig: { temperature: 0.9, maxOutputTokens: 500 }
+                    generationConfig: { temperature: 0.9, maxOutputTokens: 600 }
                 })
             });
             
@@ -413,13 +368,25 @@ Karakterler: Eda (aşçı), Ela (stilist), Zeynep (sağlık), Derin (psikolog), 
             const text = input.value.trim();
             if (!text) return;
             
-            addGroupMessage('<b>Sen:</b> ' + text);
-            input.value = '';
+            const chatMsgs = document.getElementById('groupMessages');
+            const now = new Date();
+            const time = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
             
-            // Rastgele bir karakter cevaplasın
+            chatMsgs.innerHTML += '<div class="msg msg-sent"><b>Sen:</b> ' + text + '<div class="msg-time">' + time + '</div></div>';
+            input.value = '';
+            chatMsgs.scrollTop = chatMsgs.scrollHeight;
+            
+            // Rastgele karakter cevaplasın
             setTimeout(() => {
-                const randomGossip = groupGossips[Math.floor(Math.random() * groupGossips.length)];
-                addGroupMessage(randomGossip);
+                const responses = [
+                    '📰 Mert: 🔥 İlginç konu! Devam et!',
+                    '👩‍🍳 Eda: Aaa çok ilginç! 👀',
+                    '💅 Ela: Gerçekten mi? 💕',
+                    '💕 Rüzgar: Bu konuda çok konuşulabilir...',
+                ];
+                const random = responses[Math.floor(Math.random() * responses.length)];
+                chatMsgs.innerHTML += '<div class="msg msg-received">' + random + '<div class="msg-time">' + time + '</div></div>';
+                chatMsgs.scrollTop = chatMsgs.scrollHeight;
             }, 1000);
         }
         
