@@ -1,11 +1,10 @@
 import 'package:flutter_tts/flutter_tts.dart';
-import 'package:dedikodu_kazani/models/character.dart';
 
 class TTSService {
   static final FlutterTts _tts = FlutterTts();
   static bool _isInitialized = false;
 
-  static Future<void> initialize() async {
+  static Future<void> init() async {
     if (_isInitialized) return;
     
     await _tts.setLanguage('tr-TR');
@@ -16,28 +15,8 @@ class TTSService {
     _isInitialized = true;
   }
 
-  static Future<void> speak(String text, Character character) async {
-    await initialize();
-    
-    // Karaktere göre ses ayarı
-    switch (character.personality) {
-      case CharacterPersonality.funny:
-        await _tts.setSpeechRate(0.6);
-        await _tts.setPitch(1.1);
-        break;
-      case CharacterPersonality.warm:
-        await _tts.setSpeechRate(0.45);
-        await _tts.setPitch(0.95);
-        break;
-      case CharacterPersonality.optimistic:
-        await _tts.setSpeechRate(0.55);
-        await _tts.setPitch(1.05);
-        break;
-      default:
-        await _tts.setSpeechRate(0.5);
-        await _tts.setPitch(1.0);
-    }
-    
+  static Future<void> speak(String text) async {
+    await init();
     await _tts.speak(text);
   }
 
@@ -45,11 +24,28 @@ class TTSService {
     await _tts.stop();
   }
 
-  static Future<void> setVoice(bool isMale) async {
-    if (isMale) {
-      await _tts.setVoice({'name': 'tr-TR', 'locale': 'tr-TR'});
-    } else {
-      await _tts.setVoice({'name': 'tr-TR', 'locale': 'tr-TR'});
+  // Karaktere göre ses ayarı
+  static Future<void> speakWithCharacter(String text, String personality) async {
+    await init();
+    
+    switch (personality) {
+      case 'funny': // Eda
+        await _tts.setSpeechRate(0.6);
+        await _tts.setPitch(1.1);
+        break;
+      case 'warm': // Ela
+        await _tts.setSpeechRate(0.45);
+        await _tts.setPitch(0.95);
+        break;
+      case 'romantic': // Rüzgar
+        await _tts.setSpeechRate(0.4);
+        await _tts.setPitch(0.9);
+        break;
+      default:
+        await _tts.setSpeechRate(0.5);
+        await _tts.setPitch(1.0);
     }
+    
+    await _tts.speak(text);
   }
 }
