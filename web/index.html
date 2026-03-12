@@ -63,7 +63,7 @@
         <div class="screen active" id="homeScreen">
             <div class="header">
                 <h1 class="header-title">Dedikodu Kazanı 💬</h1>
-                <p style="opacity: 0.9; font-size: 13px;">Günlük magazin dedikoduları! 📰</p>
+                <p style="opacity: 0.9; font-size: 13px;">Türk magazini burada! 📺</p>
             </div>
             
             <div class="section-title">
@@ -108,14 +108,14 @@
                 <div class="chat-avatar" id="chatAvatar">👩‍🍳</div>
                 <div class="chat-info">
                     <div class="chat-name" id="chatName">Eda</div>
-                    <div class="chat-status">📰 Günlük gündem</div>
+                    <div class="chat-status">📰 Türk magazini</div>
                 </div>
             </div>
             
             <div class="quick-reply">
-                <button class="quick-btn" onclick="sendQuick('Magazin dedikodusu!')">📰 Magazin</button>
-                <button class="quick-btn" onclick="sendQuick('Ünlü dedikodusu!')">⭐ Ünlüler</button>
-                <button class="quick-btn" onclick="sendQuick('Güncel haber!')">🔥 Haber</button>
+                <button class="quick-btn" onclick="sendQuick('Dizi dedikodusu!')">📺 Dizi</button>
+                <button class="quick-btn" onclick="sendQuick('Ünlü dedikodusu!')">⭐ Ünlü</button>
+                <button class="quick-btn" onclick="sendQuick('Magazin haber!')">📰 Magazin</button>
             </div>
             
             <div class="chat-messages" id="chatMessages"></div>
@@ -135,7 +135,7 @@
                 </div>
             </div>
             <div class="chat-messages" id="groupMessages">
-                <div class="msg msg-received"><b>📰 Mert:</b> Selam! Bugün çok sıcak magazen var!<div class="msg-time">14:30</div></div>
+                <div class="msg msg-received"><b>📰 Mert:</b> Selam! Türk magazini çok sıcak!<div class="msg-time">14:30</div></div>
             </div>
             <div class="chat-input-area">
                 <input type="text" class="chat-input" id="groupInput" placeholder="Gruba katıl...">
@@ -147,87 +147,64 @@
     <script>
         let currentChar = 'Eda';
         
-        // GÜNLÜK MAGAZİN DEDİKODULARI - Her gün değişir!
-        const dailyGossip = {
-            // Pazartesi
-            1: [
-                '📰 ÜNLÜ ÇİFT AYRILDI! Ünlü oyuncu ve eşi 5 yıl sonra ayrıldı. Sebep: "Farklı hayatlar". Dünya magazini sarsıldı! 💔',
-                '⭐ YENİ İLİŞKİ! Ünlü şarkıcı, ünlü oyuncuyla görüntülendi. İkili sessizliğini koruyor... 👀',
-                '🔥 SKANDAL! Ünlü influencerın eski mesajları sızdı. Takipçileri sosyal medyadan çekildi! 📱',
-                '💰 MİLYONER OLDU! Ünlü oyuncu, yeni startup yatırımıyla servetini ikiye katladı! 💵'
-            ],
-            // Salı
-            2: [
-                '📺 DİZİ ŞOKU! Reytingleri dibe vurdu, yapım şirketi kararını açıklayacak! 📉',
-                '🎤 KONSER İPTAL! Ünlü şarkıcı hastalandı, 3 konser ertelendi! 😷',
-                '👗 ÖDÜL TÖRENİ! En iyi elbise seçimi belli oldu. Kazanan kim? 👠',
-                '📸 FOTOĞRAF KAOSU! Ünlülerin düğün fotoğrafları sızdı! 🤫'
-            ],
-            // Çarşamba
-            3: [
-                '💕 AŞK ÜÇGENİ! Ünlü oyuncu, ünlü sunucu ve model arasında gizemli ilişki! 👀',
-                '🏆 ÖDÜL GECESİ! Ünlüler kırmızı halıda parladı. En şık kim? 💃',
-                '📱 SOSYAL MEDYA KRİZİ! Ünlü fenomen, takipçi sayısını kaybetti! 📉',
-                '🎬 SÜRPRİZ FİLM! Ünlü yönetmen yeni projesini açıkladı. Vizyon tarihi belli oldu! 🎬'
-            ],
-            // Perşembe
-            4: [
-                '🔥 DEDİKODU! Ünlü çiftin bebek haberi iddiaları! 🤰',
-                '💰 PARA İDDİASI! Ünlü iş insanı kumar borcu iddiaları! 🃏',
-                '👰 GÜZELLİK SIRRI! Ünlü kadın yıllar sonra gençlik sırrını açıkladı! 💄',
-                '⚽ FUTBOL DEDİKODUSU! Ünlü futbolcu, ünlü sunucuyla flört mü? ⚽'
-            ],
-            // Cuma
-            5: [
-                '📺 YENİ DİZİ! Ünlü oyuncular kadroda. Çekimler başladı! 🎬',
-                '🎤 MÜZİK ŞOKU! İki ünlü şarkıcı arasında şarkı kavgası! 🎵',
-                '💍 NİŞAN HABERİ! Ünlü çift sürpriz nişan yaptı! 💍',
-                '🌟 SERBEST! Ünlü aktivist 5 yıl sonra serbest kaldı! � свобод'
-            ],
-            // Cumartesi
-            6: [
-                '🔥 PARTİ FOTOĞRAFLARI! Ünlülerin hafta sonu partisinden kareler! 🎉',
-                '👙 PLAJ DEDİKODUSU! Ünlü çift balayında görüntülendi! 🏖️',
-                '📱 İNSTAGRAM SIRLARI! Fenomenlerin beğeni satın aldığı ortaya çıktı! 📊',
-                '🎮 OYUN DEDİKODUSU! Ünlü oyuncu, ünlü şarkıcıyla oyun oynuyor! 🎮'
-            ],
-            // Pazar
-            0: [
-                '📺 PAZAR KEYFİ! Ünlülerin pazar programı gündemde. En çok izlenen kim? 📺',
-                '👨‍👩‍👧 AİLE DEDİKODUSU! Ünlü ailenin yeni üyesi yolda! 🤰',
-                '💤 DİNLENME! Ünlülerin hafta sonu aktiviteleri merak konusu! 🏠',
-                '🔥 HAFTA ÖNCESİ! Pazartesi ne olacak? İddialar başladı! 🔮'
-            ]
+        // TÜRK MAGAZİN DEDİKODULARI
+        const turkMagazine = [
+            // 📺 DİZİ DEDİKODULARI
+            '📺 ŞOK! Kızılık Serbeti\'nin yeni sezonunda büyük twist! İki oyuncu arasında aşk mı var? 👀',
+            '📺 Aşk-ı Memnu\'nun yeni versiyonu geliyor! Kadro belli oldu mu? 🤫',
+            '📺 Diriliş Ertuğrul\'dan sonra yeni dizi mi geliyor? Yapımcı açıkladı! 🎬',
+            '📺 Çukur\'un yeni sezonu çok konuşuluyor! Aşıklar ne olacak? 💔',
+            '📺 Yalancılar ve Mumları\'nda skandal sahne! İzleyiciler çok kızdı! 😱',
+            '📺 Masumiyet\'in finali herkesi ağlattı! Son bölümde ne oldu? 😭',
+            '📺 Ezel\'den sonra Beren Saat geri dönüyor mu? Hayranlar bekliyor! ⭐',
+            
+            // ⭐ ÜNLÜ DEDİKODULARI
+            '⭐ ŞOK! İrem Derici ve eşi arasında kriz mi var? Sosyal medya paylaşımı her şeyi açıklıyor! 💔',
+            '⭐ Nisanlısı kim? Ünlü şarkıcının nişanlısı ortaya çıktı! 💍',
+            '⭐ Kıvanç Tatlıtuğ ve Beren Saat birlikte mi? Magazinciler görüntüledi! 👀',
+            '⭐ Hadise ve广东省 yurt dışında görüntülendi! Aşk mı var? 💕',
+            '⭐ Tarkan\'ın yeni şarkısı büyük ilgi! Sözleri çok konuşuluyor! 🎤',
+            '⭐ Ajda Pekkan 76 yaşında! Gençliğini nasıl koruyor? 💃',
+            '⭐ Şahan Gökbakar yeni filmiyle geri dönüyor! Vizyon tarihi belli! 🎬',
+            
+            // 💕 AŞK DEDİKODULARI
+            '💕 Türk dizilerinin en çok konuşulan çifti kim? Anket sonuçları belli oldu! 🏆',
+            '💕 Oyuncu ve şarkıcı aşkı! İkili özel görüntülendi! 👀',
+            '💕 Eski sevgili yeniden mi? Ünlülerin barışma dedikoduları! 💔',
+            '💕 Ünlü çift boşanıyor mu? Mahkeme kararı bekleniyor! ⚖️',
+            
+            // 📰 MAGAZİN HABERLERİ
+            '📰 Magazin Gazetesi: Bu hafta magazin dünyasında neler oldu? 📰',
+            '📰 Ünlülerin yeni evleri! Kim nerenin VIP\'inde yaşıyor? 🏠',
+            '📰 Sağlık haberi: Ünlü oyuncu hastaneye kaldırıldı! 😟',
+            '📰 Doğum günü partisinde kimler vardı? Şov dünyası toplandı! 🎉',
+            '📰 Ödül töreninde büyük sürpriz! En iyi kim seçildi? 🏆',
+            
+            // 🔥 SKANDALLAR
+            '🔥 Skandal! Ünlü influencer\'ın eski videoları sızdı! 📱',
+            '🔥 Bomba! Ünlü yazarın kitap hırsızlığı iddiası! 📚',
+            '🔥 Şok! Ünlü sporcunun magazin ilişkisi! ⚽',
+            '🔥 Rezalet! Ünlü sunucu programa çıkamadı! 😱',
+            '🔥 İçlerinden biri yalan söylüyor! Magazin savaşı! ⚔️'
         ];
         
-        // Genel magazin dedikoduları
-        const generalGossip = [
-            '📰 Bugün çok konuşuluyor! Ünlü şarkıcının yeni videosu 1 milyon izlenme aldı! 🎬',
-            '⭐ İddia: Ünlü oyuncu, yeni dizi için antrenmanlara başladı! 💪',
-            '🔥 Magazinde bugün: Ünlü çiftin sürpriz kararı! 🤫',
-            '👀 Kulis dedikoduları: Bu aktör yapımcıyla tartıştı! 🎭',
-            '💄 Makyaj dünyası sallandı! Ünlü marka skandalı! 💋',
-            '📱 Sosyal medya fenomeni büyük karar verdi! Takipçileri şokta! 😱',
-            '🎤 müzik dünyasında deprem! İki ünlü arasında şarkı kavgası! 🎵',
-            '👗 Moda haftasında şok! Ünlü tasarımcı iflas etti! 💔',
-            '🏆 Ödül sezonu yaklaşıyor! Favoriler belli olmaya başladı! 🏆',
-            '💰 Servet haberleri! Ünlü iş insanı yatırım yaptı! 💵'
+        const elaMagazine = [
+            '💄 Diva\'nın makyajı sızdı! Gerçek yüzü ortaya çıktı! 😱',
+            '👗 Stil ikonları yarışıyor! En şık kim? 👠',
+            '💅 Tırnak trendi değişti! Artık bu renk modası! 💅',
+            '👠 Ünlülerin ayakkabı koleksiyonları! En pahalısı kimde? 👠',
+            '💋 Dudak renkleri trendi! Bu renk bu sezon çok konuşuluyor! 💄'
         ];
-        
-        function getTodayGossip() {
-            const today = new Date().getDay(); // 0-6
-            const dailyGossips = dailyGossip[today] || generalGossip;
-            return dailyGossips[Math.floor(Math.random() * dailyGossips.length)];
-        }
         
         function getRandomGossip() {
-            const today = new Date().getDay();
-            const dailyGossips = dailyGossip[today] || generalGossip;
-            const allGossips = [...dailyGossips, ...generalGossip];
-            return allGossips[Math.floor(Math.random() * allGossips.length)];
+            const list = currentChar === 'Ela' ? [...turkMagazine, ...elaMagazine] : turkMagazine;
+            return list[Math.floor(Math.random() * list.length)];
         }
         
-        // Sayfa yüklendiğinde günlük dedikoduyu göster
+        function getTodayGossip() {
+            return turkMagazine[Math.floor(Math.random() * turkMagazine.length)];
+        }
+        
         window.onload = function() {
             document.getElementById('todayGossip').textContent = getTodayGossip();
         };
@@ -242,8 +219,7 @@
             const chatMsgs = document.getElementById('chatMessages');
             chatMsgs.innerHTML = '';
             
-            // Günlük dedikoduyu ekle
-            addMessage('📰 BUGÜNÜN GÜNDEMİ:\n\n' + getTodayGossip(), false);
+            addMessage('📺 TÜRK MAGAZİNİ BURADA! 🎬\n\n' + getTodayGossip(), false);
         }
         
         function openGroup() {
