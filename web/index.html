@@ -11,80 +11,68 @@
         body { background: linear-gradient(135deg, var(--primary), #6B4EFF); display: flex; justify-content: center; align-items: center; padding: 0; }
         .phone { width: 100%; height: 100%; max-width: 393px; max-height: 852px; background: var(--bg); border-radius: 0; overflow: hidden; box-shadow: 0 0 50px rgba(0,0,0,0.5); position: relative; }
         .notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 126px; height: 37px; background: #000; border-radius: 0 0 20px 20px; z-index: 100; }
+        
         .screen { width: 100%; height: 100%; overflow-y: auto; background: var(--bg); -webkit-overflow-scrolling: touch; display: none; }
         .screen.active { display: block; }
         
         .header { background: linear-gradient(135deg, var(--primary), #6B4EFF); padding: 50px 20px 20px; border-radius: 0 0 30px 30px; text-align: center; color: white; }
         .header-title { font-size: 22px; font-weight: bold; }
-        .header-sub { font-size: 13px; opacity: 0.9; margin-top: 4px; }
-        .section-title { display: flex; justify-content: space-between; align-items: center; padding: 16px 20px 8px; font-size: 18px; font-weight: bold; color: var(--text); }
-        .badge { background: rgba(139,92,246,0.1); color: var(--primary); padding: 4px 10px; border-radius: 10px; font-size: 11px; }
-        .badge-premium { background: linear-gradient(135deg, #FFD700, #FFA500); color: white; font-size: 10px; }
+        
+        .section-title { padding: 16px 20px 8px; font-size: 18px; font-weight: bold; color: var(--text); }
+        
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 16px; }
-        .card { background: white; border-radius: 16px; padding: 14px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.05); cursor: pointer; position: relative; }
-        .card:active { transform: scale(0.97); }
+        .card { background: white; border-radius: 16px; padding: 14px; text-align: center; cursor: position: relative; }
         .card-avatar { width: 44px; height: 44px; background: linear-gradient(135deg, var(--primary), #6B4EFF); border-radius: 12px; margin: 0 auto 6px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
         .card-name { font-weight: bold; font-size: 13px; color: var(--text); }
         .card-desc { font-size: 10px; color: #6B7280; margin-top: 2px; }
-        .card-badge { position: absolute; top: 8px; right: 8px; }
+        
         .fab { position: absolute; bottom: 90px; right: 20px; width: 56px; height: 56px; background: linear-gradient(135deg, var(--primary), #6B4EFF); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; box-shadow: 0 8px 25px rgba(139,92,246,0.5); cursor: pointer; z-index: 50; }
+        
         .nav { position: absolute; bottom: 0; left: 0; right: 0; height: 75px; background: white; display: flex; justify-content: space-around; align-items: center; border-radius: 20px 20px 0 0; box-shadow: 0 -5px 20px rgba(0,0,0,0.05); z-index: 50; }
-        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 2px; color: #6B7280; font-size: 10px; cursor: pointer; }
+        .nav-item { display: flex; flex-direction: column; align-items: center; gap: 2px; color: #6B7280; font-size: 10px; }
         .nav-item.active { color: var(--primary); }
         
         .chat-header { background: white; padding: 45px 16px 12px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #eee; position: sticky; top: 0; }
         .chat-back { font-size: 20px; cursor: pointer; }
         .chat-avatar { width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), #6B4EFF); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
         .chat-info { flex: 1; }
-        .chat-name { font-weight: bold; fontSize: 16px; }
+        .chat-name { font-weight: bold; font-size: 16px; }
         .chat-status { color: #22C55E; font-size: 12px; }
-        .chat-messages { padding: 16px; display: flex; flex-direction: column; gap: 12px; padding-bottom: 90px; }
+        
+        .chat-messages { padding: 16px; display: flex; flex-direction: column; gap: 12px; padding-bottom: 90px; min-height: 300px; }
         .msg { max-width: 85%; padding: 12px 16px; border-radius: 18px; font-size: 14px; line-height: 1.5; }
         .msg-received { background: white; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         .msg-sent { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
         .msg-time { font-size: 10px; opacity: 0.7; margin-top: 4px; }
         
-        .typing { display: flex; gap: 4px; padding: 8px 12px; }
-        .typing span { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; animation: typing 1.4s infinite; }
-        .typing span:nth-child(2) { animation-delay: 0.2s; }
-        .typing span:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes typing { 0%, 60%, 100% { opacity: 0.3; } 30% { opacity: 1; } }
+        .quick-reply { display: flex; gap: 8px; overflow-x: auto; padding: 8px 16px; background: #f5f0ff; }
+        .quick-btn { background: white; border: 1px solid var(--primary); color: var(--primary); padding: 8px 16px; border-radius: 20px; font-size: 12px; white-space: nowrap; }
         
         .chat-input-area { background: white; padding: 12px 16px; display: flex; align-items: center; gap: 12px; border-top: 1px solid #eee; position: sticky; bottom: 0; }
         .chat-input { flex: 1; background: var(--bg); border: none; border-radius: 24px; padding: 12px 16px; font-size: 14px; outline: none; }
         .chat-send { width: 44px; height: 44px; background: linear-gradient(135deg, var(--primary), #6B4EFF); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; }
-        
-        .group-header { background: linear-gradient(135deg, var(--primary), #6B4EFF); padding: 45px 16px 16px; color: white; }
-        
-        .quick-reply { display: flex; gap: 8px; overflow-x: auto; padding: 8px 16px; background: #f5f0ff; }
-        .quick-btn { background: white; border: 1px solid var(--primary); color: var(--primary); padding: 8px 16px; border-radius: 20px; font-size: 12px; white-space: nowrap; }
-        
-        .premium-lock { background: linear-gradient(135deg, #FFD700, #FFA500); color: white; padding: 30px; border-radius: 20px; text-align: center; margin: 20px; }
-        .premium-lock button { background: white; color: #FFD700; border: none; padding: 12px 24px; border-radius: 24px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
     <div class="phone">
         <div class="notch"></div>
         
+        <!-- HOME SCREEN -->
         <div class="screen active" id="homeScreen">
             <div class="header">
                 <h1 class="header-title">Dedikodu Kazanı 💬</h1>
-                <p class="header-sub">En eğlenceli dedikodu mekanı! 🔥</p>
+                <p style="opacity: 0.9; font-size: 13px;">En eğlenceli dedikodu mekanı!</p>
             </div>
             
-            <div class="section-title">
-                Dedikoducular
-                <span class="badge">2 Aktif</span>
-            </div>
+            <div class="section-title">Dedikoducular</div>
             
             <div class="grid">
-                <div class="card" onclick="openChat('Eda', '👩‍🍳')">
+                <div class="card" onclick="openChat('Eda')">
                     <div class="card-avatar">👩‍🍳</div>
                     <div class="card-name">Eda</div>
                     <div class="card-desc">Ücretsiz</div>
                 </div>
-                <div class="card" onclick="openChat('Ela', '💅')">
+                <div class="card" onclick="openChat('Ela')">
                     <div class="card-avatar">💅</div>
                     <div class="card-name">Ela</div>
                     <div class="card-desc">Ücretsiz</div>
@@ -99,6 +87,7 @@
             </div>
         </div>
         
+        <!-- CHAT SCREEN -->
         <div class="screen" id="chatScreen">
             <div class="chat-header">
                 <span class="chat-back" onclick="goHome()">←</span>
@@ -108,28 +97,33 @@
                     <div class="chat-status">● Çevrimiçi</div>
                 </div>
             </div>
-            <div class="quick-reply" id="quickReplies">
-                <button class="quick-btn" onclick="sendQuick('Dedikodu anlat!')">🔥 Dedikodu anlat!</button>
-                <button class="quick-btn" onclick="sendQuick('Magazin dedikodusu!')">📰 Magazin</button>
-                <button class="quick-btn" onclick="sendQuick('Komik olan!')">😂 Komik</button>
+            
+            <div class="quick-reply">
+                <button class="quick-btn" onclick="sendQuick('Dedikodu anlat!')">🔥 Dedikodu</button>
+                <button class="quick-btn" onclick="sendQuick('Magazen!')">📰 Magazen</button>
+                <button class="quick-btn" onclick="sendQuick('Komik!')">😂 Komik</button>
             </div>
-            <div class="chat-messages" id="chatMessages"></div>
-            <div class="typing" id="typingIndicator" style="display: none;">
-                <span></span><span></span><span></span>
+            
+            <div class="chat-messages" id="chatMessages">
+                <!-- Messages will appear here -->
             </div>
+            
             <div class="chat-input-area">
                 <input type="text" class="chat-input" id="messageInput" placeholder="Mesaj yaz..." onkeypress="handleKeyPress(event)">
-                <div class="chat-send" id="sendBtn" onclick="sendMessage()">➤</div>
+                <div class="chat-send" onclick="sendMessage()">➤</div>
             </div>
         </div>
         
+        <!-- GROUP SCREEN -->
         <div class="screen" id="groupScreen">
-            <div class="group-header">
+            <div class="chat-header" style="background: linear-gradient(135deg, #8B5CF6, #6B4EFF);">
                 <span class="chat-back" onclick="goHome()">←</span>
-                <div class="group-title">Dedikodu Grubu 🔥</div>
+                <div class="chat-info">
+                    <div class="chat-name" style="color: white;">Dedikodu Grubu 🔥</div>
+                </div>
             </div>
             <div class="chat-messages" id="groupMessages">
-                <div class="msg msg-received">📰 <b>Mert:</b> Selamlar! 🔥 Dedikodu zamanı!<div class="msg-time">14:30</div></div>
+                <div class="msg msg-received"><b>📰 Mert:</b> Selamlar! 🔥 Dedikodu zamanı!<div class="msg-time">14:30</div></div>
             </div>
             <div class="chat-input-area">
                 <input type="text" class="chat-input" id="groupInput" placeholder="Gruba katıl...">
@@ -140,27 +134,28 @@
 
     <script>
         let currentChar = 'Eda';
+        let chatMessages = []; // Mesajları sakla!
         
-        // DEDİKODU VERİTABANI - Direkt kullan!
+        // DEDİKODU VERİTABANI
         const allGossip = [
-            '🔥 ŞAŞIRTICI! Bu mahalledeki en güzel kadının aslında makyajsız hali tamamen farklı görünüyormuş! 🤡',
-            '👀 DUYDUM Kİ! Apartmandaki o çift, her gece farklı restoranda görünüyormuş - ya zengin ya da fakir! 💰',
-            '😱 SKANDAL! O meşhur influencer\'ın fotoğraflarının hepsi photoshop! Gerçek hali tamamen farklı! 📸',
-            '💔 KOMŞU İÇİN! Kadın 5 yıldır kocasına "saçlarımı kestirdim" diye yalan söylüyormuş - aslında peruk! 😂',
-            '🎭 AİLE SIRRI! Amcanın oğlu 3 yıldır "yurt dışında" diyor ama aslında İstanbul\'da bir apartmanda yaşıyormuş! 🏠',
-            '💕 AŞK DEDİKODUSU! Bu bloktaki en güzel çift ayrılmış! Nedeni? Biri diğerinin eski mesajlarını bulmuş! 📱',
-            '😂 GÜLMEK YASAK! Sınıfın en çalışkan öğrencisi sınavda kopya çekerken yakalanmış! 📝',
-            '👨‍💼 İŞ DEDİKODUSU! Şirketin yeni müdürü aslında önceden temizlik yapıyormuş! 😱',
-            '🎉 ŞOK! Düğünde gelin kaçmış! Neden? Damat\'ın eski fotoğraflarını görmüş! 💔',
-            '🍕 MUTFAK SIRRI! Şu meşhur şefin restorandaki yemeği aslında hazır paketten çıkıyormuş! 🤢'
+            '🔥 ŞAŞIRTICI! Bu mahalledeki en güzel kadının aslında makyajsız hali tamamen farklı görünüyormuş!',
+            '👀 DUYDUM Kİ! Apartmandaki o çift, her gece farklı restoranda görünüyormuş!',
+            '😱 SKANDAL! O meşhur influencer\'ın fotoğraflarının hepsi photoshop!',
+            '💔 KOMŞU İÇİN! Kadın 5 yıldır kocasına "saçlarımı kestirdim" diye yalan söylüyormuş!',
+            '🎭 AİLE SIRRI! Amcanın oğlu 3 yıldır "yurt dışında" diyor ama İstanbul\'da yaşıyormuş!',
+            '💕 AŞK DEDİKODUSU! En güzel çift ayrılmış! Nedeni? Eski mesajlar!',
+            '😂 GÜLMEK YASAK! Sınıfın çalışkan öğrencisi kopya çekerken yakalanmış!',
+            '👨‍💼 İŞ DEDİKODUSU! Şirketin yeni müdürü önceden temizlik yapıyormuş!',
+            '🎉 ŞOK! Düğünde gelin kaçmış! Damat\'ın eski fotoğraflarını görmüş!',
+            '🍕 MUTFAK SIRRI! Meşhur şefin yemeği hazır paketten çıkıyormuş!'
         ];
         
         const elaGossip = [
-            '💄 ŞAŞIRTICI! O ünlü makyaj vloggerı aslında makyajsız haliyle dışarı çıkamıyormuş! 😱',
-            '👗 MODA SKANDALI! Stil ikonunun elbisesi ikinci el dükkanından 50 liraymış! 💰',
-            '💅 FOTOĞRAF KANITI! Influencer\'ın yazlık fotoğrafları kışın çekilmiş - kar arkada tavana yapışık! ⛄',
-            '👠 AYAĞIN ACIMIŞ! Ünlü sunucu o yüksek topuklarla aslında ağrıdan ağlıyormuş! 😢',
-            '💋 DUDUK RUJ! O meşhur ruj aslında 3 yıldır aynı ruj - üzerine sadece yeni etiket yapıştırılmış! 💄'
+            '💄 ŞAŞIRTICI! Ünlü makyaj vloggerı makyajsız haliyle dışarı çıkamıyormuş!',
+            '👗 MODA SKANDALI! Stil ikonunun elbisesi ikinci elden 50 liraymış!',
+            '💅 FOTOĞRAF KANITI! Influencer\'ın yazlık fotoğrafları kışın çekilmiş!',
+            '👠 AYAĞIN ACIYOR! Ünlü sunucu yüksek topuklarla ağrıdan ağlıyormuş!',
+            '💋 DUDUK RUJ! Meşhur ruj aslında 3 yıldır aynı rujmuş!'
         ];
         
         function getRandomGossip() {
@@ -168,17 +163,19 @@
             return list[Math.floor(Math.random() * list.length)];
         }
         
-        function openChat(name, avatar) {
+        function openChat(name) {
             currentChar = name;
             document.getElementById('homeScreen').classList.remove('active');
             document.getElementById('chatScreen').classList.add('active');
             document.getElementById('chatName').textContent = name;
-            document.getElementById('chatAvatar').textContent = avatar;
+            document.getElementById('chatAvatar').textContent = name === 'Eda' ? '👩‍🍳' : '💅';
             
+            // Mesajları temizle
+            chatMessages = [];
             const chatMsgs = document.getElementById('chatMessages');
             chatMsgs.innerHTML = '';
             
-            // Direkt dedikodu ile başla!
+            // İlk dedikoduyu ekle
             addMessage(getRandomGossip(), false);
         }
         
@@ -200,9 +197,14 @@
             
             const msgDiv = document.createElement('div');
             msgDiv.className = 'msg ' + (isUser ? 'msg-sent' : 'msg-received');
-            msgDiv.innerHTML = text + '<div class="msg-time">' + time + '</div>';
+            msgDiv.innerHTML = (isUser ? '' : '<b>' + currentChar + ':</b> ') + text + '<div class="msg-time">' + time + '</div>';
             chatMsgs.appendChild(msgDiv);
+            
+            // Scroll to bottom
             chatMsgs.scrollTop = chatMsgs.scrollHeight;
+            
+            // Mesajı sakla
+            chatMessages.push({ text: text, isUser: isUser });
         }
         
         function sendQuick(text) {
@@ -215,13 +217,14 @@
             const text = input.value.trim();
             if (!text) return;
             
+            // Kullanıcı mesajını ekle
             addMessage(text, true);
             input.value = '';
             
-            // 1 saniye bekle, sonra yeni dedikodu ver
+            // Cevap ver (biraz bekle)
             setTimeout(() => {
                 addMessage(getRandomGossip(), false);
-            }, 800);
+            }, 1000);
         }
         
         function sendToGroup() {
