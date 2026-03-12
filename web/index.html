@@ -22,33 +22,12 @@
         .card-avatar { width: 44px; height: 44px; background: linear-gradient(135deg, #8B5CF6, #6B4EFF); border-radius: 12px; margin: 0 auto 6px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
         .card-name { font-weight: bold; font-size: 13px; }
         
-        .premium-modal { 
-            display: none; 
-            position: fixed; 
-            top: 0; left: 0; right: 0; bottom: 0; 
-            background: rgba(0,0,0,0.7); 
-            z-index: 1000; 
-            align-items: center; 
-            justify-content: center; 
-        }
+        .premium-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
         .premium-modal.active { display: flex; }
-        .premium-box { 
-            background: linear-gradient(135deg, #FFD700, #FFA500); 
-            padding: 30px; 
-            border-radius: 24px; 
-            text-align: center; 
-            color: white; 
-            max-width: 280px;
-            margin: 20px;
-        }
+        .premium-box { background: linear-gradient(135deg, #FFD700, #FFA500); padding: 30px; border-radius: 24px; text-align: center; color: white; max-width: 280px; margin: 20px; }
         .premium-box h2 { font-size: 28px; margin-bottom: 8px; }
         .premium-box .price { font-size: 36px; font-weight: bold; margin: 15px 0; }
-        .premium-box button { 
-            background: white; color: #FFA500; border: none; 
-            padding: 14px 32px; border-radius: 24px; 
-            font-weight: bold; font-size: 16px; cursor: pointer; 
-            margin-top: 10px;
-        }
+        .premium-box button { background: white; color: #FFA500; border: none; padding: 14px 32px; border-radius: 24px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
         
         .chat-header { background: white; padding: 45px 16px 12px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #eee; }
         .chat-avatar { width: 40px; height: 40px; background: linear-gradient(135deg, #8B5CF6, #6B4EFF); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
@@ -72,7 +51,6 @@
     <div class="phone">
         <div class="notch"></div>
         
-        <!-- PREMIUM MODAL -->
         <div class="premium-modal" id="premiumModal" onclick="closePremium(event)">
             <div class="premium-box" onclick="event.stopPropagation()">
                 <h2>💎 Premium</h2>
@@ -132,13 +110,14 @@
                 <div class="quick-reply">
                     <button class="quick-btn" onclick="sendQuick('Merhaba!')">👋</button>
                     <button class="quick-btn" onclick="sendQuick('Nasılsın?')">😊</button>
-                    <button class="quick-btn" onclick="sendQuick('Konuşalım!')">💬</button>
+                    <button class="quick-btn" onclick="sendQuick('Neler yapıyorsun?')">💬</button>
+                    <button class="quick-btn" onclick="sendQuick('Bana bir şey anlat!')">📖</button>
                 </div>
                 
                 <div class="chat-messages" id="chatMessages"></div>
                 
                 <div class="chat-input-area">
-                    <input type="text" class="chat-input" id="messageInput" placeholder="Mesaj yaz...">
+                    <input type="text" class="chat-input" id="messageInput" placeholder="Mesaj yaz..." onkeypress="if(event.key==='Enter')sendMessage()">
                     <div class="chat-send" onclick="sendMessage()">➤</div>
                 </div>
             </div>
@@ -149,6 +128,60 @@
         let currentChar = 'Eda';
         let conversationHistory = [];
         const avatars = { 'Eda': '👩‍🍳', 'Ela': '💅' };
+        
+        // Akıllı yanıt sistemi - API gerekmez!
+        const smartResponses = {
+            'Eda': {
+                greetings: ['👩‍🍳 Selam! Nasılsın?', '👩‍🍳 Merhaba! Bugün neler yapıyorsun?', '👩‍🍳 Hey! Uzun zaman oldu!'],
+                howareyou: ['İyiyim, sen nasılsın? 😊', 'Harika! Bir kahve içiyorum ☕', 'Biraz meşgulüm, sen ne yapıyorsun?'],
+                tellstory: ['Bir dedikodu duydun mu? 🎭', 'Bugün çok ilginç bir şey oldu!', 'Birisi hakkında soru sorabilirsin! 👀'],
+                default: [
+                    'Aa ilginç! 😄 Devam et!',
+                    'Vay be! 👀 Anlat bakalım!',
+                    'Yaa! Çok güzel! 😂',
+                    'Helal olsun! 😎',
+                    'Bu çok skandal! 🔥',
+                    'Ciddi misin? 😱',
+                    'Bilmiyordum! 💡'
+                ]
+            },
+            'Ela': {
+                greetings: ['💅 Merhaba! Nasılsın?', '💅 Selam! Stil yapıyor muydun?', '💅 Hey! Uzun zaman!'],
+                howareyou: ['Harika görünüyorsun! 💅', 'İyiyim, sen? 😊', 'Bugün çok güzel geçiyor! ✨'],
+                tellstory: ['Bir moda skandalı duydum! 👗', 'Birisi saç rengini değiştirmiş! 💇', 'İlginç bir şey var! 🎀'],
+                default: [
+                    'Aww ne tatlı! 💕',
+                    'Çok ilginç! 😍',
+                    'Harika! 😊',
+                    'Vay! 💅',
+                    'Bilmiyordum! 😱',
+                    'Çok şık! ✨'
+                ]
+            }
+        };
+        
+        function getResponse(message) {
+            const msg = message.toLowerCase();
+            let responses = smartResponses[currentChar] || smartResponses['Eda'];
+            
+            if (msg.includes('merhaba') || msg.includes('selam') || msg.includes('hey') || msg.includes('hi')) {
+                return responses.greetings[Math.floor(Math.random() * responses.greetings.length)];
+            }
+            if (msg.includes('nasılsın') || msg.includes('naber') || msg.includes('ne haber')) {
+                return responses.howareyou[Math.floor(Math.random() * responses.howareyou.length)];
+            }
+            if (msg.includes('anlat') || msg.includes('dedikodu') || msg.includes('hikaye') || msg.includes('story')) {
+                return responses.tellstory[Math.floor(Math.random() * responses.tellstory.length)];
+            }
+            if (msg.includes('yemek') || msg.includes('pişir') || msg.includes('tarif')) {
+                return currentChar === 'Eda' ? 'Bugün ne pişirelim? 👩‍🍳' : 'Bilmiyorum ama sağlıklı olsun! 🥗';
+            }
+            if (msg.includes('moda') || msg.includes('stil') || msg.includes('giy')) {
+                return currentChar === 'Ela' ? '💅 Hangi tarzı denemek istersin?' : 'Moda konusunda Ela daha iyi bilir! 💅';
+            }
+            
+            return responses.default[Math.floor(Math.random() * responses.default.length)];
+        }
         
         function showPremium(name) {
             document.getElementById('premiumCharName').textContent = name;
@@ -171,12 +204,17 @@
             const chatMsgs = document.getElementById('chatMessages');
             chatMsgs.innerHTML = '';
             
-            addMessage('👋 Merhaba! Ben ' + name + '! Nasılsın?', false);
+            const hellos = {
+                'Eda': '👩‍🍳 Merhaba! Ben Eda! Nasılsın?',
+                'Ela': '💅 Merhaba! Hoşgeldin!'
+            };
+            addMessage(hellos[name] || '👋 Merhaba!', false);
         }
         
         function goHome() {
             document.getElementById('chatScreen').classList.remove('active');
             document.getElementById('homeScreen').classList.add('active');
+            closePremium();
         }
         
         function addMessage(text, isUser) {
@@ -204,13 +242,10 @@
             addMessage(text, true);
             input.value = '';
             
-            // Fallback responses
-            const fallbacks = {
-                'Eda': ['👩‍🍳 Aa ilginç! 😄', '👩‍🍳 Vay be! 👀', '👩‍🍳 Devam et!'],
-                'Ela': ['💅 Aww tatlısın! 💕', '💅 Çok ilginç!', '💅 Harika! 😊']
-            };
-            const opts = fallbacks[currentChar] || ['😊 Anladım!', '👀 İlginç!'];
-            setTimeout(() => addMessage(opts[Math.floor(Math.random() * opts.length)], false), 500);
+            // Akıllı yanıt ver
+            setTimeout(() => {
+                addMessage(getResponse(text), false);
+            }, 300 + Math.random() * 500);
         }
     </script>
 </body>
