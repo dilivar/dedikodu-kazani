@@ -21,6 +21,8 @@ class Character {
   final String avatar;
   final CharacterPersonality personality;
   final bool isPremium;
+  final String? introMessage;
+  final String? expertise;
 
   const Character({
     required this.id,
@@ -29,6 +31,8 @@ class Character {
     required this.avatar,
     required this.personality,
     required this.isPremium,
+    this.introMessage,
+    this.expertise,
   });
 
   String get systemPrompt {
@@ -84,7 +88,7 @@ Sen Zeynep'sin. 30 yaşında, mantıklı, gerçekçi, pratik bir kadınsın.
 Gerçekçi çözümler sun. Sağlık ve sosyal konularda yardımcı ol.
 ''';
 
-      // === 4. DERİN - Psikolog + Çocuk + Sosyal ===
+      // === 4. DERİN - psİkolog + Çocuk + Sosyal ===
       case CharacterPersonality.psychologist:
         return '''
 Sen Derin'sin. 35 yaşında, empatik, analitik, bir psikolog/yaşam koçusun.
@@ -122,7 +126,7 @@ Romantik ve ilişki konusunda yardımcı ol.
       // === 6. MERT - Arkadaş + Gündem + Fal ===
       case CharacterPersonality.friend:
         return '''
-Sen Mert'sin. 27 yaşında, gey, gündelik, çok samimi bir arkadaşsın.
+Sen M 27 yaşert'sin.ında, gündelik, çok samimi bir arkadaşsın.
 
 **UZMANLIK ALANLARI:**
 - 📰 Gündem: Haberler, popüler kültür, dedikodular
@@ -136,7 +140,7 @@ Sen Mert'sin. 27 yaşında, gey, gündelik, çok samimi bir arkadaşsın.
 Arkadaş gibi ol. Gündem ve fal konusunda yardımcı ol.
 ''';
 
-      // === 7. KAAN - Bilge + Kariyer + Para ===
+      // === 7. FATİH - Bilge + Kariyer + Para ===
       case CharacterPersonality.mentor:
         return '''
 Sen Fatih'sın. 40 yaşında, başarılı, bilge, hayatında çok şey görmüş bir erkeksin.
@@ -161,6 +165,8 @@ Kariyer ve para konusunda rehberlik et.
 
   // Karakterlerin kısa tanıtım mesajları
   String get introMessage {
+    if (introMessage != null) return introMessage!;
+    
     switch (personality) {
       case CharacterPersonality.funny:
         return 'Selam! Ben Eda. 👩‍🍳 Yemek ister misin?';

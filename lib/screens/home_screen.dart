@@ -17,63 +17,87 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   String _userName = 'Arkadaş';
   
-  // 7 karakter listesi
+  // 8 karakter listesi
   final List<Character> _characters = [
     Character(
       id: '1',
-      name: 'Eda Mayan',
-      description: 'Direkt + Eleştirel 🎭',
-      avatar: '👩‍🎤',
+      name: 'Eda',
+      description: 'Aşçı + Sosyal 👩‍🍳',
+      avatar: '👩‍🍳',
       personality: CharacterPersonality.funny,
       isPremium: false,
+      introMessage: 'Selam! Ben Eda, mutfakta uzmanım. Bugün ne pişirelim? 🍳',
+      expertise: 'Yemek, tarifler, mutfak',
     ),
     Character(
       id: '2',
-      name: 'Ela Soyman',
-      description: 'İyimser + Kibar 💕',
-      avatar: '💕',
+      name: 'Ela',
+      description: 'Stilist + Moda 💅',
+      avatar: '💅',
       personality: CharacterPersonality.warm,
       isPremium: false,
+      introMessage: 'Hoşgeldin! Stil danışmanın burada 💅 Ne giyeceksin bugün?',
+      expertise: 'Moda, stil, giyim, makyaj',
     ),
     Character(
       id: '3',
-      name: 'Zeynep Solmas',
-      description: 'Gerçekçi + Mantıklı 📊',
-      avatar: '👩‍💼',
+      name: 'Zeynep',
+      description: 'Sağlık + Diyet 🥗',
+      avatar: '🥗',
       personality: CharacterPersonality.realistic,
       isPremium: true,
+      introMessage: 'Merhaba! Sağlık ve diyet konusunda yardımcı olacağım 🥗',
+      expertise: 'Sağlık, diyet, beslenme',
     ),
     Character(
       id: '4',
-      name: 'Derin Yılmaz',
-      description: 'Psikolog + Empatik 🌸',
-      avatar: '🧠',
+      name: 'Derin',
+      description: 'Çocuk Psikolojisi 👶',
+      avatar: '🧒',
       personality: CharacterPersonality.psychologist,
       isPremium: true,
+      introMessage: 'Selam! Çocuk psikolojisi uzmanıyım 👶 Nasıl yardımcı olabilirim?',
+      expertise: 'Çocuk psikolojisi, eğitim',
     ),
     Character(
       id: '5',
-      name: 'Rüzgar Petek',
-      description: 'Romantik + Flörtöz 💘',
-      avatar: '💨',
+      name: 'Rüzgar',
+      description: 'İlişki Danışmanı 💕',
+      avatar: '💕',
       personality: CharacterPersonality.romantic,
       isPremium: true,
+      introMessage: 'Hoşgeldin 💕 İlişkiler konusunda konuşalım mı?',
+      expertise: 'İlişkiler, aşk, iletişim',
     ),
     Character(
       id: '6',
-      name: 'Mert Arslan',
-      description: 'Arkadaş + Falcı 🔮',
-      avatar: '🏳️‍🌈',
+      name: 'Mert',
+      description: 'Gündem + Fal 📰',
+      avatar: '📰',
       personality: CharacterPersonality.friend,
       isPremium: true,
+      introMessage: 'Selam! Gündem çok sıcak 📰 Ne konuşmak istersin?',
+      expertise: 'Gündem, haberler, fal',
     ),
     Character(
       id: '7',
-      name: 'Fatih Bilge',
-      description: 'Mentor + Bilge 📚',
-      avatar: '👨‍💼',
+      name: 'Fatih',
+      description: 'Kariyer + Para 💰',
+      avatar: '💼',
       personality: CharacterPersonality.mentor,
       isPremium: true,
+      introMessage: 'Merhaba! Kariyer ve para konularında yardımcı olacağım 💰',
+      expertise: 'Kariyer, yatırım, para',
+    ),
+    Character(
+      id: '8',
+      name: 'Seda',
+      description: 'Oyun + Eğlence 🎮',
+      avatar: '🎮',
+      personality: CharacterPersonality.funny,
+      isPremium: true,
+      introMessage: 'Hey! Oyun ve eğlence uzmanıyım 🎮 Hangi oyunu oynuyoruz?',
+      expertise: 'Oyun, eğlence, gaming',
     ),
   ];
 
@@ -113,7 +137,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                       const Text(
-                        '7 AI Arkadaşın burada',
+                        '8 AI Arkadaşın burada',
                         style: TextStyle(color: Colors.white70, fontSize: 13),
                       ),
                     ],
@@ -156,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   final character = _characters[index];
                   return _CharacterGridCard(
                     character: character,
-                    onTap: () => _openChat(character),
+                    onTap: () => _openChat(context, character),
                   );
                 },
                 childCount: _characters.length,
@@ -186,7 +210,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('Grup Sohbeti', style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold)),
-                            Text('7 karakterle aynı anda!', style: TextStyle(color: Colors.white70, fontSize: 13)),
+                            Text('8 karakterle aynı anda!', style: TextStyle(color: Colors.white70, fontSize: 13)),
                           ],
                         ),
                       ),
@@ -204,8 +228,70 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _openChat(Character character) {
-    Navigator.push(context, MaterialPageRoute(builder: (_) => ChatScreen(character: character)));
+  void _openChat(BuildContext context, Character character) {
+    // Premium kontrolü
+    if (character.isPremium) {
+      // Premium ise ama kullanıcı premium değilse uyarı göster
+      _showPremiumDialog(context, character);
+    } else {
+      // Ücretsiz ise direkt sohbete git
+      Navigator.push(context, MaterialPageRoute(builder: (_) => ChatScreen(character: character)));
+    }
+  }
+
+  void _showPremiumDialog(BuildContext context, Character character) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Row(
+          children: [
+            Text(character.avatar!, style: const TextStyle(fontSize: 30)),
+            const SizedBox(width: 12),
+            Expanded(child: Text(character.name)),
+          ],
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(character.description),
+            const SizedBox(height: 16),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.amber.withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: const Row(
+                children: [
+                  Icon(Icons.lock, color: Colors.amber),
+                  SizedBox(width: 8),
+                  Expanded(
+                    child: Text('Bu karakter Premium. Sadece Eda ve Ela ücretsiz!'),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('İptal'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pop(context);
+              Navigator.push(context, MaterialPageRoute(builder: (_) => const PremiumScreen()));
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFF8B5CF6),
+            ),
+            child: const Text('Premium Al', style: TextStyle(color: Colors.white)),
+          ),
+        ],
+      ),
+    );
   }
 }
 
