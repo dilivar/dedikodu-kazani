@@ -8,27 +8,27 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         html, body { height: 100%; overflow: hidden; font-family: -apple-system, sans-serif; }
         :root { --primary: #8B5CF6; --bg: #F5F0FF; }
-        body { background: linear-gradient(135deg, var(--primary), #6B4EFF); display: flex; justify-content: center; }
+        body { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); display: flex; justify-content: center; }
         .phone { width: 100%; max-width: 393px; background: var(--bg); position: relative; overflow: hidden; }
         .notch { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 126px; height: 37px; background: #000; border-radius: 0 0 20px 20px; z-index: 100; }
         
         .screen { display: none; height: 100%; overflow-y: auto; }
         .screen.active { display: block; }
         
-        .header { background: linear-gradient(135deg, var(--primary), #6B4EFF); padding: 50px 20px 20px; color: white; border-radius: 0 0 30px 30px; text-align: center; }
+        .header { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); padding: 50px 20px 20px; color: white; border-radius: 0 0 30px 30px; text-align: center; }
         
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 16px; }
         .card { background: white; border-radius: 16px; padding: 14px; text-align: center; position: relative; }
-        .card-avatar { width: 44px; height: 44px; background: linear-gradient(135deg, var(--primary), #6B4EFF); border-radius: 12px; margin: 0 auto 6px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
+        .card-avatar { width: 44px; height: 44px; background: linear-gradient(135deg, #8B5CF6, #6B4EFF); border-radius: 12px; margin: 0 auto 6px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
         .card-name { font-weight: bold; font-size: 13px; }
         .card-badge { position: absolute; top: 8px; right: 8px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; padding: 2px 8px; border-radius: 8px; font-size: 10px; }
         
-        .fab { position: absolute; bottom: 90px; right: 20px; width: 56px; height: 56px; background: linear-gradient(135deg, var(--primary), #6B4EFF); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; }
+        .fab { position: absolute; bottom: 90px; right: 20px; width: 56px; height: 56px; background: linear-gradient(135deg, #8B5CF6, #6B4EFF); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; }
         
         .nav { position: absolute; bottom: 0; width: 100%; height: 75px; background: white; display: flex; justify-content: space-around; align-items: center; border-radius: 20px 20px 0 0; }
         
         .chat-header { background: white; padding: 45px 16px 12px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #eee; }
-        .chat-avatar { width: 40px; height: 40px; background: linear-gradient(135deg, var(--primary), #6B4EFF); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .chat-avatar { width: 40px; height: 40px; background: linear-gradient(135deg, #8B5CF6, #6B4EFF); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
         .chat-name { font-weight: bold; font-size: 16px; }
         
         .chat-messages { padding: 16px; display: flex; flex-direction: column; gap: 12px; padding-bottom: 90px; }
@@ -48,26 +48,14 @@
         
         .chat-input-area { background: white; padding: 12px 16px; display: flex; gap: 12px; border-top: 1px solid #eee; position: sticky; bottom: 0; }
         .chat-input { flex: 1; background: var(--bg); border: none; border-radius: 24px; padding: 12px 16px; font-size: 14px; outline: none; }
-        .chat-send { width: 44px; height: 44px; background: linear-gradient(135deg, var(--primary), #6B4EFF); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: white; }
+        .chat-send { width: 44px; height: 44px; background: linear-gradient(135deg, #8B5CF6, #6B4EFF); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: white; }
         
-        .premium-popup { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 1000; display: none; align-items: center; justify-content: center; }
-        .premium-popup.active { display: flex; }
-        .premium-content { background: linear-gradient(135deg, #FFD700, #FFA500); padding: 30px; border-radius: 20px; text-align: center; color: white; max-width: 300px; }
-        .premium-content button { background: white; color: #FFD700; border: none; padding: 12px 24px; border-radius: 24px; font-weight: bold; margin-top: 15px; cursor: pointer; }
+        .blur { filter: blur(5px); pointer-events: none; }
     </style>
 </head>
 <body>
     <div class="phone">
         <div class="notch"></div>
-        
-        <div class="premium-popup" id="premiumPopup">
-            <div class="premium-content">
-                <h2>💎 Premium</h2>
-                <p>Bu karakter Premium!</p>
-                <p style="font-size: 24px; font-weight: bold; margin: 15px 0;">9.99€/ay</p>
-                <button onclick="closePremium()">Kapat</button>
-            </div>
-        </div>
         
         <div class="screen active" id="homeScreen">
             <div class="header">
@@ -86,24 +74,24 @@
                     <div class="card-avatar">💅</div>
                     <div class="card-name">Ela</div>
                 </div>
-                <div class="card" onclick="openPremium('Zeynep')">
-                    <div class="card-badge">💎 9.99€</div>
-                    <div class="card-avatar">🥗</div>
+                <div class="card" onclick="alert('💎 Zeynep - Premium\n\nFiyat: 9.99€/ay\n\nÜcretsiz denemek için Eda veya Ela\'yı seçin!')">
+                    <div class="card-badge">💎</div>
+                    <div class="card-avatar blur">🥗</div>
                     <div class="card-name">Zeynep</div>
                 </div>
-                <div class="card" onclick="openPremium('Derin')">
-                    <div class="card-badge">💎 9.99€</div>
-                    <div class="card-avatar">👶</div>
+                <div class="card" onclick="alert('💎 Derin - Premium\n\nFiyat: 9.99€/ay\n\nÜcretsiz denemek için Eda veya Ela\'yı seçin!')">
+                    <div class="card-badge">💎</div>
+                    <div class="card-avatar blur">👶</div>
                     <div class="card-name">Derin</div>
                 </div>
-                <div class="card" onclick="openPremium('Rüzgar')">
-                    <div class="card-badge">💎 9.99€</div>
-                    <div class="card-avatar">💕</div>
+                <div class="card" onclick="alert('💎 Rüzgar - Premium\n\nFiyat: 9.99€/ay\n\nÜcretsiz denemek için Eda veya Ela\'yı seçin!')">
+                    <div class="card-badge">💎</div>
+                    <div class="card-avatar blur">💕</div>
                     <div class="card-name">Rüzgar</div>
                 </div>
-                <div class="card" onclick="openPremium('Mert')">
-                    <div class="card-badge">💎 9.99€</div>
-                    <div class="card-avatar">📰</div>
+                <div class="card" onclick="alert('💎 Mert - Premium\n\nFiyat: 9.99€/ay\n\nÜcretsiz denemek için Eda veya Ela\'yı seçin!')">
+                    <div class="card-badge">💎</div>
+                    <div class="card-avatar blur">📰</div>
                     <div class="card-name">Mert</div>
                 </div>
             </div>
@@ -141,7 +129,7 @@
         </div>
         
         <div class="screen" id="groupScreen">
-            <div class="chat-header" style="background:linear-gradient(135deg,var(--primary),#6B4EFF);">
+            <div class="chat-header" style="background:linear-gradient(135deg,#8B5CF6,#6B4EFF);">
                 <span onclick="goHome()" style="font-size:20px;cursor:pointer;color:white;">←</span>
                 <div class="chat-name" style="color:white;">Grup 💬</div>
             </div>
@@ -156,33 +144,17 @@
     </div>
 
     <script>
-        // GOOGLE AI API
         const API_KEY = 'AIzaSyD92NDDcQQFU4IQDOUqyKt_IyhF-Fs3k68';
         const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
         
         let currentChar = 'Eda';
         let conversationHistory = [];
         
-        const avatars = { 'Eda': '👩‍🍳', 'Ela': '💅', 'Zeynep': '🥗', 'Derin': '👶', 'Rüzgar': '💕', 'Mert': '📰' };
+        const avatars = { 'Eda': '👩‍🍳', 'Ela': '💅' };
         
-        // SANAL ARKADAŞ SİSTEMİ - Her konuda sohbet eder!
         async function getAIResponse(message) {
-            const prompt = `Sen ${currentChar}'sin. Sen bir SANAL ARKADAŞSın!
-
-HAKKINDA:
-- Her konuda sohbet edebilirsin
-- Arkadaş canlısın
-- Günlük hayat, iş, ilişkiler, duygular, hobiler, haber, magazin, teknoloji, spor... her konu
-- Samimi ve sıcak ol
-- Soruları yanıtla
-- Sohbet et
-- Emoji kullan
-
-KURALLAR:
-- Kısa ve net yanıtlar
-- Soru sor
-- Samimi ol`;
-
+            const prompt = `Sen ${currentChar}'sin. Sen bir SANAL ARKADAŞSın! Her konuda sohbet edebilirsin. Samimi ol. Emoji kullan.`;
+            
             const contents = [
                 { role: 'user', parts: [{ text: prompt }] },
                 ...conversationHistory.slice(-6).map(m => ({ role: m.isUser ? 'user' : 'model', parts: [{ text: m.text }] })),
@@ -204,14 +176,6 @@ KURALLAR:
             return data.candidates[0].content.parts[0].text;
         }
         
-        function openPremium(name) {
-            document.getElementById('premiumPopup').classList.add('active');
-        }
-        
-        function closePremium() {
-            document.getElementById('premiumPopup').classList.remove('active');
-        }
-        
         function openChat(name) {
             currentChar = name;
             document.getElementById('homeScreen').classList.remove('active');
@@ -223,16 +187,7 @@ KURALLAR:
             const chatMsgs = document.getElementById('chatMessages');
             chatMsgs.innerHTML = '';
             
-            const intros = {
-                'Eda': '👩‍🍳 Merhaba! Ben Eda, senin sanal arkadaşınım! Nasılsın?',
-                'Ela': '💅 Merhaba! Ben Ela! Her konuda konuşabiliriz!',
-                'Zeynep': '🥗 Merhaba! Ben Zeynep! Nasıl yardımcı olabilirim?',
-                'Derin': '👶 Merhaba! Ben Derin! Nasıl hissediyorsun?',
-                'Rüzgar': '💕 Merhaba! Ben Rüzgar! Konuşmak ister misin?',
-                'Mert': '📰 Merhaba! Ben Mert! Ne konuşmak istersin?'
-            };
-            
-            addMessage(intros[name] || 'Merhaba!', false);
+            addMessage('👋 Merhaba! Ben ' + name + '! Nasılsın?', false);
         }
         
         function openGroup() {
@@ -244,7 +199,6 @@ KURALLAR:
             document.getElementById('chatScreen').classList.remove('active');
             document.getElementById('groupScreen').classList.remove('active');
             document.getElementById('homeScreen').classList.add('active');
-            closePremium();
         }
         
         function addMessage(text, isUser) {
@@ -261,7 +215,6 @@ KURALLAR:
         
         function showTyping() {
             document.getElementById('typingIndicator').style.display = 'flex';
-            document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
         }
         
         function hideTyping() {
@@ -290,15 +243,7 @@ KURALLAR:
                 conversationHistory.push({ text: response, isUser: false });
             } catch (e) {
                 hideTyping();
-                const fallbacks = {
-                    'Eda': '👩‍🍳 Anladım! Devam et!',
-                    'Ela': '💅 Aa ilginç! Devam et!',
-                    'Zeynep': '🥗 Anlıyorum!',
-                    'Derin': '👶 Anladım!',
-                    'Rüzgar': '💕 Evet!',
-                    'Mert': '📰 Tamam, devam et!'
-                };
-                addMessage(fallbacks[currentChar] || 'Anladım!', false);
+                addMessage('Anladım! 😊', false);
             }
         }
         
