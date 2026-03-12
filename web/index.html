@@ -40,14 +40,23 @@
         .chat-info { flex: 1; }
         .chat-name { font-weight: bold; font-size: 16px; }
         .chat-status { color: #22C55E; font-size: 12px; }
-        .chat-messages { padding: 16px; display: flex; flex-direction: column; gap: 12px; }
-        .msg { max-width: 75%; padding: 12px 16px; border-radius: 18px; font-size: 14px; line-height: 1.4; }
+        .chat-messages { padding: 16px; display: flex; flex-direction: column; gap: 12px; padding-bottom: 90px; }
+        .msg { max-width: 80%; padding: 12px 16px; border-radius: 18px; font-size: 14px; line-height: 1.4; }
         .msg-received { background: white; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
         .msg-sent { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
         .msg-time { font-size: 10px; opacity: 0.7; margin-top: 4px; }
+        .msg-loading { opacity: 0.7; font-style: italic; }
+        
+        /* Recipe specific styles */
+        .recipe-card { background: #f8f8f8; border-radius: 12px; padding: 12px; margin-top: 8px; }
+        .recipe-title { font-weight: bold; color: var(--primary); margin-bottom: 8px; }
+        .recipe-item { padding: 4px 0; font-size: 13px; }
+        .recipe-emoji { margin-right: 6px; }
+        
         .chat-input-area { background: white; padding: 12px 16px; display: flex; align-items: center; gap: 12px; border-top: 1px solid #eee; position: sticky; bottom: 0; }
         .chat-input { flex: 1; background: var(--bg); border: none; border-radius: 24px; padding: 12px 16px; font-size: 14px; outline: none; }
         .chat-send { width: 44px; height: 44px; background: linear-gradient(135deg, var(--primary), #6B4EFF); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; }
+        .chat-send:disabled { opacity: 0.5; cursor: not-allowed; }
         
         /* Group Chat */
         .group-header { background: linear-gradient(135deg, var(--primary), #6B4EFF); padding: 45px 16px 16px; color: white; }
@@ -136,18 +145,13 @@
                 <div class="chat-avatar" id="chatAvatar">👩‍🍳</div>
                 <div class="chat-info">
                     <div class="chat-name" id="chatName">Eda</div>
-                    <div class="chat-status">● Çevrimiçi</div>
+                    <div class="chat-status">● Yapay Zeka</div>
                 </div>
             </div>
-            <div class="chat-messages" id="chatMessages">
-                <div class="msg msg-received" id="firstMessage">
-                    Selam! Ben Eda 🍳 Nasıl yardımcı olabilirim?
-                    <div class="msg-time">Şimdi</div>
-                </div>
-            </div>
+            <div class="chat-messages" id="chatMessages"></div>
             <div class="chat-input-area">
                 <input type="text" class="chat-input" id="messageInput" placeholder="Mesaj yaz..." onkeypress="handleKeyPress(event)">
-                <div class="chat-send" onclick="sendMessage()">➤</div>
+                <div class="chat-send" id="sendBtn" onclick="sendMessage()">➤</div>
             </div>
         </div>
         
@@ -160,7 +164,7 @@
             </div>
             <div class="chat-messages" id="groupMessages">
                 <div class="msg msg-received">
-                    👩‍🍳 Eda: Herkese selam! Bugün ne yapalım?
+                    👩‍🍳 Eda: Herkese selam! Bugün ne pişirelim?
                     <div class="msg-time">14:30</div>
                 </div>
                 <div class="msg msg-received">
@@ -180,18 +184,42 @@
     </div>
 
     <script>
-        let currentChar = '';
+        // Google AI API Key
+        const API_KEY = 'AIzaSyD92NDDcQQFU4IQDOUqyKt_IyhF-Fs3k68';
+        const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
+        
+        let currentChar = 'Eda';
+        let conversationHistory = [];
+        
+        // Karakter sistem promptları
+        const characterPrompts = {
+            'Eda': `Sen Eda'sın. 28 yaşında, direkt, açık sözlü, eleştiren ama adaletli bir kadınsın. Uzmanlık alanı: Yemek, yemek tarifleri, mutfak. Kullanıcıya yemek tarifleri ver, malzemeleri listele, pişirme adımlarını anlat. Türk mutfağı uzmanısın. Kullanıcıya fikirler sun, sorularını yanıtla. Kısa ve öz yanıtlar ver. Emoji kullan.`,
+            
+            'Ela': `Sen Ela'sın. 26 yaşında, sıcak, pozitif, yardımsever bir kadınsın. Uzmanlık alanı: Stil, moda, giyim, makyaj, güzellik. Kullanıcıya stil önerileri ver, kombin önerileri yap. Türkçe konuş. Emoji kullan.`,
+            
+            'Zeynep': `Sen Zeynep'sin. 30 yaşında, mantıklı, gerçekçi, pratik bir kadınsın. Uzmanlık alanı: Sağlık, diyet, beslenme, spor. Kullanıcıya sağlık ve diyet önerileri ver. Türkçe konuş. Emoji kullan.`,
+            
+            'Derin': `Sen Derin'sin. 35 yaşında, empatik, analitik bir psikologsun. Uzmanlık alanı: Çocuk psikolojisi, aile danışmanlığı. Kullanıcıya psikolojik destek ver. Türkçe konuş. Emoji kullan.`,
+            
+            'Rüzgar': `Sen Rüzgar'sın. 29 yaşında, çekici, gizemli ama saygılı bir erkek. Uzmanlık alanı: İlişkiler, aşk, flört danışmanlığı. Kullanıcıya ilişki tavsiyeleri ver. Türkçe konuş. Flört sınırına uy. Emoji kullan.`,
+            
+            'Mert': `Sen Mert'sin. 27 yaşında, gündelik, çok samimi bir arkadaş. Uzmanlık alanı: Gündem, haberler, popüler kültür, fal. Kullanıcıyla sohbet et, gündem hakkında konuş. Türkçe konuş. Emoji kullan.`,
+            
+            'Fatih': `Sen Fatih'sın. 40 yaşında, başarılı, bilge, hayatında çok şey görmüş bir erkek. Uzmanlık alanı: Kariyer, para, yatırım, iş hayatı. Kullanıcıya kariyer ve para konusunda rehberlik et. Türkçe konuş. Emoji kullan.`,
+            
+            'Seda': `Sen Seda'sın. 24 yaşında, enerjik, oyun sever bir kadınsın. Uzmanlık alanı: Oyunlar, eğlence, gaming. Kullanıcıyla oyun hakkında sohbet et, öneriler ver. Türkçe konuş. Emoji kullan.`
+        };
         
         // Karakterlere göre hoşgeldin mesajları
         const welcomeMessages = {
-            'Eda': 'Selam! Ben Eda 🍳 Nasıl yardımcı olabilirim?',
-            'Ela': 'Hoşgeldin! 💅 Stilin için buradayım!',
-            'Zeynep': 'Merhaba! 🥗 Sağlık konusunda ne konuşmak istersin?',
-            'Derin': 'Selam! 👶 Çocukların için nasıl yardımcı olabilirim?',
-            'Rüzgar': 'Hey 💕 İlişkiler konusunda konuşalım mı?',
-            'Mert': 'Selam! 📰 Gündem ne? Konuşalım!',
-            'Fatih': 'Hoşgeldin. 💼 Kariyerin için ne yapabilirim?',
-            'Seda': 'Hey! 🎮 Hangi oyunu oynuyoruz?'
+            'Eda': 'Selam! 👩‍🍳 Ben Eda, mutfakta uzmanıyım. Bugün ne pişirelim? Malzemelerini söyle, sana tarif vereyim!',
+            'Ela': 'Hoşgeldin! 💅 Ben Ela, stil danışmanınım. Bugün ne giymek istersin?',
+            'Zeynep': 'Merhaba! 🥗 Ben Zeynep, sağlık ve diyet uzmanıyım. Nasıl yardımcı olabilirim?',
+            'Derin': 'Selam! 👶 Ben Derin, çocuk psikoloğuyum. Nasıl yardımcı olabilirim?',
+            'Rüzgar': 'Hey 💕 Ben Rüzgar, ilişki danışmanıyım. Konuşmak ister misin?',
+            'Mert': 'Selam! 📰 Ben Mert, gündem uzmanıyım. Ne konuşmak istersin?',
+            'Fatih': 'Hoşgeldin. 💼 Ben Fatih, kariyer ve para danışmanıyım. Nasıl yardımcı olabilirim?',
+            'Seda': 'Hey! 🎮 Ben Seda, oyun uzmanıyım. Hangi oyunu oynuyoruz?'
         };
         
         function openChat(name, avatar, desc) {
@@ -201,13 +229,13 @@
             document.getElementById('chatName').textContent = name;
             document.getElementById('chatAvatar').textContent = avatar;
             
-            // Hoşgeldin mesajını güncelle
-            const firstMsg = document.getElementById('firstMessage');
-            firstMsg.innerHTML = welcomeMessages[name] + '<div class="msg-time">Şimdi</div>';
+            // Mesajları temizle ve hoşgeldin mesajı ekle
+            const chatMsgs = document.getElementById('chatMessages');
+            chatMsgs.innerHTML = '';
+            addMessage(welcomeMessages[name], false);
             
-            // Mesajları temizle (sadece ilk mesaj kalsın)
-            document.getElementById('chatMessages').innerHTML = 
-                '<div class="msg msg-received">' + welcomeMessages[name] + '<div class="msg-time">Şimdi</div></div>';
+            // Konuşma geçmişini sıfırla
+            conversationHistory = [];
         }
         
         function openGroup() {
@@ -221,64 +249,107 @@
             document.getElementById('homeScreen').classList.add('active');
         }
         
-        function sendMessage() {
+        function addMessage(text, isUser) {
+            const chatMsgs = document.getElementById('chatMessages');
+            const now = new Date();
+            const time = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
+            
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'msg ' + (isUser ? 'msg-sent' : 'msg-received');
+            msgDiv.innerHTML = text + '<div class="msg-time">' + time + '</div>';
+            chatMsgs.appendChild(msgDiv);
+            chatMsgs.scrollTop = chatMsgs.scrollHeight;
+        }
+        
+        function addLoading() {
+            const chatMsgs = document.getElementById('chatMessages');
+            const loadingDiv = document.createElement('div');
+            loadingDiv.className = 'msg msg-received msg-loading';
+            loadingDiv.id = 'loadingMsg';
+            loadingDiv.textContent = '⏳ Yazıyor...';
+            chatMsgs.appendChild(loadingDiv);
+            chatMsgs.scrollTop = chatMsgs.scrollHeight;
+        }
+        
+        function removeLoading() {
+            const loading = document.getElementById('loadingMsg');
+            if (loading) loading.remove();
+        }
+        
+        async function sendMessage() {
             const input = document.getElementById('messageInput');
             const text = input.value.trim();
             if (!text) return;
             
-            const now = new Date();
-            const time = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
+            // Butonu devre dışı bırak
+            const sendBtn = document.getElementById('sendBtn');
+            sendBtn.disabled = true;
             
             // Kullanıcı mesajını ekle
-            const chatMsgs = document.getElementById('chatMessages');
-            chatMsgs.innerHTML += '<div class="msg msg-sent">' + text + '<div class="msg-time">' + time + '</div></div>';
-            
+            addMessage(text, true);
             input.value = '';
             
-            // Scroll to bottom
-            chatMsgs.scrollTop = chatMsgs.scrollHeight;
+            // Yükleniyor göster
+            addLoading();
             
-            // 1 saniye sonra yanıt ver
-            setTimeout(() => {
-                const response = getResponse(text);
-                chatMsgs.innerHTML += '<div class="msg msg-received">' + response + '<div class="msg-time">' + time + '</div></div>';
-                chatMsgs.scrollTop = chatMsgs.scrollHeight;
-            }, 1000);
+            try {
+                // AI yanıtını al
+                const response = await getAIResponse(text);
+                removeLoading();
+                addMessage(response, false);
+            } catch (error) {
+                removeLoading();
+                addMessage('Bir hata oluştu. Tekrar dene! 😔', false);
+                console.error(error);
+            }
+            
+            // Butonu etkinleştir
+            sendBtn.disabled = false;
+        }
+        
+        async function getAIResponse(userMessage) {
+            // Sistem promptunu al
+            const systemPrompt = characterPrompts[currentChar];
+            
+            // Mesaj geçmişini oluştur
+            const contents = [
+                { role: 'user', parts: [{ text: systemPrompt }] },
+                ...conversationHistory,
+                { role: 'user', parts: [{ text: userMessage }] }
+            ];
+            
+            const requestBody = {
+                contents: contents,
+                generationConfig: {
+                    temperature: 0.9,
+                    maxOutputTokens: 500,
+                }
+            };
+            
+            const response = await fetch(API_URL + '?key=' + API_KEY, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestBody)
+            });
+            
+            if (!response.ok) {
+                throw new Error('API request failed');
+            }
+            
+            const data = await response.json();
+            const aiResponse = data.candidates[0].content.parts[0].text;
+            
+            // Konuşma geçmişine ekle
+            conversationHistory.push({ role: 'user', parts: [{ text: userMessage }] });
+            conversationHistory.push({ role: 'model', parts: [{ text: aiResponse }] });
+            
+            return aiResponse;
         }
         
         function handleKeyPress(e) {
             if (e.key === 'Enter') sendMessage();
-        }
-        
-        function getResponse(text) {
-            const t = text.toLowerCase();
-            
-            if (t.includes('merhaba') || t.includes('selam')) {
-                return 'Selam! 👋 Nasıl yardımcı olabilirim?';
-            }
-            if (t.includes('nasılsın')) {
-                return 'İyiyim, sen nasılsın? 😊';
-            }
-            if (t.includes('yemek') || t.includes('tarif')) {
-                return currentChar === 'Eda' ? 'Ne pişirmek istersin? 🍳' : 'Bu konuda uzman arkadaşlarımdan birine sorabilirsin!';
-            }
-            if (t.includes('stil') || t.includes('moda')) {
-                return currentChar === 'Ela' ? 'Harika bir stil öneriyim! 💅' : 'Ela bu konuda çok iyi!';
-            }
-            if (t.includes('sağlık') || t.includes('diyet')) {
-                return currentChar === 'Zeynep' ? 'Sağlıklı beslenmek önemli! 🥗' : 'Zeynep bu konuda yardımcı olabilir!';
-            }
-            if (t.includes('ilişki') || t.includes('aşk')) {
-                return currentChar === 'Rüzgar' ? 'Aşk hayatın nasıl? 💕' : 'Rüzgar bu konuda uzman!';
-            }
-            if (t.includes('oyun') || t.includes('game')) {
-                return currentChar === 'Seda' ? 'Hangi oyunu oynuyoruz? 🎮' : 'Seda oyun konusunda uzman!';
-            }
-            if (t.includes('kariyer') || t.includes('para')) {
-                return currentChar === 'Fatih' ? 'Kariyerin için ne yapabilirim? 💼' : 'Fatih bu konuda yardımcı olabilir!';
-            }
-            
-            return 'Anlıyorum! 😊 Devam et, dinliyorum!';
         }
     </script>
 </body>
