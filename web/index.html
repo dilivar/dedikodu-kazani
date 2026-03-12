@@ -153,7 +153,7 @@
         const avatars = { 'Eda': '👩‍🍳', 'Ela': '💅' };
         
         async function getAIResponse(message) {
-            const prompt = `Sen ${currentChar}'sin. Sen bir SANAL ARKADAŞSın! Her konuda sohbet edebilirsin. Samimi ol. Emoji kullan.`;
+            const prompt = `Sen ${currentChar}'sin. Sen bir SANAL ARKADAŞSın! Her konuda sohbet edebilirsin. Samimi ol. Emoji kullan. Kısa ve eğlenceli yanıtlar ver.`;
             
             const contents = [
                 { role: 'user', parts: [{ text: prompt }] },
@@ -161,19 +161,39 @@
                 { role: 'user', parts: [{ text: message }] }
             ];
             
-            const response = await fetch(API_URL + '?key=' + API_KEY, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    contents: contents,
-                    generationConfig: { temperature: 0.9, maxOutputTokens: 600 }
-                })
-            });
-            
-            if (!response.ok) throw new Error('API hatası');
-            
-            const data = await response.json();
-            return data.candidates[0].content.parts[0].text;
+            try {
+                const response = await fetch(API_URL + '?key=' + API_KEY, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: contents,
+                        generationConfig: { temperature: 0.9, maxOutputTokens: 600 }
+                    })
+                });
+                
+                if (!response.ok) throw new Error('API hatası');
+                
+                const data = await response.json();
+                return data.candidates[0].content.parts[0].text;
+            } catch (e) {
+                // Fallback responses - varied
+                const fallbacks = {
+                    'Eda': [
+                        '👩‍🍳 Aa ilginç! Devam et!',
+                        '👩‍Çok güzel! Anlat bakalım!',
+                        '👩‍🍳 Vay be! Şimdi ne oldu?',
+                        '👩‍🍳 Helal olsun! 😄'
+                    ],
+                    'Ela': [
+                        '💅 Aww ne tatlı! 💕',
+                        '💅 Çok ilginç! Anlat!',
+                        '💅 Vay! Hiç bilmiyordum!',
+                        '💅 Harika! 😊'
+                    ]
+                };
+                const opts = fallbacks[currentChar] || ['😊 Anladım!', '👀 İlginç!', '😄 Devam et!'];
+                return opts[Math.floor(Math.random() * opts.length)];
+            }
         }
         
         function openChat(name) {
@@ -243,7 +263,12 @@
                 conversationHistory.push({ text: response, isUser: false });
             } catch (e) {
                 hideTyping();
-                addMessage('Anladım! 😊', false);
+                const fallbacks = {
+                    'Eda': ['👩‍🍳 Aa ilginç! 😄', '👩‍🍳 Vay be! 👀', '👩‍🍳 Devam et!'],
+                    'Ela': ['💅 Aww tatlısın! 💕', '💅 Çok ilginç!', '💅 Harika! 😊']
+                };
+                const opts = fallbacks[currentChar] || ['😊 Anladım!', '👀 İlginç!'];
+                addMessage(opts[Math.floor(Math.random() * opts.length)], false);
             }
         }
         
