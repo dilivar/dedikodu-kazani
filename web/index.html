@@ -58,12 +58,11 @@
         .group-title { font-size: 18px; font-weight: bold; }
         .group-sub { font-size: 12px; opacity: 0.8; }
         
-        .premium-lock { background: linear-gradient(135deg, #FFD700, #FFA500); color: white; padding: 30px; border-radius: 20px; text-align: center; margin: 20px; }
-        .premium-lock h2 { margin-bottom: 10px; }
-        .premium-lock button { background: white; color: #FFD700; border: none; padding: 12px 24px; border-radius: 24px; font-weight: bold; cursor: pointer; }
-        
         .quick-reply { display: flex; gap: 8px; overflow-x: auto; padding: 8px 16px; background: #f5f0ff; }
         .quick-btn { background: white; border: 1px solid var(--primary); color: var(--primary); padding: 8px 16px; border-radius: 20px; font-size: 12px; white-space: nowrap; }
+        
+        .premium-lock { background: linear-gradient(135deg, #FFD700, #FFA500); color: white; padding: 30px; border-radius: 20px; text-align: center; margin: 20px; }
+        .premium-lock button { background: white; color: #FFD700; border: none; padding: 12px 24px; border-radius: 24px; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -138,9 +137,8 @@
             </div>
             <div class="quick-reply" id="quickReplies">
                 <button class="quick-btn" onclick="sendQuick('Naber?')">Naber?</button>
-                <button class="quick-btn" onclick="sendQuick('Bugün ne var?')">Bugün ne var?</button>
-                <button class="quick-btn" onclick="sendQuick('Dedikodu yapalım!')">Dedikodu yapalım!</button>
-                <button class="quick-btn" onclick="sendQuick('Nasılsın?')">Nasılsın?</button>
+                <button class="quick-btn" onclick="sendQuick('Dedikodu yap!')">Dedikodu yap!</button>
+                <button class="quick-btn" onclick="sendQuick('Komik bir şey anlat')">Komik şey anlat</button>
             </div>
             <div class="chat-messages" id="chatMessages"></div>
             <div class="typing" id="typingIndicator" style="display: none;">
@@ -159,9 +157,7 @@
                 <div class="group-sub">6 kişi dedikodu yapıyor!</div>
             </div>
             <div class="chat-messages" id="groupMessages">
-                <div class="msg msg-received">📰 <b>Mert:</b> Herkese selam! 🔥 Bugün ne dedikodusu var?<div class="msg-time">14:30</div></div>
-                <div class="msg msg-received">👩‍🍳 <b>Eda:</b> Ben bir şey duydum ama... 🤫<div class="msg-time">14:31</div></div>
-                <div class="msg msg-received">💅 <b>Ela:</b> Aaa ne? 👀 Anlat!<div class="msg-time">14:32</div></div>
+                <div class="msg msg-received">📰 <b>Mert:</b> Selamlar! 🔥 Dedikodu zamanı!<div class="msg-time">14:30</div></div>
             </div>
             <div class="chat-input-area">
                 <input type="text" class="chat-input" id="groupInput" placeholder="Gruba katıl...">
@@ -176,13 +172,6 @@
                 <p style="margin: 15px 0; font-size: 24px; font-weight: bold;">₺49.99/ay</p>
                 <button onclick="closePremium()">Üye Ol</button>
             </div>
-            <div style="padding: 20px;">
-                <h3>Premium Karakterler:</h3>
-                <p>🥗 Zeynep - Sağlık dedikoduları</p>
-                <p>👶 Derin - Sır dağıtıcı</p>
-                <p>💕 Rüzgar - Aşk dedikoduları</p>
-                <p>📰 Mert - Gündem kralı</p>
-            </div>
         </div>
     </div>
 
@@ -193,44 +182,41 @@
         let currentChar = 'Eda';
         let conversationHistory = [];
         
-        // Karakterler - Dedikodu odaklı
+        // ÖN TANIMLI DEDİKODULAR - AI'a gitmeden ver!
+        const gossipDatabase = {
+            'Eda': [
+                '🍳 Bugün mutfakta çok enteresan bir şey oldu! Komşunun kediği pilavı yakmış ama Instagram\'da harika görünüyormuş! 😂',
+                '👀 Duydum ki apartmanda yeni taşınan çift, her gün farklı bir restoranda görünüyor - ya zenginler ya da fakirler! 💰',
+                '😱 Şşt! Biri bana fısıldadı - bu mahalledeki en güzel kadın aslında peruk kullanıyormuş! 🤫',
+                '🎭 Komşu teyze 3 yıldır "gezegende" olduğunu söyleyen oğlunun aslında İzmir\'de olduğunu öğrenmiş! 😱',
+                '💔 Şimdi duydum - bizim bloktaki aşıklar ayrılmış! Nedeni? Biri diğerinin algoritmasını beğenmemiş! 😂'
+            ],
+            'Ela': [
+                '💅 Bugün alışverişte gördüğüm manken aslında hiç de öyle değilmiş! Kilo almış ve instagramda filtre kullanıyormuş! 👀',
+                '👗 Şaka değil! O ünlü stil danışmanı kendi kıyafetlerini ikinci el dükkanından alıyormuş! 🤡',
+                '😱 Duydun mu? O meşhur influencer\'ın kıyafetleri aslında annesinin eski kıyafetleri! 👵',
+                '💄 Yeni trend: "doğal makyaj" aslında 3 saat sürüyormuş! 💀',
+                '👠 Kadınlar artık öyle ayakkabı alıyor ki, erkek arkadaşları "artık evlenelim" diye yalvarıyor! 💍'
+            ],
+            'default': [
+                '🔥 Bugün çok sıcak bir dedikodu duydum!',
+                '👀 Şşt! Sana özel bir şey söyleyeceğim...',
+                '😱 Bu haberi kimse bilmiyor ama...',
+                '💕 Aşk dedikodusu zamanı!',
+                '🎭 Kafel dedikodusu: Herkes konuşuyor!',
+                '😂 Komik dedikodu: Bu gülmek için!',
+                '👨‍👩‍👧 Aile dedikodusu: Skandal!',
+                '💰 Para dedikodusu: Servet konuşuluyor!'
+            ]
+        };
+        
         const characterProfiles = {
-            'Eda': {
-                name: 'Eda',
-                avatar: '👩‍🍳',
-                isPremium: false,
-                intro: '👩‍🍳 Selam! Ben Eda! 💬\n\n🔥 <b>En son dedikodu:</b>\nGruptakilerin yeni sırlarını öğrendim!\n\n💬 <b>Sohbet konuları:</b>\n• Arkadaş dedikoduları\n• Güncel olaylar\n• İlişki dedikoduları\n• Aile sırları\n• Komşu dedikoduları\n\n🎯 Ne konuşmak istersin? 😊'
-            },
-            'Ela': {
-                name: 'Ela',
-                avatar: '💅',
-                isPremium: false,
-                intro: '💅 Merhaba! Ben Ela! 💬\n\n🔥 <b>Bilgi:</b>\nGruptaki herkesin sırlarını biliyorum!\n\n💬 <b>Konuşabiliriz:</b>\n• Ünlü dedikoduları\n• Stil dedikoduları\n• Aşk sırları\n• Arkadaş dedikoduları\n• Komşu dedikodaları\n\n👀 Ne öğrenmek istersin? 😊'
-            },
-            'Zeynep': {
-                name: 'Zeynep',
-                avatar: '🥗',
-                isPremium: true,
-                intro: '🥗 Selam! Ben Zeynep! 💬'
-            },
-            'Derin': {
-                name: 'Derin',
-                avatar: '👶',
-                isPremium: true,
-                intro: '👶 Merhaba! Ben Derin! 💬'
-            },
-            'Rüzgar': {
-                name: 'Rüzgar',
-                avatar: '💕',
-                isPremium: true,
-                intro: '💕 Hey! Ben Rüzgar! 💬'
-            },
-            'Mert': {
-                name: 'Mert',
-                avatar: '📰',
-                isPremium: true,
-                intro: '📰 Selam! Ben Mert! 💬'
-            }
+            'Eda': { name: 'Eda', avatar: '👩‍🍳', isPremium: false },
+            'Ela': { name: 'Ela', avatar: '💅', isPremium: false },
+            'Zeynep': { name: 'Zeynep', avatar: '🥗', isPremium: true },
+            'Derin': { name: 'Derin', avatar: '👶', isPremium: true },
+            'Rüzgar': { name: 'Rüzgar', avatar: '💕', isPremium: true },
+            'Mert': { name: 'Mert', avatar: '📰', isPremium: true }
         };
         
         function openChat(name, avatar) {
@@ -251,7 +237,11 @@
             chatMsgs.innerHTML = '';
             conversationHistory = [];
             
-            addMessage(profile.intro, false);
+            // Rastgele dedikodu ile başla
+            const gossips = gossipDatabase[name] || gossipDatabase['default'];
+            const randomGossip = gossips[Math.floor(Math.random() * gossips.length)];
+            
+            addMessage(randomGossip, false);
         }
         
         function openGroup() {
@@ -282,7 +272,7 @@
             
             const msgDiv = document.createElement('div');
             msgDiv.className = 'msg ' + (isUser ? 'msg-sent' : 'msg-received');
-            msgDiv.innerHTML = text.replace(/\n/g, '<br>') + '<div class="msg-time">' + time + '</div>';
+            msgDiv.innerHTML = text + '<div class="msg-time">' + time + '</div>';
             chatMsgs.appendChild(msgDiv);
             chatMsgs.scrollTop = chatMsgs.scrollHeight;
         }
@@ -294,8 +284,7 @@
         
         function showTyping() {
             document.getElementById('typingIndicator').style.display = 'flex';
-            const chatMsgs = document.getElementById('chatMessages');
-            chatMsgs.scrollTop = chatMsgs.scrollHeight;
+            document.getElementById('chatMessages').scrollTop = document.getElementById('chatMessages').scrollHeight;
         }
         
         function hideTyping() {
@@ -317,29 +306,44 @@
                 addMessage(response, false);
             } catch (e) {
                 hideTyping();
-                addMessage('🔥 Ne dedikodu yapalım? Anlat bakalım! 😊', false);
+                // Fallback: Rastgele dedikodu ver
+                const gossips = gossipDatabase[currentChar] || gossipDatabase['default'];
+                const randomGossip = gossips[Math.floor(Math.random() * gossips.length)];
+                addMessage(randomGossip, false);
             }
         }
         
         async function getAIResponse(userMessage) {
             const profile = characterProfiles[currentChar];
+            const t = userMessage.toLowerCase();
             
-            const systemPrompt = `Sen ${profile.name}'sin. Sen bir DEDİKODU ARAYANSIN!
+            // Eğer dedikodu isterse, direkt ver
+            if (t.includes('dedikodu') || t.includes('ne var') || t.includes('haber') || t.includes('anlat')) {
+                const gossips = gossipDatabase[currentChar] || gossipDatabase['default'];
+                const randomGossip = gossips[Math.floor(Math.random() * gossips.length)];
+                return randomGossip + '\n\n💬 Başka ne sormak istersin?';
+            }
+            
+            // Komik isterse
+            if (t.includes('komik') || t.includes('gül')) {
+                return '😂 Tamam, işte komik dedikodu:\n\n' + gossipDatabase['default'][Math.floor(Math.random() * 5)] + '\n\n🤣 Başka?';
+            }
+            
+            // Normal sohbet için AI
+            const systemPrompt = `Sen ${profile.name}'sin. Sen bir DEDİKODU ARKADAŞISIN!
 
 KURALLAR:
-1. Dedikodu yap - eğlenceli, gizli, komik bilgiler paylaş
-2. Her konuda sohbet et
-3. Kullanıcının gününü sor
-4. Soru sor - sohbeti sürdür
-5. Samimi ve eğlenceli ol
-6. Emoji kullan
-7. Kısa ve akıcı konuş
+1. Eğlenceli dedikodular anlat
+2. Gizli ve ilginç bilgiler paylaş
+3. Soru sor, sohbet et
+4. Kısa ve eğlenceli yanıtlar ver
+5. Emoji kullan
 
-Sen bir yapay zeka DEĞİLSİN, gerçek bir dedikodu arkadaşsın!`;
+ÖNEMLİ: Kullanıcı dedikodu isterse, direkt anlat!`;
 
             const contents = [
                 { role: 'user', parts: [{ text: systemPrompt }] },
-                ...conversationHistory.map(msg => ({
+                ...conversationHistory.slice(-4).map(msg => ({
                     role: msg.isUser ? 'user' : 'model',
                     parts: [{ text: msg.text }]
                 })),
@@ -363,10 +367,6 @@ Sen bir yapay zeka DEĞİLSİN, gerçek bir dedikodu arkadaşsın!`;
             conversationHistory.push({ text: userMessage, isUser: true });
             conversationHistory.push({ text: aiResponse, isUser: false });
             
-            if (conversationHistory.length > 10) {
-                conversationHistory = conversationHistory.slice(-10);
-            }
-            
             return aiResponse;
         }
         
@@ -384,13 +384,8 @@ Sen bir yapay zeka DEĞİLSİN, gerçek bir dedikodu arkadaşsın!`;
             chatMsgs.scrollTop = chatMsgs.scrollHeight;
             
             setTimeout(() => {
-                const responses = [
-                    '📰 Mert: 🔥 İlginç! Devam et!',
-                    '👩‍🍳 Eda: Aaa çok ilginç! 👀',
-                    '💅 Ela: Gerçekten mi? 💕',
-                    '💕 Rüzgar: Bu konuda çok şey biliyorum...',
-                ];
-                const random = responses[Math.floor(Math.random() * responses.length)];
+                const gossips = ['👩‍🍳 Eda: 🔥 İlginç!', '💅 Ela: 😱 Gerçekten mi?', '📰 Mert: Devam et!', '💕 Rüzgar: Çok ilginç!'];
+                const random = gossips[Math.floor(Math.random() * gossips.length)];
                 chatMsgs.innerHTML += '<div class="msg msg-received">' + random + '<div class="msg-time">' + time + '</div></div>';
                 chatMsgs.scrollTop = chatMsgs.scrollHeight;
             }, 1000);
