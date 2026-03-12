@@ -1,5 +1,5 @@
 name: dedikodu_kazani
-description: "Virtual Arkadaş AI App - Chat with AI friends"
+description: "Dedikodu Kazanı - AI Arkadaşlık Uygulaması"
 publish_to: 'none'
 version: 1.0.0+1
 
@@ -10,10 +10,30 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.2
+  
+  # Network
   http: ^1.1.0
+  
+  # Storage
   shared_preferences: ^2.2.0
+  
+  # UI
   google_fonts: ^6.1.0
+  
+  # AI & Voice
   flutter_tts: ^3.8.5
+  
+  # Notifications
+  flutter_local_notifications: ^17.0.0
+  
+  # File handling
+  file_picker: ^6.1.1
+  
+  # Image picker
+  image_picker: ^1.0.7
+  
+  # Permissions
+  permission_handler: ^11.3.0
 
 dev_dependencies:
   flutter_test:
