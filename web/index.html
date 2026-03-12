@@ -102,15 +102,15 @@
                     <div class="avatar avatar-d" style="opacity:0.5;">D</div>
                     <div class="card-name">Derin</div>
                 </div>
-                <div class="card" onclick="showPremium('Rüzgar')">
+                <div class="card" onclick="showPremium('Batu')">
                     <div style="position:absolute;top:8px;right:8px;font-size:14px;">💎</div>
-                    <div class="avatar avatar-r" style="opacity:0.5;">R</div>
-                    <div class="card-name">Rüzgar</div>
+                    <div class="avatar avatar-r" style="opacity:0.5;">B</div>
+                    <div class="card-name">Batu</div>
                 </div>
-                <div class="card" onclick="showPremium('Mert')">
+                <div class="card" onclick="showPremium('Mete')">
                     <div style="position:absolute;top:8px;right:8px;font-size:14px;">💎</div>
                     <div class="avatar avatar-m" style="opacity:0.5;">M</div>
-                    <div class="card-name">Mert</div>
+                    <div class="card-name">Mete</div>
                 </div>
             </div>
             
@@ -146,8 +146,8 @@
             'Ela': 'avatar-el',
             'Zeynep': 'avatar-z',
             'Derin': 'avatar-d',
-            'Rüzgar': 'avatar-r',
-            'Mert': 'avatar-m'
+            'Batu': 'avatar-r',
+            'Mete': 'avatar-m'
         };
         
         const avatarLabels = {
@@ -155,8 +155,8 @@
             'Ela': 'El',
             'Zeynep': 'Z',
             'Derin': 'D',
-            'Rüzgar': 'R',
-            'Mert': 'M'
+            'Batu': 'B',
+            'Mete': 'M'
         };
         
         const smartResponses = {
@@ -210,7 +210,11 @@
             
             const hellos = {
                 'Eda': 'Merhaba! Ben Eda! Nasılsın?',
-                'Ela': 'Merhaba! Hoşgeldin!'
+                'Ela': 'Merhaba! Hoşgeldin!',
+                'Zeynep': 'Merhaba! Ben Zeynep!',
+                'Derin': 'Merhaba! Ben Derin!',
+                'Batu': 'Merhaba! Ben Batu!',
+                'Mete': 'Merhaba! Ben Mete!'
             };
             addMessage(hellos[name] || 'Merhaba!', false);
         }
