@@ -33,10 +33,10 @@ class _HomeScreenState extends State<HomeScreen> {
       id: '2',
       name: 'Ela',
       description: 'Sanal Arkadaş 💅',
-      avatar: '💅',
+      avatar: 'El',
       personality: CharacterPersonality.warm,
-      isPremium: false,
-      introMessage: '💅 Merhaba! Her konuda konuşabiliriz!',
+      isPremium: true,
+      introMessage: 'Merhaba! Ben Ela!',
       expertise: 'Her konuda sohbet',
     ),
     Character(
