@@ -18,14 +18,37 @@
         .header { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); padding: 50px 20px 20px; color: white; border-radius: 0 0 30px 30px; text-align: center; }
         
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 16px; }
-        .card { background: white; border-radius: 16px; padding: 14px; text-align: center; position: relative; }
+        .card { background: white; border-radius: 16px; padding: 14px; text-align: center; position: relative; cursor: pointer; }
         .card-avatar { width: 44px; height: 44px; background: linear-gradient(135deg, #8B5CF6, #6B4EFF); border-radius: 12px; margin: 0 auto 6px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
         .card-name { font-weight: bold; font-size: 13px; }
-        .card-badge { position: absolute; top: 8px; right: 8px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; padding: 2px 8px; border-radius: 8px; font-size: 10px; }
         
-        .fab { position: absolute; bottom: 90px; right: 20px; width: 56px; height: 56px; background: linear-gradient(135deg, #8B5CF6, #6B4EFF); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; }
-        
-        .nav { position: absolute; bottom: 0; width: 100%; height: 75px; background: white; display: flex; justify-content: space-around; align-items: center; border-radius: 20px 20px 0 0; }
+        .premium-modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; left: 0; right: 0; bottom: 0; 
+            background: rgba(0,0,0,0.7); 
+            z-index: 1000; 
+            align-items: center; 
+            justify-content: center; 
+        }
+        .premium-modal.active { display: flex; }
+        .premium-box { 
+            background: linear-gradient(135deg, #FFD700, #FFA500); 
+            padding: 30px; 
+            border-radius: 24px; 
+            text-align: center; 
+            color: white; 
+            max-width: 280px;
+            margin: 20px;
+        }
+        .premium-box h2 { font-size: 28px; margin-bottom: 8px; }
+        .premium-box .price { font-size: 36px; font-weight: bold; margin: 15px 0; }
+        .premium-box button { 
+            background: white; color: #FFA500; border: none; 
+            padding: 14px 32px; border-radius: 24px; 
+            font-weight: bold; font-size: 16px; cursor: pointer; 
+            margin-top: 10px;
+        }
         
         .chat-header { background: white; padding: 45px 16px 12px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #eee; }
         .chat-avatar { width: 40px; height: 40px; background: linear-gradient(135deg, #8B5CF6, #6B4EFF); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
@@ -37,25 +60,28 @@
         .msg-sent { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
         .msg-time { font-size: 10px; opacity: 0.7; margin-top: 4px; }
         
-        .typing { display: flex; gap: 4px; padding: 8px; }
-        .typing span { width: 8px; height: 8px; background: var(--primary); border-radius: 50%; animation: typing 1.4s infinite; }
-        .typing span:nth-child(2) { animation-delay: 0.2s; }
-        .typing span:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes typing { 0%, 60%, 100% { opacity: 0.3; } 30% { opacity: 1; } }
-        
         .quick-reply { display: flex; gap: 8px; overflow-x: auto; padding: 8px 16px; background: #f5f0ff; }
         .quick-btn { background: white; border: 1px solid var(--primary); color: var(--primary); padding: 8px 16px; border-radius: 20px; font-size: 12px; white-space: nowrap; }
         
         .chat-input-area { background: white; padding: 12px 16px; display: flex; gap: 12px; border-top: 1px solid #eee; position: sticky; bottom: 0; }
         .chat-input { flex: 1; background: var(--bg); border: none; border-radius: 24px; padding: 12px 16px; font-size: 14px; outline: none; }
         .chat-send { width: 44px; height: 44px; background: linear-gradient(135deg, #8B5CF6, #6B4EFF); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: white; }
-        
-        .blur { filter: blur(5px); pointer-events: none; }
     </style>
 </head>
 <body>
     <div class="phone">
         <div class="notch"></div>
+        
+        <!-- PREMIUM MODAL -->
+        <div class="premium-modal" id="premiumModal" onclick="closePremium(event)">
+            <div class="premium-box" onclick="event.stopPropagation()">
+                <h2>💎 Premium</h2>
+                <p id="premiumCharName">Karakter</p>
+                <div class="price">9.99€/ay</div>
+                <p>Ücretsiz denemek için Eda veya Ela'yı seçin!</p>
+                <button onclick="closePremium()">Kapat</button>
+            </div>
+        </div>
         
         <div class="screen active" id="homeScreen">
             <div class="header">
@@ -74,126 +100,64 @@
                     <div class="card-avatar">💅</div>
                     <div class="card-name">Ela</div>
                 </div>
-                <div class="card" onclick="alert('💎 Zeynep - Premium\n\nFiyat: 9.99€/ay\n\nÜcretsiz denemek için Eda veya Ela\'yı seçin!')">
-                    <div class="card-badge">💎</div>
-                    <div class="card-avatar blur">🥗</div>
+                <div class="card" onclick="showPremium('Zeynep')">
+                    <div style="position:absolute;top:8px;right:8px;background:linear-gradient(135deg,#FFD700,#FFA500);padding:2px 8px;border-radius:8px;font-size:12px;">💎</div>
+                    <div class="card-avatar" style="opacity:0.5;">🥗</div>
                     <div class="card-name">Zeynep</div>
                 </div>
-                <div class="card" onclick="alert('💎 Derin - Premium\n\nFiyat: 9.99€/ay\n\nÜcretsiz denemek için Eda veya Ela\'yı seçin!')">
-                    <div class="card-badge">💎</div>
-                    <div class="card-avatar blur">👶</div>
+                <div class="card" onclick="showPremium('Derin')">
+                    <div style="position:absolute;top:8px;right:8px;background:linear-gradient(135deg,#FFD700,#FFA500);padding:2px 8px;border-radius:8px;font-size:12px;">💎</div>
+                    <div class="card-avatar" style="opacity:0.5;">👶</div>
                     <div class="card-name">Derin</div>
                 </div>
-                <div class="card" onclick="alert('💎 Rüzgar - Premium\n\nFiyat: 9.99€/ay\n\nÜcretsiz denemek için Eda veya Ela\'yı seçin!')">
-                    <div class="card-badge">💎</div>
-                    <div class="card-avatar blur">💕</div>
+                <div class="card" onclick="showPremium('Rüzgar')">
+                    <div style="position:absolute;top:8px;right:8px;background:linear-gradient(135deg,#FFD700,#FFA500);padding:2px 8px;border-radius:8px;font-size:12px;">💎</div>
+                    <div class="card-avatar" style="opacity:0.5;">💕</div>
                     <div class="card-name">Rüzgar</div>
                 </div>
-                <div class="card" onclick="alert('💎 Mert - Premium\n\nFiyat: 9.99€/ay\n\nÜcretsiz denemek için Eda veya Ela\'yı seçin!')">
-                    <div class="card-badge">💎</div>
-                    <div class="card-avatar blur">📰</div>
+                <div class="card" onclick="showPremium('Mert')">
+                    <div style="position:absolute;top:8px;right:8px;background:linear-gradient(135deg,#FFD700,#FFA500);padding:2px 8px;border-radius:8px;font-size:12px;">💎</div>
+                    <div class="card-avatar" style="opacity:0.5;">📰</div>
                     <div class="card-name">Mert</div>
                 </div>
             </div>
             
-            <div class="fab" onclick="openGroup()">👥</div>
-            
-            <div class="nav">
-                <div style="display:flex;flex-direction:column;align-items:center;color:var(--primary);font-size:10px;"><span style="font-size:22px">🏠</span></div>
-            </div>
-        </div>
-        
-        <div class="screen" id="chatScreen">
-            <div class="chat-header">
-                <span onclick="goHome()" style="font-size:20px;cursor:pointer;">←</span>
-                <div class="chat-avatar" id="chatAvatar">👩‍🍳</div>
-                <div class="chat-name" id="chatName">Eda</div>
-            </div>
-            
-            <div class="quick-reply">
-                <button class="quick-btn" onclick="sendQuick('Merhaba!')">👋 Merhaba</button>
-                <button class="quick-btn" onclick="sendQuick('Nasılsın?')">😊 Nasılsın</button>
-                <button class="quick-btn" onclick="sendQuick('Konuşalım!')">💬 Konuşalım</button>
-            </div>
-            
-            <div class="chat-messages" id="chatMessages"></div>
-            
-            <div class="typing" id="typingIndicator" style="display:none;">
-                <span></span><span></span><span></span>
-            </div>
-            
-            <div class="chat-input-area">
-                <input type="text" class="chat-input" id="messageInput" placeholder="Mesaj yaz..." onkeypress="handleKeyPress(event)">
-                <div class="chat-send" onclick="sendMessage()">➤</div>
-            </div>
-        </div>
-        
-        <div class="screen" id="groupScreen">
-            <div class="chat-header" style="background:linear-gradient(135deg,#8B5CF6,#6B4EFF);">
-                <span onclick="goHome()" style="font-size:20px;cursor:pointer;color:white;">←</span>
-                <div class="chat-name" style="color:white;">Grup 💬</div>
-            </div>
-            <div class="chat-messages" id="groupMessages">
-                <div class="msg msg-received"><b>Mert:</b> Selam! Nasılsınız?<div class="msg-time">14:30</div></div>
-            </div>
-            <div class="chat-input-area">
-                <input type="text" class="chat-input" id="groupInput" placeholder="Gruba katıl...">
-                <div class="chat-send" onclick="sendToGroup()">➤</div>
+            <div class="screen" id="chatScreen">
+                <div class="chat-header">
+                    <span onclick="goHome()" style="font-size:20px;cursor:pointer;">←</span>
+                    <div class="chat-avatar" id="chatAvatar">👩‍🍳</div>
+                    <div class="chat-name" id="chatName">Eda</div>
+                </div>
+                
+                <div class="quick-reply">
+                    <button class="quick-btn" onclick="sendQuick('Merhaba!')">👋</button>
+                    <button class="quick-btn" onclick="sendQuick('Nasılsın?')">😊</button>
+                    <button class="quick-btn" onclick="sendQuick('Konuşalım!')">💬</button>
+                </div>
+                
+                <div class="chat-messages" id="chatMessages"></div>
+                
+                <div class="chat-input-area">
+                    <input type="text" class="chat-input" id="messageInput" placeholder="Mesaj yaz...">
+                    <div class="chat-send" onclick="sendMessage()">➤</div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        const API_KEY = 'AIzaSyD92NDDcQQFU4IQDOUqyKt_IyhF-Fs3k68';
-        const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
-        
         let currentChar = 'Eda';
         let conversationHistory = [];
-        
         const avatars = { 'Eda': '👩‍🍳', 'Ela': '💅' };
         
-        async function getAIResponse(message) {
-            const prompt = `Sen ${currentChar}'sin. Sen bir SANAL ARKADAŞSın! Her konuda sohbet edebilirsin. Samimi ol. Emoji kullan. Kısa ve eğlenceli yanıtlar ver.`;
-            
-            const contents = [
-                { role: 'user', parts: [{ text: prompt }] },
-                ...conversationHistory.slice(-6).map(m => ({ role: m.isUser ? 'user' : 'model', parts: [{ text: m.text }] })),
-                { role: 'user', parts: [{ text: message }] }
-            ];
-            
-            try {
-                const response = await fetch(API_URL + '?key=' + API_KEY, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: contents,
-                        generationConfig: { temperature: 0.9, maxOutputTokens: 600 }
-                    })
-                });
-                
-                if (!response.ok) throw new Error('API hatası');
-                
-                const data = await response.json();
-                return data.candidates[0].content.parts[0].text;
-            } catch (e) {
-                // Fallback responses - varied
-                const fallbacks = {
-                    'Eda': [
-                        '👩‍🍳 Aa ilginç! Devam et!',
-                        '👩‍Çok güzel! Anlat bakalım!',
-                        '👩‍🍳 Vay be! Şimdi ne oldu?',
-                        '👩‍🍳 Helal olsun! 😄'
-                    ],
-                    'Ela': [
-                        '💅 Aww ne tatlı! 💕',
-                        '💅 Çok ilginç! Anlat!',
-                        '💅 Vay! Hiç bilmiyordum!',
-                        '💅 Harika! 😊'
-                    ]
-                };
-                const opts = fallbacks[currentChar] || ['😊 Anladım!', '👀 İlginç!', '😄 Devam et!'];
-                return opts[Math.floor(Math.random() * opts.length)];
-            }
+        function showPremium(name) {
+            document.getElementById('premiumCharName').textContent = name;
+            document.getElementById('premiumModal').classList.add('active');
+        }
+        
+        function closePremium(e) {
+            if (e && e.target !== e.currentTarget) return;
+            document.getElementById('premiumModal').classList.remove('active');
         }
         
         function openChat(name) {
@@ -201,7 +165,7 @@
             document.getElementById('homeScreen').classList.remove('active');
             document.getElementById('chatScreen').classList.add('active');
             document.getElementById('chatName').textContent = name;
-            document.getElementById('chatAvatar').textContent = avatars[name];
+            document.getElementById('chatAvatar').textContent = avatars[name] || '👤';
             
             conversationHistory = [];
             const chatMsgs = document.getElementById('chatMessages');
@@ -210,14 +174,8 @@
             addMessage('👋 Merhaba! Ben ' + name + '! Nasılsın?', false);
         }
         
-        function openGroup() {
-            document.getElementById('homeScreen').classList.remove('active');
-            document.getElementById('groupScreen').classList.add('active');
-        }
-        
         function goHome() {
             document.getElementById('chatScreen').classList.remove('active');
-            document.getElementById('groupScreen').classList.remove('active');
             document.getElementById('homeScreen').classList.add('active');
         }
         
@@ -233,67 +191,26 @@
             chatMsgs.scrollTop = chatMsgs.scrollHeight;
         }
         
-        function showTyping() {
-            document.getElementById('typingIndicator').style.display = 'flex';
-        }
-        
-        function hideTyping() {
-            document.getElementById('typingIndicator').style.display = 'none';
-        }
-        
         function sendQuick(text) {
             document.getElementById('messageInput').value = text;
             sendMessage();
         }
         
-        async function sendMessage() {
+        function sendMessage() {
             const input = document.getElementById('messageInput');
             const text = input.value.trim();
             if (!text) return;
             
             addMessage(text, true);
             input.value = '';
-            showTyping();
             
-            try {
-                const response = await getAIResponse(text);
-                hideTyping();
-                addMessage(response, false);
-                conversationHistory.push({ text: text, isUser: true });
-                conversationHistory.push({ text: response, isUser: false });
-            } catch (e) {
-                hideTyping();
-                const fallbacks = {
-                    'Eda': ['👩‍🍳 Aa ilginç! 😄', '👩‍🍳 Vay be! 👀', '👩‍🍳 Devam et!'],
-                    'Ela': ['💅 Aww tatlısın! 💕', '💅 Çok ilginç!', '💅 Harika! 😊']
-                };
-                const opts = fallbacks[currentChar] || ['😊 Anladım!', '👀 İlginç!'];
-                addMessage(opts[Math.floor(Math.random() * opts.length)], false);
-            }
-        }
-        
-        function sendToGroup() {
-            const input = document.getElementById('groupInput');
-            const text = input.value.trim();
-            if (!text) return;
-            
-            const chatMsgs = document.getElementById('groupMessages');
-            const now = new Date();
-            const time = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
-            
-            chatMsgs.innerHTML += '<div class="msg msg-sent"><b>Sen:</b> ' + text + '<div class="msg-time">' + time + '</div></div>';
-            input.value = '';
-            chatMsgs.scrollTop = chatMsgs.scrollHeight;
-            
-            setTimeout(() => {
-                const responses = ['Mert: 👍', 'Eda: 😊', 'Ela: 💕'];
-                chatMsgs.innerHTML += '<div class="msg msg-received">' + responses[Math.floor(Math.random() * responses.length)] + '<div class="msg-time">' + time + '</div></div>';
-                chatMsgs.scrollTop = chatMsgs.scrollHeight;
-            }, 1000);
-        }
-        
-        function handleKeyPress(e) {
-            if (e.key === 'Enter') sendMessage();
+            // Fallback responses
+            const fallbacks = {
+                'Eda': ['👩‍🍳 Aa ilginç! 😄', '👩‍🍳 Vay be! 👀', '👩‍🍳 Devam et!'],
+                'Ela': ['💅 Aww tatlısın! 💕', '💅 Çok ilginç!', '💅 Harika! 😊']
+            };
+            const opts = fallbacks[currentChar] || ['😊 Anladım!', '👀 İlginç!'];
+            setTimeout(() => addMessage(opts[Math.floor(Math.random() * opts.length)], false), 500);
         }
     </script>
 </body>
