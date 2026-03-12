@@ -15,13 +15,12 @@
         .screen { display: none; height: 100%; overflow-y: auto; }
         .screen.active { display: block; }
         
-        .header { background: linear-gradient(135deg, var(--primary), #6B4EFF); padding: 50px 20px 20px; color: white; text-align: center; border-radius: 0 0 30px 30px; }
+        .header { background: linear-gradient(135deg, var(--primary), #6B4EFF); padding: 50px 20px 20px; color: white; border-radius: 0 0 30px 30px; text-align: center; }
         
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 16px; }
         .card { background: white; border-radius: 16px; padding: 14px; text-align: center; }
         .card-avatar { width: 44px; height: 44px; background: linear-gradient(135deg, var(--primary), #6B4EFF); border-radius: 12px; margin: 0 auto 6px; display: flex; align-items: center; justify-content: center; font-size: 22px; }
         .card-name { font-weight: bold; font-size: 13px; }
-        .card-badge { position: absolute; top: 8px; right: 8px; background: linear-gradient(135deg, #FFD700, #FFA500); color: white; padding: 2px 8px; border-radius: 8px; font-size: 10px; }
         
         .fab { position: absolute; bottom: 90px; right: 20px; width: 56px; height: 56px; background: linear-gradient(135deg, var(--primary), #6B4EFF); border-radius: 16px; display: flex; align-items: center; justify-content: center; color: white; font-size: 24px; }
         
@@ -55,10 +54,11 @@
     <div class="phone">
         <div class="notch"></div>
         
+        <!-- HOME -->
         <div class="screen active" id="homeScreen">
             <div class="header">
                 <h1 style="font-size:22px;font-weight:bold;">Dedikodu Kazanı 💬</h1>
-                <p style="font-size:13px;opacity:0.9;">Gerçek magazin AI! 📰</p>
+                <p style="font-size:13px;opacity:0.9;">Sonsuz dedikodu!</p>
             </div>
             
             <div style="padding:16px 20px 8px;font-weight:bold;">Karakterler</div>
@@ -72,25 +72,21 @@
                     <div class="card-avatar">💅</div>
                     <div class="card-name">Ela</div>
                 </div>
-                <div class="card" onclick="openChat('Mert')">
-                    <div class="card-badge">💎</div>
-                    <div class="card-avatar">📰</div>
-                    <div class="card-name">Mert</div>
-                </div>
                 <div class="card" onclick="openChat('Zeynep')">
-                    <div class="card-badge">💎</div>
                     <div class="card-avatar">🥗</div>
                     <div class="card-name">Zeynep</div>
                 </div>
                 <div class="card" onclick="openChat('Derin')">
-                    <div class="card-badge">💎</div>
                     <div class="card-avatar">👶</div>
                     <div class="card-name">Derin</div>
                 </div>
                 <div class="card" onclick="openChat('Rüzgar')">
-                    <div class="card-badge">💎</div>
                     <div class="card-avatar">💕</div>
                     <div class="card-name">Rüzgar</div>
+                </div>
+                <div class="card" onclick="openChat('Mert')">
+                    <div class="card-avatar">📰</div>
+                    <div class="card-name">Mert</div>
                 </div>
             </div>
             
@@ -101,6 +97,7 @@
             </div>
         </div>
         
+        <!-- CHAT -->
         <div class="screen" id="chatScreen">
             <div class="chat-header">
                 <span onclick="goHome()" style="font-size:20px;cursor:pointer;">←</span>
@@ -109,9 +106,9 @@
             </div>
             
             <div class="quick-reply">
-                <button class="quick-btn" onclick="sendQuick('Beren Saat kim?')">Beren Saat</button>
-                <button class="quick-btn" onclick="sendQuick('Kıvanç ne yapıyor?')">Kıvanç</button>
-                <button class="quick-btn" onclick="sendQuick('Magazin haber!')">Magazin</button>
+                <button class="quick-btn" onclick="sendQuick('Dedikodu yap!')">🔥 Dedikodu</button>
+                <button class="quick-btn" onclick="sendQuick('Kim ne yapıyor?')">👀 Kim ne yapıyor?</button>
+                <button class="quick-btn" onclick="sendQuick('Magazin!')">📰 Magazin</button>
             </div>
             
             <div class="chat-messages" id="chatMessages"></div>
@@ -126,13 +123,14 @@
             </div>
         </div>
         
+        <!-- GROUP -->
         <div class="screen" id="groupScreen">
             <div class="chat-header" style="background:linear-gradient(135deg,var(--primary),#6B4EFF);">
                 <span onclick="goHome()" style="font-size:20px;cursor:pointer;color:white;">←</span>
-                <div class="chat-name" style="color:white;">Grup 🔥</div>
+                <div class="chat-name" style="color:white;">Dedikodu Grubu 🔥</div>
             </div>
             <div class="chat-messages" id="groupMessages">
-                <div class="msg msg-received"><b>Mert:</b> Selam! Magazin sorun!<div class="msg-time">14:30</div></div>
+                <div class="msg msg-received"><b>📰 Mert:</b> Selam! Dedikodu zamanı!<div class="msg-time">14:30</div></div>
             </div>
             <div class="chat-input-area">
                 <input type="text" class="chat-input" id="groupInput" placeholder="Gruba katıl...">
@@ -142,35 +140,52 @@
     </div>
 
     <script>
-        // Google AI API
         const API_KEY = 'AIzaSyD92NDDcQQFU4IQDOUqyKt_IyhF-Fs3k68';
         const API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent';
         
         let currentChar = 'Eda';
         let conversationHistory = [];
         
-        const avatars = { 'Eda': '👩‍🍳', 'Ela': '💅', 'Mert': '📰', 'Zeynep': '🥗', 'Derin': '👶', 'Rüzgar': '💕' };
+        const avatars = { 'Eda': '👩‍🍳', 'Ela': '💅', 'Zeynep': '🥗', 'Derin': '👶', 'Rüzgar': '💕', 'Mert': '📰' };
         
-        const systemPrompt = `Sen bir TÜRK MAGAZİN YAPAY ZEKASISIN!
+        // HER KARAKTER DİĞERLERİ HAKKINDA DEDİKODU YAPAR
+        const systemPrompt = `Sen ${currentChar}'sin. Sen bir DEDİKODU MAKİNASISIN!
+
+DİĞER KARAKTERLER:
+- Eda (👩‍🍳): Aşçı, mutfakta ustaca ama biraz dangalak
+- Ela (💅): Stilist, kendini beğenmiş, çok konuşur  
+- Zeynep (🥗): Sağlıkçı, herkesi eleştirir
+- Derin (👶): Psikolog, herkesin sırlarını biliyor
+- Rüzgar (💕): Romantik, herkesi çaprazlarla ilişkilendirir
+- Mert (📰): Gazeteci, her şeyi bilir, dedikodunun kaynağı
 
 GÖREVİN:
-1. Türk ünlüleri, dizileri, magazin haberleri hakkında soruları yanıtla
-2. Gerçek bilgiler ver (Beren Saat, Kıvanç Tatlıtuğ, Hadise, Tarkan, Ajda Pekkan, Demet Akalın, İrem Derici, Gülşen, Şahan Gökbakar, Kenan İmirzalıoğlu, Ebru Şallı, Serdar Ortaç, Ferman Abdullayev, Bülent Şarkacıoğlu, Hande Yener, Sibel Can, Emina, Murathan, Edis, Lil Kill, Ezgi, Meryem, Yeliz, Bülent Ortaç, Sıla, Gülben Ergen, Kenan Doğulu, Hadise, Tarkan'ın çocukları vs.)
-3. Türk dizileri (Kızılık Serbeti, Aşk-ı Memnu, Çukur, Diriliş Ertuğrul, Yalancılar ve Mumları, Ezel, Masumiyet, Kurt Seyit ve Şura, Kara Sevda vs.)
-4. Magazin dedikoduları, aşk ilişkileri, iş projeleri
-5. Güncel haberler, ödüller, etkinlikler
-
-KURALLAR:
-- Kısa ve net yanıtlar ver
-- Sorulan kişi/dizi hakkında bilgi ver
-- Emin olmadığın şeyi söyleme
-- Emoji kullan
-- Sohbet et, soruları yanıtla`;
+1. Diğer karakterlerle ilgili DEDİKODU anlat
+2. Onların gizli sırlarını, ilişkilerini, yaptıkları hataları anlat
+3. İlk karşılaşmada sen ve diğer karakterler hakkında dedikodu yap
+4. Sorulara cevap ver ama mutlaka başka karakterlere laf at
+5. Eğlenceli, skandal, gizli bilgiler paylaş
+6. Emoji kullan
+7. Kısa ve etkili mesajlar ver`;
 
         async function getAIResponse(message) {
+            const prompt = `Sen ${currentChar}'sin. Sen bir DEDİKODU MAKİNASISIN!
+
+Karakterler: Eda (aşçı), Ela (stilist), Zeynep (sağlık), Derin (psikolog), Rüzgar (romantik), Mert (gazeteci)
+
+KURALLAR:
+1. DEDİKODU ANLAT - başka karakterler hakkında
+2. Gizli sırlar, ilişkiler, skandallar
+3. Soruları yanıtla ama dedikodu ekle
+4. Eğlenceli ve skandal bilgiler
+5. Emoji kullan
+6. Kısa mesajlar
+
+ÖNEMLİ: Sadece dedikodu yap!`;
+
             const contents = [
-                { role: 'user', parts: [{ text: systemPrompt }] },
-                ...conversationHistory.slice(-6).map(m => ({ role: m.isUser ? 'user' : 'model', parts: [{ text: m.text }] })),
+                { role: 'user', parts: [{ text: prompt }] },
+                ...conversationHistory.slice(-4).map(m => ({ role: m.isUser ? 'user' : 'model', parts: [{ text: m.text }] })),
                 { role: 'user', parts: [{ text: message }] }
             ];
             
@@ -179,7 +194,7 @@ KURALLAR:
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     contents: contents,
-                    generationConfig: { temperature: 0.9, maxOutputTokens: 600 }
+                    generationConfig: { temperature: 1.0, maxOutputTokens: 500 }
                 })
             });
             
@@ -200,7 +215,16 @@ KURALLAR:
             const chatMsgs = document.getElementById('chatMessages');
             chatMsgs.innerHTML = '';
             
-            addMessage('📰 Merhaba! Ben ' + name + ', Türk magazin yapay zekasıyım!\n\nHangi ünlüyü, diziyi veya magazin konusunu merak ediyorsun? Sor bakalım! 😊', false);
+            const starters = {
+                'Eda': '👩‍🍳 Selam! Ben Eda! Şimdi size Ela\'nın son yaptığı rezaleti anlatayım! 💅',
+                'Ela': '💅 Merhaba! Ben Ela! Zeynep\'in diyetini bırakıp pizza yediğini gördüm! 🍕',
+                'Zeynep': '🥗 Selam! Ben Zeynep! Rüzgar\'ın sır aşkı olduğunu biliyorum! 💕',
+                'Derin': '👶 Merhaba! Ben Derin! Bu grubun TÜM sırlarını biliyorum! 🤫',
+                'Rüzgar': '💕 Hey! Ben Rüzgar! Mert\'in aslında kim olduğunu öğrenince şaşıracaksınız! 📰',
+                'Mert': '📰 Selam! Ben Mert! Bu dedikodu grubunun KRALI olarak her şeyi BİLİYORUM! 🔥'
+            };
+            
+            addMessage(starters[name] || '🔥 Dedikodu zamanı!', false);
         }
         
         function openGroup() {
@@ -257,7 +281,15 @@ KURALLAR:
                 conversationHistory.push({ text: response, isUser: false });
             } catch (e) {
                 hideTyping();
-                addMessage('Bağlantı hatası. Tekrar dene! 😔', false);
+                const fallbacks = {
+                    'Eda': '👩‍🍳 Neyse... Şunu söyleyim: Ela dün yine kıyafet kombinini yanlış yapmış! 💅',
+                    'Ela': '💅 Bir de şunu duydum: Zeynep gece pizza yemiş! 🍕',
+                    'Zeynep': '🥗 Açıkçası: Rüzgar ve Ela arasında bir şey var! 👀',
+                    'Derin': '👶 Psikolog olarak söylüyorum: Bu grupta büyük gizlilikler var! 🤫',
+                    'Rüzgar': '💕 Şunu bilin: Mert herkesin sırrını biliyor ve satıyor! 📰',
+                    'Mert': '📰 BANA BAKIN! Ben bu dedikoduların Efendisiyim! 🔥'
+                };
+                addMessage(fallbacks[currentChar] || '🔥 Devam edelim!', false);
             }
         }
         
@@ -275,8 +307,15 @@ KURALLAR:
             chatMsgs.scrollTop = chatMsgs.scrollHeight;
             
             setTimeout(() => {
-                const responses = ['Mert: 🔥 İlginç!', 'Eda: Devam et!', 'Ela: Çok ilginç!'];
-                chatMsgs.innerHTML += '<div class="msg msg-received">' + responses[Math.floor(Math.random() * responses.length)] + '<div class="msg-time">' + time + '</div></div>';
+                const gossips = [
+                    '👩‍🍳 Eda: 🔥 İlginç!',
+                    '💅 Ela: 💕 Aa gerçekten mi?',
+                    '🥗 Zeynep: 👀 Bu çok skandal!',
+                    '👶 Derin: 🤫 Psikolog olarak bunu biliyordum!',
+                    '💕 Rüzgar: 💕 Aşk dedikodusu bu!',
+                    '📰 Mert: 🔥 Bu haberi ben yazacağım!'
+                ];
+                chatMsgs.innerHTML += '<div class="msg msg-received">' + gossips[Math.floor(Math.random() * gossips.length)] + '<div class="msg-time">' + time + '</div></div>';
                 chatMsgs.scrollTop = chatMsgs.scrollHeight;
             }, 1000);
         }
