@@ -63,27 +63,32 @@
         .scene2 { background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%); }
         .ai-chars {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             flex-wrap: wrap;
             justify-content: center;
-            max-width: 300px;
+            max-width: 320px;
         }
         .ai-char {
-            width: 90px;
-            height: 90px;
-            border-radius: 25px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 40px;
+            width: 70px;
+            height: 70px;
+            border-radius: 20px;
+            overflow: hidden;
             animation: charPop 0.5s ease-out forwards;
             opacity: 0;
             transform: scale(0);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
-        .ai-char:nth-child(1) { background: linear-gradient(135deg, #FF6B6B, #ee5a5a); animation-delay: 0.2s; }
-        .ai-char:nth-child(2) { background: linear-gradient(135deg, #6C5CE7, #5b4ed1); animation-delay: 0.4s; }
-        .ai-char:nth-child(3) { background: linear-gradient(135deg, #FD79A8, #e66a96); animation-delay: 0.6s; }
-        .ai-char:nth-child(4) { background: linear-gradient(135deg, #00B894, #00a382); animation-delay: 0.8s; }
+        .ai-char img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .ai-char:nth-child(1) { animation-delay: 0.2s; }
+        .ai-char:nth-child(2) { animation-delay: 0.4s; }
+        .ai-char:nth-child(3) { animation-delay: 0.6s; }
+        .ai-char:nth-child(4) { animation-delay: 0.8s; }
+        .ai-char:nth-child(5) { animation-delay: 1.0s; }
+        .ai-char:nth-child(6) { animation-delay: 1.2s; }
         
         @keyframes charPop {
             to { opacity: 1; transform: scale(1); }
@@ -193,12 +198,14 @@
         <!-- Scene 2: AI Friends -->
         <div class="scene scene2" id="scene2">
             <div class="ai-chars">
-                <div class="ai-char">👩‍🍳</div>
-                <div class="ai-char">📰</div>
-                <div class="ai-char">💅</div>
-                <div class="ai-char">🥗</div>
+                <div class="ai-char"><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_eda.png"></div>
+                <div class="ai-char"><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_teo.png"></div>
+                <div class="ai-char"><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_ela.png"></div>
+                <div class="ai-char"><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_mila.png"></div>
+                <div class="ai-char"><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_batu.png"></div>
+                <div class="ai-char"><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_mete.png"></div>
             </div>
-            <div style="color:white;margin-top:30px;font-size:18px;text-align:center;padding:0 20px;">AI Arkadaşların Cep Telefonunda</div>
+            <div style="color:white;margin-top:25px;font-size:16px;text-align:center;padding:0 20px;">6 AI Arkadaş Cep Telefonunda</div>
         </div>
         
         <!-- Scene 3: Logo 3D -->
