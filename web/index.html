@@ -392,11 +392,11 @@
             document.getElementById('av-' + emoji).classList.add('selected');
         }
         
-        // SPLASH - show login after
+        // SPLASH - hide and show home directly
         setTimeout(() => { 
-            document.getElementById('splashScreen').classList.add('hidden');
-            document.getElementById('loginModal').classList.add('active');
-        }, 2000);
+            document.getElementById('splashScreen').style.display = 'none';
+            document.getElementById('homeScreen').style.display = 'block';
+        }, 1500);
         
         const avatarStyles = { 'Eda': 'avatar-e', 'Teo': 'avatar-t', 'Ela': 'avatar-el', 'Mila': 'avatar-z', 'Batu': 'avatar-r', 'Mete': 'avatar-m' };
         const avatarLabels = { 'Eda': 'E', 'Teo': 'T', 'Ela': 'El', 'Mila': 'Mi', 'Batu': 'B', 'Mete': 'M' };
