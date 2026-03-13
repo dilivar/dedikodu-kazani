@@ -92,10 +92,10 @@
         .msg-sent { background: #8B5CF6; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
         .msg-group { background: #f0f0f0; align-self: flex-start; border-bottom-left-radius: 4px; }
         .msg-time { font-size: 10px; opacity: 0.7; margin-top: 4px; }
-        .msg-reactions { display: flex; gap: 4px; margin-top: 6px; }
-        .reaction { font-size: 16px; cursor: pointer; padding: 2px 4px; border-radius: 10px; transition: transform 0.2s; }
-        .reaction:hover { background: #f0f0f0; transform: scale(1.2); }
-        .reaction.added { background: #e8f4fd; }
+        .msg-reactions { display: none; position: absolute; bottom: 5px; right: 10px; background: rgba(0,0,0,0.8); border-radius: 20px; padding: 4px 8px; gap: 4px; }
+        .msg-reactions.show { display: flex; }
+        .reaction { font-size: 16px; cursor: pointer; }
+        .reaction.added { transform: scale(1.2); }
         
         .quick-reply { display: flex; gap: 8px; overflow-x: auto; padding: 8px 16px; background: #f5f0ff; }
         .quick-btn { background: white; border: 1px solid #8B5CF6; color: #8B5CF6; padding: 8px 14px; border-radius: 20px; font-size: 11px; white-space: nowrap; cursor: pointer; }
@@ -535,6 +535,23 @@
             
             const msgDiv = document.createElement('div');
             msgDiv.className = 'msg ' + (isUser ? 'msg-sent' : 'msg-received');
+            msgDiv.style.position = 'relative';
+            // Long press for reactions
+            let pressTimer;
+            msgDiv.addEventListener('mousedown', () => {
+                pressTimer = setTimeout(() => {
+                    msgDiv.querySelector('.msg-reactions').classList.add('show');
+                }, 500);
+            });
+            msgDiv.addEventListener('mouseup', () => clearTimeout(pressTimer));
+            msgDiv.addEventListener('mouseleave', () => clearTimeout(pressTimer));
+            msgDiv.addEventListener('touchstart', () => {
+                pressTimer = setTimeout(() => {
+                    msgDiv.querySelector('.msg-reactions').classList.add('show');
+                }, 500);
+            });
+            msgDiv.addEventListener('touchend', () => clearTimeout(pressTimer));
+            
             msgDiv.innerHTML = (isUser ? '' : '<b>' + currentChar + ':</b> ') + text.replace(/\n/g, '<br>') + 
                 '<div class="msg-time">' + time + '</div>' +
                 '<div class="msg-reactions">' +
@@ -563,6 +580,23 @@
             
             const msgDiv = document.createElement('div');
             msgDiv.className = 'msg msg-group';
+            msgDiv.style.position = 'relative';
+            // Long press for reactions
+            let pressTimer;
+            msgDiv.addEventListener('mousedown', () => {
+                pressTimer = setTimeout(() => {
+                    msgDiv.querySelector('.msg-reactions').classList.add('show');
+                }, 500);
+            });
+            msgDiv.addEventListener('mouseup', () => clearTimeout(pressTimer));
+            msgDiv.addEventListener('mouseleave', () => clearTimeout(pressTimer));
+            msgDiv.addEventListener('touchstart', () => {
+                pressTimer = setTimeout(() => {
+                    msgDiv.querySelector('.msg-reactions').classList.add('show');
+                }, 500);
+            });
+            msgDiv.addEventListener('touchend', () => clearTimeout(pressTimer));
+            
             msgDiv.innerHTML = '<b style="color:' + groupColors[name] + ';">' + name + ':</b> ' + text + 
                 '<div class="msg-time">' + time + '</div>' +
                 '<div class="msg-reactions">' +
