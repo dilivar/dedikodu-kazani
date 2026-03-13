@@ -11,8 +11,7 @@
         body { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); display: flex; justify-content: center; }
         .phone { width: 100%; max-width: 393px; background: #F5F0FF; position: relative; overflow: hidden; }
         
-        #splashScreen { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #8B5CF6, #6B4EFF); z-index: 3000; display: flex; align-items: center; justify-content: center; flex-direction: column; }
-        #splashScreen.hidden { display: none; }
+        #splashScreen { display: none; }
         .splash-logo { font-size: 48px; font-weight: bold; color: white; animation: pulse 2s infinite; }
         .splash-text { color: white; margin-top: 10px; font-size: 14px; }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
@@ -392,15 +391,8 @@
             document.getElementById('av-' + emoji).classList.add('selected');
         }
         
-        // SPLASH - hide and show home directly
-        setTimeout(() => { 
-            document.getElementById('splashScreen').style.display = 'none';
-            document.getElementById('homeScreen').style.display = 'block';
-        }, 1000);
-        
-        // Also allow click to skip
-        document.getElementById('splashScreen').addEventListener('click', function() {
-            this.style.display = 'none';
+        // Show home directly
+        window.addEventListener('load', function() {
             document.getElementById('homeScreen').style.display = 'block';
         });
         
