@@ -77,27 +77,21 @@
         
         /* Scene 3 - Logo */
         .scene3 { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); }
-        .logo-circle {
-            width: 200px;
-            height: 200px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            animation: pulse 2s ease-in-out infinite;
-        }
-        .logo-circle-inner {
-            width: 150px;
-            height: 150px;
+        .logo-3d {
+            width: 180px;
+            height: 180px;
             background: linear-gradient(135deg, #8B5CF6, #6B4EFF);
-            border-radius: 50%;
+            border-radius: 35px;
             display: flex;
             justify-content: center;
             align-items: center;
             color: white;
-            font-size: 60px;
+            font-size: 50px;
             font-weight: bold;
+            animation: float3d 2s ease-in-out infinite;
+            box-shadow: 
+                0 10px 30px rgba(139, 92, 246, 0.5),
+                0 0 60px rgba(139, 92, 246, 0.3);
         }
         
         /* Scene 4 - Characters */
@@ -143,6 +137,10 @@
         }
         
         /* Animations */
+        @keyframes float3d {
+            0%, 100% { transform: translateY(0) rotateX(0); }
+            50% { transform: translateY(-15px) rotateX(5deg); }
+        }
         @keyframes fadeInUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
@@ -192,11 +190,9 @@
             <div style="color:white;margin-top:30px;font-size:18px;">Cep telefonumdaki arkadaşım</div>
         </div>
         
-        <!-- Scene 3: Logo -->
+        <!-- Scene 3: Logo 3D -->
         <div class="scene scene3" id="scene3">
-            <div class="logo-circle">
-                <div class="logo-circle-inner">DK</div>
-            </div>
+            <div class="logo-3d">💬</div>
             <div style="color:white;margin-top:30px;font-size:24px;font-weight:bold;">Dedikodu Kazanı</div>
         </div>
         
@@ -215,7 +211,7 @@
         
         <!-- Scene 5: Final -->
         <div class="scene scene5" id="scene5">
-            <div class="final-logo">💬</div>
+            <div class="logo-3d" style="width:140px;height:140px;font-size:40px;">💬</div>
             <div class="slogan">Sanal arkadaşın<br>cebinde!</div>
         </div>
         
@@ -225,7 +221,7 @@
     <script>
         const scenes = ['scene1', 'scene2', 'scene3', 'scene4', 'scene5'];
         let currentScene = 0;
-        const duration = 5000; // 5 seconds per scene
+        const duration = 2000; // 2 seconds per scene
         
         function showScene(index) {
             scenes.forEach((s, i) => {
