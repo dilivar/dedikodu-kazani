@@ -263,7 +263,7 @@
             </div>
         </div>
         
-        <div id="homeScreen" style="display:none;">
+        <div id="homeScreen">
             <div class="settings-btn" onclick="openProfile()">⚙️</div>
             <div class="header">
                 <h1 style="font-size:22px;font-weight:bold;">Dedikodu Kazanı</h1>
@@ -391,10 +391,8 @@
             document.getElementById('av-' + emoji).classList.add('selected');
         }
         
-        // Show home directly
-        window.addEventListener('load', function() {
-            document.getElementById('homeScreen').style.display = 'block';
-        });
+        // No splash - show home directly
+        
         
         const avatarStyles = { 'Eda': 'avatar-e', 'Teo': 'avatar-t', 'Ela': 'avatar-el', 'Mila': 'avatar-z', 'Batu': 'avatar-r', 'Mete': 'avatar-m' };
         const avatarLabels = { 'Eda': 'E', 'Teo': 'T', 'Ela': 'El', 'Mila': 'Mi', 'Batu': 'B', 'Mete': 'M' };
