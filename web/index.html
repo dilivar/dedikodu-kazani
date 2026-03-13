@@ -396,7 +396,13 @@
         setTimeout(() => { 
             document.getElementById('splashScreen').style.display = 'none';
             document.getElementById('homeScreen').style.display = 'block';
-        }, 1500);
+        }, 1000);
+        
+        // Also allow click to skip
+        document.getElementById('splashScreen').addEventListener('click', function() {
+            this.style.display = 'none';
+            document.getElementById('homeScreen').style.display = 'block';
+        });
         
         const avatarStyles = { 'Eda': 'avatar-e', 'Teo': 'avatar-t', 'Ela': 'avatar-el', 'Mila': 'avatar-z', 'Batu': 'avatar-r', 'Mete': 'avatar-m' };
         const avatarLabels = { 'Eda': 'E', 'Teo': 'T', 'Ela': 'El', 'Mila': 'Mi', 'Batu': 'B', 'Mete': 'M' };
