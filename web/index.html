@@ -449,23 +449,30 @@
         }
         
         function allowNotif() {
-            if (Notification.permission === 'granted') {
-                alert('✅ Bildirimler zaten açık!');
-            } else if (Notification.permission !== 'denied') {
-                Notification.requestPermission().then(permission => {
-                    if (permission === 'granted') {
-                        new Notification('💬 Dedikodu Kazanı', { body: 'Bildirimler açıldı! 🔔' });
-                    }
-                });
-            }
+            // Close modal first
             document.getElementById('notifModal').classList.remove('active');
+            
+            // Try to request permission
+            if (Notification.permission === 'granted') {
+                console.log('Already granted');
+            } else if (Notification.permission !== 'denied') {
+                Notification.requestPermission();
+            }
+            
             // Show profile setup
-            setTimeout(() => { document.getElementById('profileModal').classList.add('active'); }, 300);
+            setTimeout(() => { 
+                document.getElementById('profileModal').classList.add('active'); 
+            }, 300);
         }
         
         function denyNotif() {
             document.getElementById('notifModal').classList.remove('active');
             document.getElementById('homeScreen').style.display = 'block';
+            // Also show profile
+            setTimeout(() => { 
+                document.getElementById('profileModal').classList.add('active'); 
+            }, 500);
+        }
         }
         
         // PROFILE
