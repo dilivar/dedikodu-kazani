@@ -194,6 +194,52 @@
             'Mila': '#00B894', 'Batu': '#F39C12', 'Mete': '#0984E3'
         };
         
+        // HER KARAKTERİN KİŞİLİK ÖZELLİKLERİ
+        const characters = {
+            'Eda': {
+                personality: 'Eğlenceli, enerjik,稍有点八卦',
+                style: 'Kısa ve eğlenceli yanıtlar',
+                greetings: ['Selam! 🙌', 'Heey! 🎉', 'Merhaba! 😊'],
+                phrases: ['Vay be! 👀', 'Cidden mi? 😄', 'Helal olsun! 🔥', 'Aaa ilginç! 😂'],
+                topics: { magazin: 'Magazin konusunda her şeyi bilirim! 📰', support: 'Yanındayım! 💕' }
+            },
+            'Teo': {
+                personality: 'Sakin, bilge, analitik',
+                style: 'Düşünceli ve mantıklı yanıtlar',
+                greetings: ['Merhaba 👋', 'Selam 🤗', 'Hoşgeldin ✨'],
+                phrases: ['Hmm... 🤔', 'İlginç! 💡', 'Anladım 👍', 'Bu önemli! 🎯'],
+                topics: { advice: 'Düşünelim... 💭', support: 'Sana yardımcı olabilirim 🌟' }
+            },
+            'Ela': {
+                personality: 'Romantik, duygusal, şair ruhlu',
+                style: 'Nazik ve sevgi dolu',
+                greetings: ['Awww merhaba! 💕', 'Hoşgeldin! 🌸', 'Merhaba! 😍'],
+                phrases: ['Aaa ne tatlı! 🥰', 'Çok güzel! 💖', 'Vay! 🌟', 'Harika! ✨'],
+                topics: { love: 'Aşk her şeydir! 💕', support: 'Seni çok seviyorum! 🥰' }
+            },
+            'Mila': {
+                personality: 'Pratik, gerçekçi, yardımsever',
+                style: 'Net ve faydalı',
+                greetings: ['Selam 👋', 'Merhaba! 👍', 'Hey! 😊'],
+                phrases: ['Tamam 👍', 'Olur! 🎯', 'İyi fikir! 💪', 'Başarılır! 🔥'],
+                topics: { help: 'Nasıl yardımcı olabilirim? 🛠️', support: 'Hemen çözüm bulalım! ⚡' }
+            },
+            'Batu': {
+                personality: 'Sporcu, enerjik, rekabetçi',
+                style: 'Cesur ve motive edici',
+                greetings: ['Selam! ⚡', 'Hoop geliyorum! 🚀', 'Hey! 💪'],
+                phrases: ['Hadi! 🔥', 'Yaparsın! 💪', 'Kesinlikle! 🎯', 'Go! ⚡'],
+                topics: { sports: 'Spor zamanı! 🏃', motivation: 'Pes etme! 💪' }
+            },
+            'Mete': {
+                personality: 'Gazeteci, meraklı, bilgi dolu',
+                style: 'Haberler ve güncel bilgiler',
+                greetings: ['Selam! 📰', 'Merhaba! 🔍', 'Hey! 📱'],
+                phrases: ['Biliyor musun? 🤓', 'Haberler şöyle... 📰', 'İlginç! 🔎', 'Şaşırtıcı! 😲'],
+                topics: { news: 'Gündem çok sıcak! 🔥', support: 'Bilgi güçtür! 📚' }
+            }
+        };
+        
         const currentData = {
             euro: '36.50 TL',
             dolar: '35.20 TL',
@@ -203,44 +249,30 @@
         };
         
         function getSmartResponse(message) {
+            const char = characters[currentChar] || characters['Eda'];
             const msg = message.toLowerCase();
             
+            // Karaktere özel yanıtlar
             if (msg.includes('euro') || msg.includes('avro')) {
-                return '💶 Bugün euro: ' + currentData.euro;
+                return char.topics.magazin + ' 💶 Bugün euro: ' + currentData.euro;
             }
             if (msg.includes('dolar') || msg.includes('dollar')) {
-                return '💵 Bugün dolar: ' + currentData.dolar;
+                return char.topics.news + ' 💵 Dolar: ' + currentData.dolar;
             }
             if (msg.includes('burç') || msg.includes('burc')) {
-                return '🔮 ' + currentData.burc + ' burcu: ' + currentData.burcYorum;
+                return '🔮 ' + currentData.burc + ' - ' + currentData.burcYorum;
             }
             if (msg.includes('magazin') || msg.includes('haber') || msg.includes('dedikodu')) {
                 return currentData.magazin;
             }
-            if (msg.includes('anne') || msg.includes('kıyafet') || msg.includes('kombin')) {
-                if (userMemory.boyriendMom) {
-                    return 'Aa ' + userMemory.boyriendMom + ' için mi? 😄 Klasik şık! Beyaz pantolon + renkli bluz! 👗';
-                }
-                return 'Kıyafet mi? 🙈 Erkek arkadaşın var mı? Annesi nasıl?';
-            }
-            if (msg.includes('benim adım') || msg.includes('ismim')) {
-                const nameMatch = message.match(/adım\s+(\w+)/i) || message.match(/ismim\s+(\w+)/i);
-                if (nameMatch) {
-                    userMemory.name = nameMatch[1];
-                    return 'Aaaa ' + userMemory.name + '! 🥰 Seni unutmam!';
-                }
+            
+            // Karaktere özel selamlama
+            if (msg.includes('merhaba') || msg.includes('selam') || msg.includes('hey')) {
+                return char.greetings[Math.floor(Math.random() * char.greetings.length)];
             }
             
-            const responses = [
-                'Vay be! 👀 Çok ilginç! Devam et!',
-                'Aa cidden mi? 😄 Çok güzel!',
-                'Bilinmiyordu! 🙌 Anlat daha çok!',
-                'Vallahi mi? 😂 Helal olsun!',
-                'Bu çok iyi! 📰',
-                'Kanka sen bunalma 😎',
-                'Aaa bunu bende duymadım! 🎉'
-            ];
-            return responses[Math.floor(Math.random() * responses.length)];
+            // Karaktere özel cevaplar
+            return char.phrases[Math.floor(Math.random() * char.phrases.length)];
         }
         
         function showPremium(name) {
