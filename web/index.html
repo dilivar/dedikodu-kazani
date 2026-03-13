@@ -169,6 +169,17 @@
             </div>
         </div>
         
+        <!-- NOTIFICATION MODAL -->
+        <div class="modal" id="notifModal">
+            <div class="modal-box" style="text-align:center;">
+                <div style="font-size:60px;margin-bottom:20px;">🔔</div>
+                <h2>Bildirimlere İzin Ver</h2>
+                <p style="color:#636E72;margin:16px 0;">Sana özel mesajlar ve güncel dedikodular için bildirim al!</p>
+                <button class="save-btn" onclick="allowNotif()">✅ İzin Ver</button>
+                <button onclick="denyNotif()" style="background:none;border:none;color:#636E72;margin-top:12px;cursor:pointer;">Şimdi değil</button>
+            </div>
+        </div>
+        
         <!-- PREMIUM MODAL -->
         <div class="modal premium-modal" id="premiumModal">
             <div class="premium-box">
@@ -288,6 +299,26 @@
             if (!document.getElementById('termsCheck').checked || !document.getElementById('ageCheck').checked) return;
             legalAccepted = true;
             document.getElementById('legalModal').classList.remove('active');
+            // Show notification permission
+            setTimeout(() => { document.getElementById('notifModal').classList.add('active'); }, 500);
+        }
+        
+        function allowNotif() {
+            if (Notification.permission === 'granted') {
+                alert('✅ Bildirimler zaten açık!');
+            } else if (Notification.permission !== 'denied') {
+                Notification.requestPermission().then(permission => {
+                    if (permission === 'granted') {
+                        new Notification('💬 Dedikodu Kazanı', { body: 'Bildirimler açıldı! 🔔' });
+                    }
+                });
+            }
+            document.getElementById('notifModal').classList.remove('active');
+            document.getElementById('homeScreen').style.display = 'block';
+        }
+        
+        function denyNotif() {
+            document.getElementById('notifModal').classList.remove('active');
             document.getElementById('homeScreen').style.display = 'block';
         }
         
