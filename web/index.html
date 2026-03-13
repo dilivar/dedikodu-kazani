@@ -11,6 +11,13 @@
         body { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); display: flex; justify-content: center; }
         .phone { width: 100%; max-width: 393px; background: #F5F0FF; position: relative; overflow: hidden; }
         
+        /* SPLASH SCREEN */
+        #splashScreen { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #8B5CF6, #6B4EFF); z-index: 3000; display: flex; align-items: center; justify-content: center; flex-direction: column; }
+        #splashScreen.hidden { display: none; }
+        .splash-logo { font-size: 48px; font-weight: bold; color: white; animation: pulse 2s infinite; }
+        .splash-text { color: white; margin-top: 10px; font-size: 14px; opacity: 0.8; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        
         .header { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); padding: 50px 20px 20px; color: white; border-radius: 0 0 30px 30px; text-align: center; }
         
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 16px; }
@@ -32,17 +39,28 @@
         
         .group-btn { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); color: white; padding: 16px; border-radius: 16px; margin: 16px; text-align: center; cursor: pointer; }
         
+        .settings-btn { position: absolute; top: 60px; right: 16px; color: white; font-size: 20px; cursor: pointer; z-index: 10; }
+        
+        /* LEGAL MODAL */
         .legal-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); z-index: 2000; overflow-y: auto; }
         .legal-modal.active { display: block; }
         .legal-box { background: white; margin: 20px; border-radius: 20px; padding: 24px; max-height: 80%; overflow-y: auto; }
         .legal-box h2 { color: #2D3436; margin-bottom: 16px; font-size: 18px; }
         .legal-box p { color: #636E72; font-size: 12px; line-height: 1.6; margin-bottom: 12px; }
-        .legal-box ul { color: #636E72; font-size: 12px; padding-left: 20px; margin-bottom: 12px; }
         .legal-checkbox { display: flex; align-items: flex-start; gap: 10px; margin: 16px 0; }
         .legal-checkbox input { margin-top: 3px; }
         .legal-checkbox label { font-size: 12px; color: #636E72; }
-        .legal-btn { width: 100%; padding: 14px; background: #8B5CF6; color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .legal-btn { width: 100%; padding: 14px; background: #8B5CF6; color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer; }
         .legal-btn:disabled { background: #ccc; }
+        
+        /* ABOUT MODAL */
+        .about-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1500; align-items: center; justify-content: center; }
+        .about-modal.active { display: flex; }
+        .about-box { background: white; margin: 20px; border-radius: 20px; padding: 24px; text-align: center; }
+        .about-box h2 { color: #2D3436; margin-bottom: 16px; }
+        .about-box .version { color: #8B5CF6; font-weight: bold; font-size: 18px; }
+        .about-box .contact { color: #636E72; font-size: 12px; margin-top: 16px; }
+        .about-box .close-btn { margin-top: 16px; padding: 12px 24px; background: #8B5CF6; color: white; border: none; border-radius: 12px; cursor: pointer; }
         
         .premium-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
         .premium-modal.active { display: flex; }
@@ -78,44 +96,51 @@
 </head>
 <body>
     <div class="phone">
-        <!-- Legal Modal -->
+        <!-- SPLASH SCREEN -->
+        <div id="splashScreen">
+            <div class="splash-logo">💬</div>
+            <div class="splash-text">Dedikodu Kazanı</div>
+        </div>
+        
+        <!-- ABOUT MODAL -->
+        <div class="about-modal" id="aboutModal" onclick="closeAbout(event)">
+            <div class="about-box" onclick="event.stopPropagation()">
+                <h2>💬 Dedikodu Kazanı</h2>
+                <div class="version">v1.0.0</div>
+                <p style="margin-top:16px;color:#636E72;font-size:13px;">Sanal arkadaşların!</p>
+                <div class="contact">
+                    <p>📧 iletisim@dedikodukazani.com</p>
+                    <p>📱 @dedikodukazani</p>
+                </div>
+                <button class="close-btn" onclick="closeAbout()">Kapat</button>
+            </div>
+        </div>
+        
+        <!-- LEGAL MODAL -->
         <div class="legal-modal active" id="legalModal">
             <div class="legal-box">
                 <h2>📜 Kullanım Koşulları</h2>
-                
                 <p><strong>Gizlilik Politikası</strong></p>
                 <p>Bu uygulama, kullanıcı verilerini yalnızca uygulama deneyimini iyileştirmek için kullanır. Verileriniz güvenli bir şekilde saklanır ve üçüncü taraflarla paylaşılmaz.</p>
-                
                 <p><strong>Kullanım Koşulları</strong></p>
-                <ul>
-                    <li>Uygulamayı yalnızca kişisel kullanım amacıyla kullanabilirsiniz.</li>
-                    <li>Uygulamadaki içerik ve yapay zeka yanıtları ticari amaçlı değildir.</li>
-                    <li>Yapay zeka tarafından üretilen içerik hatalı veya eksik olabilir.</li>
-                </ul>
-                
+                <p>Uygulamayı yalnızca kişisel kullanım amacıyla kullanabilirsiniz. Yapay zeka yanıtları hatalı olabilir.</p>
                 <p><strong>⚠️ Önemli Uyarı</strong></p>
-                <p>Bu uygulamadaki yapay zeka yanıtları profesyonel danışmanlık yerine geçmez. Sağlık, hukuk, finans veya diğer kritik konularda karar vermeden önce uzman görüşü alınız. Uygulama kullanıcıları, yapay zeka tarafından üretilen içerikten doğabilecek zararlardan sorumlu tutulamaz.</p>
-                
-                <p><strong>📱 Veri Güvenliği</strong></p>
-                <p>Uygulama, end-to-end şifreleme teknolojisi kullanmamaktadır. Kullanıcıların hassas bilgilerini paylaşmamaları önerilir.</p>
-                
+                <p>Bu uygulamadaki yapay zeka yanıtları profesyonel danışmanlık yerine geçmez. Sağlık, hukuk, finans konularında uzman görüşü alınız.</p>
                 <div class="legal-checkbox">
                     <input type="checkbox" id="termsCheck">
-                    <label for="termsCheck">Kullanım koşullarını ve gizlilik politikasını okudum, kabul ediyorum.</label>
+                    <label for="termsCheck">Kullanım koşullarını kabul ediyorum.</label>
                 </div>
-                
                 <div class="legal-checkbox">
                     <input type="checkbox" id="ageCheck">
-                    <label for="ageCheck">18 yaşındayım veya daha büyüğüm.</label>
+                    <label for="ageCheck">18 yaşındayım.</label>
                 </div>
-                
                 <button class="legal-btn" id="acceptBtn" onclick="acceptLegal()" disabled>Kabul Ediyorum</button>
             </div>
         </div>
         
-        <!-- Premium Modal -->
+        <!-- PREMIUM MODAL -->
         <div class="premium-modal" id="premiumModal">
-            <div class="premium-box" onclick="event.stopPropagation()">
+            <div class="premium-box">
                 <h2>💎 Premium</h2>
                 <p id="premiumCharName">Karakter</p>
                 <div class="price">9.99€/ay</div>
@@ -124,53 +149,29 @@
             </div>
         </div>
         
-        <div id="homeScreen" style="display:block;">
+        <div id="homeScreen" style="display:none;">
+            <div class="settings-btn" onclick="showAbout()">⚙️</div>
             <div class="header">
                 <h1 style="font-size:22px;font-weight:bold;">Dedikodu Kazanı</h1>
                 <p style="font-size:13px;opacity:0.9;">Sanal arkadaşların!</p>
             </div>
             
-            <div class="limit-banner" id="limitBanner">
-                ⚠️ Ücretsiz hak: <span id="msgCount">20</span>/20
-            </div>
+            <div class="limit-banner" id="limitBanner">⚠️ Ücretsiz hak: <span id="msgCount">20</span>/20</div>
             
             <div style="padding:16px 20px 8px;font-weight:bold;">Arkadaşlar</div>
             
             <div class="grid">
-                <div class="card" onclick="openChat('Eda')">
-                    <div class="avatar avatar-e">E</div>
-                    <div class="card-name">Eda</div>
-                </div>
-                <div class="card" onclick="openChat('Teo')">
-                    <div class="avatar avatar-t">T</div>
-                    <div class="card-name">Teo</div>
-                </div>
-                <div class="card blur" onclick="showPremium('Ela')">
-                    <div class="premium-badge">💎</div>
-                    <div class="avatar avatar-el">El</div>
-                    <div class="card-name">Ela</div>
-                </div>
-                <div class="card blur" onclick="showPremium('Mila')">
-                    <div class="premium-badge">💎</div>
-                    <div class="avatar avatar-z">Mi</div>
-                    <div class="card-name">Mila</div>
-                </div>
-                <div class="card blur" onclick="showPremium('Batu')">
-                    <div class="premium-badge">💎</div>
-                    <div class="avatar avatar-r">B</div>
-                    <div class="card-name">Batu</div>
-                </div>
-                <div class="card blur" onclick="showPremium('Mete')">
-                    <div class="premium-badge">💎</div>
-                    <div class="avatar avatar-m">M</div>
-                    <div class="card-name">Mete</div>
-                </div>
+                <div class="card" onclick="openChat('Eda')"><div class="avatar avatar-e">E</div><div class="card-name">Eda</div></div>
+                <div class="card" onclick="openChat('Teo')"><div class="avatar avatar-t">T</div><div class="card-name">Teo</div></div>
+                <div class="card blur" onclick="showPremium('Ela')"><div class="premium-badge">💎</div><div class="avatar avatar-el">El</div><div class="card-name">Ela</div></div>
+                <div class="card blur" onclick="showPremium('Mila')"><div class="premium-badge">💎</div><div class="avatar avatar-z">Mi</div><div class="card-name">Mila</div></div>
+                <div class="card blur" onclick="showPremium('Batu')"><div class="premium-badge">💎</div><div class="avatar avatar-r">B</div><div class="card-name">Batu</div></div>
+                <div class="card blur" onclick="showPremium('Mete')"><div class="premium-badge">💎</div><div class="avatar avatar-m">M</div><div class="card-name">Mete</div></div>
             </div>
             
             <div class="group-btn" onclick="openGroup()">
                 <div style="font-size:24px;">👥</div>
                 <div style="font-weight:bold;">Grup Sohbeti</div>
-                <div style="font-size:12px;opacity:0.8;">6 arkadaşla aynı anda!</div>
             </div>
         </div>
         
@@ -184,7 +185,7 @@
             <div class="quick-reply">
                 <button class="quick-btn" onclick="sendQuick('Euro ne kadar?')">💶 Euro</button>
                 <button class="quick-btn" onclick="sendQuick('Burç yorumum')">🔮 Burç</button>
-                <button class="quick-btn" onclick="sendQuick('Magazin haberleri')">📰 Magazin</button>
+                <button class="quick-btn" onclick="sendQuick('Magazin')">📰 Magazin</button>
                 <button class="quick-btn" onclick="sendQuick('Dolar ne kadar?')">💵 Dolar</button>
             </div>
             
@@ -203,9 +204,8 @@
             </div>
             
             <div class="chat-messages" id="groupMessages">
-                <div class="msg msg-group"><b style="color:#FF6B6B;">Eda:</b> Selam herkese! 👋<div class="msg-time">14:30</div></div>
+                <div class="msg msg-group"><b style="color:#FF6B6B;">Eda:</b> Selam! 👋<div class="msg-time">14:30</div></div>
                 <div class="msg msg-group"><b style="color:#6C5CE7;">Teo:</b> Hey! 🙌<div class="msg-time">14:31</div></div>
-                <div class="msg msg-group"><b style="color:#E84393;">Ela:</b> Herkes nasıl? 💕<div class="msg-time">14:32</div></div>
             </div>
             
             <div class="chat-input-area">
@@ -221,6 +221,9 @@
         let isPremium = false;
         let legalAccepted = false;
         
+        // SPLASH SCREEN
+        setTimeout(() => { document.getElementById('splashScreen').classList.add('hidden'); }, 2000);
+        
         let userMemory = { name: '', boyriendMom: '', preferences: '', lastTopic: '', lastMessages: [] };
         
         const avatarStyles = { 'Eda': 'avatar-e', 'Teo': 'avatar-t', 'Ela': 'avatar-el', 'Mila': 'avatar-z', 'Batu': 'avatar-r', 'Mete': 'avatar-m' };
@@ -228,17 +231,17 @@
         const groupColors = { 'Eda': '#FF6B6B', 'Teo': '#6C5CE7', 'Ela': '#E84393', 'Mila': '#00B894', 'Batu': '#F39C12', 'Mete': '#0984E3' };
         
         const characters = {
-            'Eda': { personality: 'Eğlenceli, enerjik', greetings: ['Selam! 🙌', 'Heey! 🎉', 'Merhaba! 😊'], phrases: ['Vay be! 👀', 'Cidden mi? 😄', 'Helal olsun! 🔥'] },
-            'Teo': { personality: 'Sakin, bilge', greetings: ['Merhaba 👋', 'Selam 🤗'], phrases: ['Hmm... 🤔', 'İlginç! 💡', 'Anladım 👍'] },
-            'Ela': { personality: 'Romantik, duygusal', greetings: ['Awww merhaba! 💕', 'Hoşgeldin! 🌸'], phrases: ['Aaa ne tatlı! 🥰', 'Çok güzel! 💖'] },
-            'Mila': { personality: 'Pratik, gerçekçi', greetings: ['Selam 👋', 'Merhaba! 👍'], phrases: ['Tamam 👍', 'Olur! 🎯'] },
-            'Batu': { personality: 'Sporcu, enerjik', greetings: ['Selam! ⚡', 'Hoop geliyorum! 🚀'], phrases: ['Hadi! 🔥', 'Yaparsın! 💪'] },
-            'Mete': { personality: 'Gazeteci, meraklı', greetings: ['Selam! 📰', 'Merhaba! 🔍'], phrases: ['Biliyor musun? 🤓', 'Haberler şöyle... 📰'] }
+            'Eda': { greetings: ['Selam! 🙌', 'Heey! 🎉'], phrases: ['Vay be! 👀', 'Cidden mi? 😄'] },
+            'Teo': { greetings: ['Merhaba 👋', 'Selam 🤗'], phrases: ['Hmm... 🤔', 'İlginç! 💡'] },
+            'Ela': { greetings: ['Awww merhaba! 💕'], phrases: ['Aaa ne tatlı! 🥰'] },
+            'Mila': { greetings: ['Selam 👋'], phrases: ['Tamam 👍', 'Olur! 🎯'] },
+            'Batu': { greetings: ['Selam! ⚡'], phrases: ['Hadi! 🔥', 'Yaparsın! 💪'] },
+            'Mete': { greetings: ['Selam! 📰'], phrases: ['Biliyor musun? 🤓'] }
         };
         
-        const currentData = { euro: '36.50 TL', dolar: '35.20 TL', burc: 'Koç', burcYorum: 'Bugün güzel bir gün! İlişkilerinde pozitif gelişmeler var.', magazin: '📰 MAGAZİN: Beren Saat yeni dizi için anlaştı! Kıvanç Tatlıtuğ fitness kampında!' };
+        const currentData = { euro: '36.50 TL', dolar: '35.20 TL', burc: 'Koç', burcYorum: 'Bugün güzel bir gün!', magazin: '📰 MAGAZİN: Beren Saat yeni dizi!' };
         
-        // Legal Checkbox Listener
+        // LEGAL
         document.getElementById('termsCheck').addEventListener('change', checkLegal);
         document.getElementById('ageCheck').addEventListener('change', checkLegal);
         
@@ -252,17 +255,22 @@
             if (!document.getElementById('termsCheck').checked || !document.getElementById('ageCheck').checked) return;
             legalAccepted = true;
             document.getElementById('legalModal').classList.remove('active');
+            document.getElementById('homeScreen').style.display = 'block';
         }
+        
+        // ABOUT
+        function showAbout() { document.getElementById('aboutModal').classList.add('active'); }
+        function closeAbout(e) { if (e && e.target !== e.currentTarget) return; document.getElementById('aboutModal').classList.remove('active'); }
         
         function getSmartResponse(message) {
             const char = characters[currentChar] || characters['Eda'];
             const msg = message.toLowerCase();
             
-            if (msg.includes('euro') || msg.includes('avro')) return '💶 Bugün euro: ' + currentData.euro;
-            if (msg.includes('dolar') || msg.includes('dollar')) return '💵 Dolar: ' + currentData.dolar;
-            if (msg.includes('burç') || msg.includes('burc')) return '🔮 ' + currentData.burc + ' - ' + currentData.burcYorum;
+            if (msg.includes('euro')) return '💶 Bugün euro: ' + currentData.euro;
+            if (msg.includes('dolar')) return '💵 Dolar: ' + currentData.dolar;
+            if (msg.includes('burç')) return '🔮 ' + currentData.burc + ' - ' + currentData.burcYorum;
             if (msg.includes('magazin') || msg.includes('haber')) return currentData.magazin;
-            if (msg.includes('merhaba') || msg.includes('selam') || msg.includes('hey')) return char.greetings[Math.floor(Math.random() * char.greetings.length)];
+            if (msg.includes('merhaba') || msg.includes('selam')) return char.greetings[Math.floor(Math.random() * char.greetings.length)];
             
             return char.phrases[Math.floor(Math.random() * char.phrases.length)];
         }
