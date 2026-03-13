@@ -123,6 +123,21 @@
                 <button class="close-btn" onclick="closeProfile()">✕</button>
                 <h2>👤 Profil Ayarları</h2>
                 
+                <!-- Avatar Seçimi -->
+                <div class="form-group">
+                    <label>🖼️ Avatarın</label>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+                        <div onclick="selectAvatar('👩')" style="width:40px;height:40px;background:#FF6B6B;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;border:3px solid transparent;" id="av-👩">👩</div>
+                        <div onclick="selectAvatar('👨')" style="width:40px;height:40px;background:#3498DB;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;border:3px solid transparent;" id="av-👨">👨</div>
+                        <div onclick="selectAvatar('👩‍🦰')" style="width:40px;height:40px;background:#E74C3C;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;border:3px solid transparent;" id="av-👩‍🦰">👩‍🦰</div>
+                        <div onclick="selectAvatar('👨‍🦱')" style="width:40px;height:40px;background:#9B59B6;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;border:3px solid transparent;" id="av-👨‍🦱">👨‍🦱</div>
+                        <div onclick="selectAvatar('👱‍♀️')" style="width:40px;height:40px;background:#F1C40F;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;border:3px solid transparent;" id="av-👱‍♀️">👱‍♀️</div>
+                        <div onclick="selectAvatar('🧑')" style="width:40px;height:40px;background:#1ABC9C;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;border:3px solid transparent;" id="av-🧑">🧑</div>
+                        <div onclick="selectAvatar('🤖')" style="width:40px;height:40px;background:#95A5A6;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;border:3px solid transparent;" id="av-🤖">🤖</div>
+                        <div onclick="selectAvatar('🐱')" style="width:40px;height:40px;background:#E67E22;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;border:3px solid transparent;" id="av-🐱">🐱</div>
+                    </div>
+                </div>
+                
                 <div class="form-group">
                     <label>📛 İsmin</label>
                     <input type="text" id="userName" placeholder="Adını gir">
@@ -332,8 +347,17 @@
             name: '',
             birthday: '',
             gender: '',
-            email: ''
+            email: '',
+            avatar: '👩'
         };
+        
+        function selectAvatar(emoji) {
+            userProfile.avatar = emoji;
+            // Reset all borders
+            document.querySelectorAll('[id^="av-"]').forEach(el => el.style.border = '3px solid transparent');
+            // Set selected border
+            document.getElementById('av-' + emoji).style.border = '3px solid #8B5CF6';
+        }
         
         // SPLASH
         setTimeout(() => { document.getElementById('splashScreen').classList.add('hidden'); }, 2000);
@@ -399,7 +423,7 @@
             userProfile.gender = document.getElementById('userGender').value;
             userProfile.email = document.getElementById('userEmail').value;
             
-            alert('✅ Profil kaydedildi!\n\n👤 ' + (userProfile.name || 'İsimsiz') + '\n📧 ' + (userProfile.email || 'E-posta yok'));
+            alert('✅ Profil kaydedildi!\n\n' + userProfile.avatar + ' ' + (userProfile.name || 'İsimsiz') + '\n📧 ' + (userProfile.email || 'E-posta yok'));
             closeProfile();
             document.getElementById('homeScreen').style.display = 'block';
         }
