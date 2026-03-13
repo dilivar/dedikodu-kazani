@@ -31,7 +31,6 @@
         .premium-badge { position: absolute; top: 8px; right: 8px; font-size: 14px; }
         
         .group-btn { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); color: white; padding: 16px; border-radius: 16px; margin: 16px; text-align: center; cursor: pointer; }
-        .group-btn-icon { font-size: 24px; }
         
         .premium-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
         .premium-modal.active { display: flex; }
@@ -39,6 +38,8 @@
         .premium-box h2 { font-size: 28px; }
         .premium-box .price { font-size: 36px; font-weight: bold; margin: 15px 0; }
         .premium-box button { background: white; color: #FFA500; border: none; padding: 14px 32px; border-radius: 24px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
+        
+        .limit-banner { background: #FF6B6B; color: white; padding: 8px 16px; text-align: center; font-size: 12px; }
         
         #homeScreen, #chatScreen, #groupScreen { position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; }
         #chatScreen, #groupScreen { display: none; background: #F5F0FF; }
@@ -70,7 +71,7 @@
                 <h2>💎 Premium</h2>
                 <p id="premiumCharName">Karakter</p>
                 <div class="price">9.99€/ay</div>
-                <p>Grup sohbeti için tüm premium'ları aç!</p>
+                <p>Sınırsız mesaj + Tüm özellikler!</p>
                 <button onclick="closePremium()">Kapat</button>
             </div>
         </div>
@@ -79,6 +80,10 @@
             <div class="header">
                 <h1 style="font-size:22px;font-weight:bold;">Dedikodu Kazanı</h1>
                 <p style="font-size:13px;opacity:0.9;">Sanal arkadaşların!</p>
+            </div>
+            
+            <div class="limit-banner" id="limitBanner" style="display:none;">
+                ⚠️ Ücretsiz mesaj hakkın: <span id="msgCount">20</span>/20
             </div>
             
             <div style="padding:16px 20px 8px;font-weight:bold;">Arkadaşlar</div>
@@ -116,7 +121,7 @@
             </div>
             
             <div class="group-btn" onclick="openGroup()">
-                <div class="group-btn-icon">👥</div>
+                <div style="font-size:24px;">👥</div>
                 <div style="font-weight:bold;">Grup Sohbeti</div>
                 <div style="font-size:12px;opacity:0.8;">6 arkadaşla aynı anda!</div>
             </div>
@@ -130,10 +135,10 @@
             </div>
             
             <div class="quick-reply">
-                <button class="quick-btn" onclick="sendQuick('Merhaba!')">👋</button>
-                <button class="quick-btn" onclick="sendQuick('Nasılsın?')">😊</button>
-                <button class="quick-btn" onclick="sendQuick('Neler yapıyorsun?')">💬</button>
-                <button class="quick-btn" onclick="sendQuick('Anlat!')">📖</button>
+                <button class="quick-btn" onclick="sendQuick('Euro ne kadar?')">💶 Euro</button>
+                <button class="quick-btn" onclick="sendQuick('Burç yorumum')">🔮 Burç</button>
+                <button class="quick-btn" onclick="sendQuick('Magazin haberleri')">📰 Magazin</button>
+                <button class="quick-btn" onclick="sendQuick('Dolar ne kadar?')">💵 Dolar</button>
             </div>
             
             <div class="chat-messages" id="chatMessages"></div>
@@ -151,18 +156,9 @@
             </div>
             
             <div class="chat-messages" id="groupMessages">
-                <div class="msg msg-group">
-                    <b style="color:#8B5CF6;">Eda:</b> Selam herkese! 👋
-                    <div class="msg-time">14:30</div>
-                </div>
-                <div class="msg msg-group">
-                    <b style="color:#E84393;">Ela:</b> Hey! 🎉
-                    <div class="msg-time">14:31</div>
-                </div>
-                <div class="msg msg-group">
-                    <b style="color:#6C5CE7;">Teo:</b> Herkes nasıl? 👀
-                    <div class="msg-time">14:32</div>
-                </div>
+                <div class="msg msg-group"><b style="color:#FF6B6B;">Eda:</b> Selam herkese! 👋<div class="msg-time">14:30</div></div>
+                <div class="msg msg-group"><b style="color:#E84393;">Ela:</b> Hey! 🎉<div class="msg-time">14:31</div></div>
+                <div class="msg msg-group"><b style="color:#6C5CE7;">Teo:</b> Herkes nasıl? 👀<div class="msg-time">14:32</div></div>
             </div>
             
             <div class="chat-input-area">
@@ -174,7 +170,17 @@
 
     <script>
         let currentChar = 'Eda';
-        let conversationHistory = [];
+        let messageCount = 20;
+        let isPremium = false;
+        
+        // HAFIZA SİSTEMİ - Kullanıcının verilerini saklar
+        let userMemory = {
+            name: '',
+            boyriendMom: '',
+            preferences: '',
+            lastTopic: '',
+            lastMessages: []
+        };
         
         const avatarStyles = {
             'Eda': 'avatar-e', 'Ela': 'avatar-el', 'Mila': 'avatar-z', 
@@ -190,48 +196,74 @@
             'Teo': '#6C5CE7', 'Batu': '#F39C12', 'Mete': '#0984E3'
         };
         
-        const smartResponses = {
-            'Eda': {
-                greetings: ['Selam! Nasılsın?', 'Merhaba!', 'Hey!'],
-                howareyou: ['İyiyim! 😊', 'Harika!', 'Sen?'],
-                default: ['Aa ilginç! 😄', 'Vay be! 👀', 'Devam et!', 'Helal! 😎']
-            },
-            'Ela': {
-                greetings: ['Merhaba!', 'Selam!', 'Hey!'],
-                howareyou: ['İyiyim! 😊', 'Harika!', 'Güzel!'],
-                default: ['Aww! 💕', 'Çok ilginç! 😍', 'Harika! 😊']
-            }
+        // GÜNCEL VERİLER - API olmadan çalışır
+        const currentData = {
+            euro: '36.50 TL',
+            dolar: '35.20 TL',
+            burc: 'Koç',
+            burcYorum: 'Bugün güzel bir gün! İlişkilerinde pozitif gelişmeler var. Erkek arkadaşının annesini ikna etmek için bugün güzel bir kıyafet kombini dene! 💪',
+            magazin: '📰 MAGAZİN: Beren Saat yeni dizi için anlaştı! Kıvanç Tatlıtuğ fitness kampında! Hadise sürpriz konser duyurdu!'
         };
         
-        function getResponse(message) {
+        // AKILLI YANIT SİSTEMİ
+        function getSmartResponse(message) {
             const msg = message.toLowerCase();
-            let responses = smartResponses[currentChar] || smartResponses['Eda'];
             
-            if (msg.includes('merhaba') || msg.includes('selam') || msg.includes('hey')) {
-                return responses.greetings[Math.floor(Math.random() * responses.greetings.length)];
+            // KURLAR
+            if (msg.includes('euro') || msg.includes('avro')) {
+                return '💶 Bugün euro: ' + currentData.euro + ' (Bu arada, ' + (userMemory.boyriendMom ? userMemory.boyriendMom + ' için kıyafet almayı düşünüyorsan euro düşük!) : 'güzel bir gün!)';
             }
-            if (msg.includes('nasılsın') || msg.includes('naber')) {
-                return responses.howareyou[Math.floor(Math.random() * responses.howareyou.length)];
+            if (msg.includes('dolar') || msg.includes('dollar')) {
+                return '💵 Bugün dolar: ' + currentData.dolar;
             }
-            return responses.default[Math.floor(Math.random() * responses.default.length)];
-        }
-        
-        function getGroupResponse(message) {
-            const msg = message.toLowerCase();
-            const responders = ['Eda', 'Ela', 'Teo', 'Mila', 'Batu', 'Mete'];
-            const responder = responders[Math.floor(Math.random() * responders.length)];
             
-            const responses = {
-                'Eda': ['Selam! 👋', 'İyidir! 😄', 'Ne var ne yok?', 'Grup güzel! 🔥'],
-                'Ela': ['Hey! 💅', 'Harika! ✨', 'Dinliyorum!', 'Grup harika! 💕'],
-                'Teo': ['Selam! 👀', 'İlginç!', 'Devam et!', 'Evet mi? 🤔'],
-                'Mila': ['Merhaba! 👋', 'İyiyim! 😊', 'Tamam!', 'Anladım! 👍'],
-                'Batu': ['Selam! ⚡', 'Güzel!', 'Harika! 🔥', 'Devam!'],
-                'Mete': ['Hey! 📰', 'İlginç!', 'Tamam!', 'Tabii! 😊']
-            };
+            // BURÇ
+            if (msg.includes('burç') || msg.includes('burc') || msg.includes('astroloji')) {
+                return '🔮 ' + currentData.burc + ' burcu: ' + currentData.burcYorum;
+            }
             
-            const opts = responses[responder] || ['İlginç!', 'Tamam!', 'Devam!'];
-            return { name: responder, text: opts[Math.floor(Math.random() * opts.length)] };
+            // MAGAZİN
+            if (msg.includes('magazin') || msg.includes('haber') || msg.includes('dedikodu')) {
+                return currentData.magazin;
+            }
+            
+            // HAFIZA - Erkek arkadaş annesi
+            if (msg.includes('anne') || msg.includes('kıyafet') || msg.includes('kombin') || msg.includes('elbise')) {
+                if (userMemory.boyriendMom) {
+                    return 'Aa ' + userMemory.boyriendMom + ' için mi? 😄 Bence şunu dene: ' + 
+                        (userMemory.preferences ? userMemory.preferences : 'Klasik ama şık! Beyaz pantolon + renkli bluz! Anneler bunu seviyor! 👗');
+                }
+                return 'Kıyafet mi? 🙈 Erkek arkadaşın var mı? Onun annesi nasıl bir şeyi beğeniyor? Bana söyleyeyim sana özel öneri yapayım! 💕';
+            }
+            
+            // KİŞİSEL HAFIZA
+            if (msg.includes('benim adım') || msg.includes('ismim')) {
+                const nameMatch = message.match(/adım\s+(\w+)/i) || message.match(/ismim\s+(\w+)/i);
+                if (nameMatch) {
+                    userMemory.name = nameMatch[1];
+                    return 'Aaaa ' + userMemory.name + '! 🥰 Seni unutmam artık! Nasılsın ' + userMemory.name + '?';
+                }
+            }
+            
+            // Kanka gibi davran
+            if (msg.includes('sıkıldım') || msg.includes('canım sıkıldı')) {
+                return 'Gel de konuşalım! 🙌 Ne yapıyorsun? Bir şeyler anlat banaa!';
+            }
+            if (msg.includes('yalnız') || msg.includes('tek başıma')) {
+                return 'Aaa yalnız mısın? 😢 Yanındayım! Anlat bakalım neler oluyor? 💕';
+            }
+            
+            // Genel yanıtlar
+            const responses = [
+                'Vay be! 👀 Çok ilginç! Devam et!',
+                'Aa cidden mi? 😄 Çok güzel!',
+                'Bilinmiyordu bu! 🙌 Anlat daha çok!',
+                'Vallahi mi? 😂 Helal olsun!',
+                'Bu çok iyi! 📰 Yazayım da others da bilsin!',
+                'Kanka sen bunalma 😎 Her şey güzel olacak!',
+                'Aaa bunu bende duymadım! 🎉'
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
         }
         
         function showPremium(name) {
@@ -245,6 +277,18 @@
         }
         
         function openChat(name) {
+            // Mesaj kontrolü
+            if (!isPremium && messageCount <= 0) {
+                alert('Mesaj hakkın bitti! 💎 Premium alarak sınırsız mesaj atabilirsin!');
+                return;
+            }
+            
+            if (!isPremium) {
+                messageCount--;
+                document.getElementById('msgCount').textContent = messageCount;
+                document.getElementById('limitBanner').style.display = 'block';
+            }
+            
             currentChar = name;
             document.getElementById('homeScreen').style.display = 'none';
             document.getElementById('chatScreen').classList.add('active');
@@ -254,17 +298,28 @@
             avatar.className = 'chat-avatar ' + avatarStyles[name];
             avatar.textContent = avatarLabels[name];
             
-            conversationHistory = [];
             document.getElementById('chatMessages').innerHTML = '';
             
-            const hellos = {
-                'Eda': 'Merhaba! Ben Eda! Nasılsın?',
-                'Ela': 'Merhaba! Ben Ela!'
-            };
-            addMessage(hellos[name] || 'Merhaba!', false);
+            // Kanka gibi selamlama
+            let hello = 'Merhaba! 🙌 ';
+            if (userMemory.name) {
+                hello += userMemory.name + '! Nasılsın? ';
+            }
+            if (userMemory.lastTopic) {
+                hello += 'Geçen ' + userMemory.lastTopic + ' konusmuştuk. Devam edelim mi?';
+            }
+            addMessage(hello, false);
         }
         
         function openGroup() {
+            if (!isPremium && messageCount <= 0) {
+                alert('Mesaj hakkın bitti! 💎 Premium al!');
+                return;
+            }
+            if (!isPremium) {
+                messageCount--;
+                document.getElementById('msgCount').textContent = messageCount;
+            }
             document.getElementById('homeScreen').style.display = 'none';
             document.getElementById('groupScreen').classList.add('active');
         }
@@ -286,17 +341,22 @@
             msgDiv.innerHTML = (isUser ? '' : '<b>' + currentChar + ':</b> ') + text.replace(/\n/g, '<br>') + '<div class="msg-time">' + time + '</div>';
             chatMsgs.appendChild(msgDiv);
             chatMsgs.scrollTop = chatMsgs.scrollHeight;
+            
+            // HAFIZAYA KAYDET
+            if (isUser) {
+                userMemory.lastMessages.push(text);
+                if (userMemory.lastMessages.length > 5) userMemory.lastMessages.shift();
+            }
         }
         
         function addGroupMessage(name, text) {
             const chatMsgs = document.getElementById('groupMessages');
             const now = new Date();
             const time = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
-            const color = groupColors[name] || '#8B5CF6';
             
             const msgDiv = document.createElement('div');
             msgDiv.className = 'msg msg-group';
-            msgDiv.innerHTML = '<b style="color:' + color + ';">' + name + ':</b> ' + text + '<div class="msg-time">' + time + '</div>';
+            msgDiv.innerHTML = '<b style="color:' + groupColors[name] + ';">' + name + ':</b> ' + text + '<div class="msg-time">' + time + '</div>';
             chatMsgs.appendChild(msgDiv);
             chatMsgs.scrollTop = chatMsgs.scrollHeight;
         }
@@ -315,7 +375,7 @@
             input.value = '';
             
             setTimeout(() => {
-                addMessage(getResponse(text), false);
+                addMessage(getSmartResponse(text), false);
             }, 300 + Math.random() * 500);
         }
         
@@ -327,10 +387,10 @@
             addGroupMessage('Sen', text);
             input.value = '';
             
-            // Random group response
             setTimeout(() => {
-                const resp = getGroupResponse(text);
-                addGroupMessage(resp.name, resp.text);
+                const responders = ['Eda', 'Ela', 'Teo', 'Mila', 'Batu', 'Mete'];
+                const responder = responders[Math.floor(Math.random() * responders.length)];
+                addGroupMessage(responder, getSmartResponse(text));
             }, 500 + Math.random() * 1000);
         }
         
