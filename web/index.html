@@ -229,6 +229,20 @@
             </div>
         </div>
         
+        <!-- LOGIN MODAL -->
+        <div class="modal" id="loginModal">
+            <div class="modal-box" style="text-align:center;max-width:320px;margin:50px auto;">
+                <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/deneme-logo.png" style="width:80px;height:80px;border-radius:20px;margin-bottom:15px;">
+                <h2>Hoş Geldin! 👋</h2>
+                <p style="color:#636E72;margin:16px 0;font-size:14px;">Sanal arkadaşlarınla sohbet etmek için giriş yap</p>
+                <div class="form-group">
+                    <input type="text" id="loginName" placeholder="İsmin" style="text-align:center;">
+                </div>
+                <button class="save-btn" onclick="doLogin()">Giriş Yap</button>
+                <p style="color:#636E72;margin-top:15px;font-size:12px;">Devam ederek <a href="#" onclick="showLegal()" style="color:#8B5CF6;">kullanım koşullarını</a> kabul ediyorsun</p>
+            </div>
+        </div>
+        
         <!-- NOTIFICATION MODAL -->
         <div class="modal" id="notifModal">
             <div class="modal-box" style="text-align:center;">
@@ -378,8 +392,11 @@
             document.getElementById('av-' + emoji).classList.add('selected');
         }
         
-        // SPLASH
-        setTimeout(() => { document.getElementById('splashScreen').classList.add('hidden'); }, 2000);
+        // SPLASH - show login after
+        setTimeout(() => { 
+            document.getElementById('splashScreen').classList.add('hidden');
+            document.getElementById('loginModal').classList.add('active');
+        }, 2000);
         
         const avatarStyles = { 'Eda': 'avatar-e', 'Teo': 'avatar-t', 'Ela': 'avatar-el', 'Mila': 'avatar-z', 'Batu': 'avatar-r', 'Mete': 'avatar-m' };
         const avatarLabels = { 'Eda': 'E', 'Teo': 'T', 'Ela': 'El', 'Mila': 'Mi', 'Batu': 'B', 'Mete': 'M' };
@@ -416,8 +433,19 @@
             if (!document.getElementById('termsCheck').checked || !document.getElementById('ageCheck').checked) return;
             legalAccepted = true;
             document.getElementById('legalModal').classList.remove('active');
-            // Show notification permission
-            setTimeout(() => { document.getElementById('notifModal').classList.add('active'); }, 500);
+            // Show login
+            document.getElementById('loginModal').classList.add('active');
+        }
+        
+        function doLogin() {
+            const name = document.getElementById('loginName').value.trim();
+            if (name) {
+                userProfile.name = name;
+                document.getElementById('loginModal').classList.remove('active');
+                document.getElementById('notifModal').classList.add('active');
+            } else {
+                alert('Lütfen ismini gir!');
+            }
         }
         
         function allowNotif() {
