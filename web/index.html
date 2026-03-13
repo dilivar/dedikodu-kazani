@@ -32,6 +32,18 @@
         
         .group-btn { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); color: white; padding: 16px; border-radius: 16px; margin: 16px; text-align: center; cursor: pointer; }
         
+        .legal-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); z-index: 2000; overflow-y: auto; }
+        .legal-modal.active { display: block; }
+        .legal-box { background: white; margin: 20px; border-radius: 20px; padding: 24px; max-height: 80%; overflow-y: auto; }
+        .legal-box h2 { color: #2D3436; margin-bottom: 16px; font-size: 18px; }
+        .legal-box p { color: #636E72; font-size: 12px; line-height: 1.6; margin-bottom: 12px; }
+        .legal-box ul { color: #636E72; font-size: 12px; padding-left: 20px; margin-bottom: 12px; }
+        .legal-checkbox { display: flex; align-items: flex-start; gap: 10px; margin: 16px 0; }
+        .legal-checkbox input { margin-top: 3px; }
+        .legal-checkbox label { font-size: 12px; color: #636E72; }
+        .legal-btn { width: 100%; padding: 14px; background: #8B5CF6; color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        .legal-btn:disabled { background: #ccc; }
+        
         .premium-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
         .premium-modal.active { display: flex; }
         .premium-box { background: linear-gradient(135deg, #FFD700, #FFA500); padding: 30px; border-radius: 24px; text-align: center; color: white; max-width: 280px; margin: 20px; }
@@ -66,6 +78,42 @@
 </head>
 <body>
     <div class="phone">
+        <!-- Legal Modal -->
+        <div class="legal-modal active" id="legalModal">
+            <div class="legal-box">
+                <h2>📜 Kullanım Koşulları</h2>
+                
+                <p><strong>Gizlilik Politikası</strong></p>
+                <p>Bu uygulama, kullanıcı verilerini yalnızca uygulama deneyimini iyileştirmek için kullanır. Verileriniz güvenli bir şekilde saklanır ve üçüncü taraflarla paylaşılmaz.</p>
+                
+                <p><strong>Kullanım Koşulları</strong></p>
+                <ul>
+                    <li>Uygulamayı yalnızca kişisel kullanım amacıyla kullanabilirsiniz.</li>
+                    <li>Uygulamadaki içerik ve yapay zeka yanıtları ticari amaçlı değildir.</li>
+                    <li>Yapay zeka tarafından üretilen içerik hatalı veya eksik olabilir.</li>
+                </ul>
+                
+                <p><strong>⚠️ Önemli Uyarı</strong></p>
+                <p>Bu uygulamadaki yapay zeka yanıtları profesyonel danışmanlık yerine geçmez. Sağlık, hukuk, finans veya diğer kritik konularda karar vermeden önce uzman görüşü alınız. Uygulama kullanıcıları, yapay zeka tarafından üretilen içerikten doğabilecek zararlardan sorumlu tutulamaz.</p>
+                
+                <p><strong>📱 Veri Güvenliği</strong></p>
+                <p>Uygulama, end-to-end şifreleme teknolojisi kullanmamaktadır. Kullanıcıların hassas bilgilerini paylaşmamaları önerilir.</p>
+                
+                <div class="legal-checkbox">
+                    <input type="checkbox" id="termsCheck">
+                    <label for="termsCheck">Kullanım koşullarını ve gizlilik politikasını okudum, kabul ediyorum.</label>
+                </div>
+                
+                <div class="legal-checkbox">
+                    <input type="checkbox" id="ageCheck">
+                    <label for="ageCheck">18 yaşındayım veya daha büyüğüm.</label>
+                </div>
+                
+                <button class="legal-btn" id="acceptBtn" onclick="acceptLegal()" disabled>Kabul Ediyorum</button>
+            </div>
+        </div>
+        
+        <!-- Premium Modal -->
         <div class="premium-modal" id="premiumModal">
             <div class="premium-box" onclick="event.stopPropagation()">
                 <h2>💎 Premium</h2>
@@ -171,130 +219,61 @@
         let currentChar = 'Eda';
         let messageCount = 20;
         let isPremium = false;
+        let legalAccepted = false;
         
-        let userMemory = {
-            name: '',
-            boyriendMom: '',
-            preferences: '',
-            lastTopic: '',
-            lastMessages: []
-        };
+        let userMemory = { name: '', boyriendMom: '', preferences: '', lastTopic: '', lastMessages: [] };
         
-        const avatarStyles = {
-            'Eda': 'avatar-e', 'Teo': 'avatar-t', 'Ela': 'avatar-el', 
-            'Mila': 'avatar-z', 'Batu': 'avatar-r', 'Mete': 'avatar-m'
-        };
+        const avatarStyles = { 'Eda': 'avatar-e', 'Teo': 'avatar-t', 'Ela': 'avatar-el', 'Mila': 'avatar-z', 'Batu': 'avatar-r', 'Mete': 'avatar-m' };
+        const avatarLabels = { 'Eda': 'E', 'Teo': 'T', 'Ela': 'El', 'Mila': 'Mi', 'Batu': 'B', 'Mete': 'M' };
+        const groupColors = { 'Eda': '#FF6B6B', 'Teo': '#6C5CE7', 'Ela': '#E84393', 'Mila': '#00B894', 'Batu': '#F39C12', 'Mete': '#0984E3' };
         
-        const avatarLabels = {
-            'Eda': 'E', 'Teo': 'T', 'Ela': 'El', 'Mila': 'Mi', 'Batu': 'B', 'Mete': 'M'
-        };
-        
-        const groupColors = {
-            'Eda': '#FF6B6B', 'Teo': '#6C5CE7', 'Ela': '#E84393', 
-            'Mila': '#00B894', 'Batu': '#F39C12', 'Mete': '#0984E3'
-        };
-        
-        // HER KARAKTERİN KİŞİLİK ÖZELLİKLERİ
         const characters = {
-            'Eda': {
-                personality: 'Eğlenceli, enerjik,稍有点八卦',
-                style: 'Kısa ve eğlenceli yanıtlar',
-                greetings: ['Selam! 🙌', 'Heey! 🎉', 'Merhaba! 😊'],
-                phrases: ['Vay be! 👀', 'Cidden mi? 😄', 'Helal olsun! 🔥', 'Aaa ilginç! 😂'],
-                topics: { magazin: 'Magazin konusunda her şeyi bilirim! 📰', support: 'Yanındayım! 💕' }
-            },
-            'Teo': {
-                personality: 'Sakin, bilge, analitik',
-                style: 'Düşünceli ve mantıklı yanıtlar',
-                greetings: ['Merhaba 👋', 'Selam 🤗', 'Hoşgeldin ✨'],
-                phrases: ['Hmm... 🤔', 'İlginç! 💡', 'Anladım 👍', 'Bu önemli! 🎯'],
-                topics: { advice: 'Düşünelim... 💭', support: 'Sana yardımcı olabilirim 🌟' }
-            },
-            'Ela': {
-                personality: 'Romantik, duygusal, şair ruhlu',
-                style: 'Nazik ve sevgi dolu',
-                greetings: ['Awww merhaba! 💕', 'Hoşgeldin! 🌸', 'Merhaba! 😍'],
-                phrases: ['Aaa ne tatlı! 🥰', 'Çok güzel! 💖', 'Vay! 🌟', 'Harika! ✨'],
-                topics: { love: 'Aşk her şeydir! 💕', support: 'Seni çok seviyorum! 🥰' }
-            },
-            'Mila': {
-                personality: 'Pratik, gerçekçi, yardımsever',
-                style: 'Net ve faydalı',
-                greetings: ['Selam 👋', 'Merhaba! 👍', 'Hey! 😊'],
-                phrases: ['Tamam 👍', 'Olur! 🎯', 'İyi fikir! 💪', 'Başarılır! 🔥'],
-                topics: { help: 'Nasıl yardımcı olabilirim? 🛠️', support: 'Hemen çözüm bulalım! ⚡' }
-            },
-            'Batu': {
-                personality: 'Sporcu, enerjik, rekabetçi',
-                style: 'Cesur ve motive edici',
-                greetings: ['Selam! ⚡', 'Hoop geliyorum! 🚀', 'Hey! 💪'],
-                phrases: ['Hadi! 🔥', 'Yaparsın! 💪', 'Kesinlikle! 🎯', 'Go! ⚡'],
-                topics: { sports: 'Spor zamanı! 🏃', motivation: 'Pes etme! 💪' }
-            },
-            'Mete': {
-                personality: 'Gazeteci, meraklı, bilgi dolu',
-                style: 'Haberler ve güncel bilgiler',
-                greetings: ['Selam! 📰', 'Merhaba! 🔍', 'Hey! 📱'],
-                phrases: ['Biliyor musun? 🤓', 'Haberler şöyle... 📰', 'İlginç! 🔎', 'Şaşırtıcı! 😲'],
-                topics: { news: 'Gündem çok sıcak! 🔥', support: 'Bilgi güçtür! 📚' }
-            }
+            'Eda': { personality: 'Eğlenceli, enerjik', greetings: ['Selam! 🙌', 'Heey! 🎉', 'Merhaba! 😊'], phrases: ['Vay be! 👀', 'Cidden mi? 😄', 'Helal olsun! 🔥'] },
+            'Teo': { personality: 'Sakin, bilge', greetings: ['Merhaba 👋', 'Selam 🤗'], phrases: ['Hmm... 🤔', 'İlginç! 💡', 'Anladım 👍'] },
+            'Ela': { personality: 'Romantik, duygusal', greetings: ['Awww merhaba! 💕', 'Hoşgeldin! 🌸'], phrases: ['Aaa ne tatlı! 🥰', 'Çok güzel! 💖'] },
+            'Mila': { personality: 'Pratik, gerçekçi', greetings: ['Selam 👋', 'Merhaba! 👍'], phrases: ['Tamam 👍', 'Olur! 🎯'] },
+            'Batu': { personality: 'Sporcu, enerjik', greetings: ['Selam! ⚡', 'Hoop geliyorum! 🚀'], phrases: ['Hadi! 🔥', 'Yaparsın! 💪'] },
+            'Mete': { personality: 'Gazeteci, meraklı', greetings: ['Selam! 📰', 'Merhaba! 🔍'], phrases: ['Biliyor musun? 🤓', 'Haberler şöyle... 📰'] }
         };
         
-        const currentData = {
-            euro: '36.50 TL',
-            dolar: '35.20 TL',
-            burc: 'Koç',
-            burcYorum: 'Bugün güzel bir gün! İlişkilerinde pozitif gelişmeler var. Erkek arkadaşının annesini ikna etmek için bugün güzel bir kıyafet kombini dene! 💪',
-            magazin: '📰 MAGAZİN: Beren Saat yeni dizi için anlaştı! Kıvanç Tatlıtuğ fitness kampında! Hadise sürpriz konser duyurdu!'
-        };
+        const currentData = { euro: '36.50 TL', dolar: '35.20 TL', burc: 'Koç', burcYorum: 'Bugün güzel bir gün! İlişkilerinde pozitif gelişmeler var.', magazin: '📰 MAGAZİN: Beren Saat yeni dizi için anlaştı! Kıvanç Tatlıtuğ fitness kampında!' };
+        
+        // Legal Checkbox Listener
+        document.getElementById('termsCheck').addEventListener('change', checkLegal);
+        document.getElementById('ageCheck').addEventListener('change', checkLegal);
+        
+        function checkLegal() {
+            const terms = document.getElementById('termsCheck').checked;
+            const age = document.getElementById('ageCheck').checked;
+            document.getElementById('acceptBtn').disabled = !(terms && age);
+        }
+        
+        function acceptLegal() {
+            if (!document.getElementById('termsCheck').checked || !document.getElementById('ageCheck').checked) return;
+            legalAccepted = true;
+            document.getElementById('legalModal').classList.remove('active');
+        }
         
         function getSmartResponse(message) {
             const char = characters[currentChar] || characters['Eda'];
             const msg = message.toLowerCase();
             
-            // Karaktere özel yanıtlar
-            if (msg.includes('euro') || msg.includes('avro')) {
-                return char.topics.magazin + ' 💶 Bugün euro: ' + currentData.euro;
-            }
-            if (msg.includes('dolar') || msg.includes('dollar')) {
-                return char.topics.news + ' 💵 Dolar: ' + currentData.dolar;
-            }
-            if (msg.includes('burç') || msg.includes('burc')) {
-                return '🔮 ' + currentData.burc + ' - ' + currentData.burcYorum;
-            }
-            if (msg.includes('magazin') || msg.includes('haber') || msg.includes('dedikodu')) {
-                return currentData.magazin;
-            }
+            if (msg.includes('euro') || msg.includes('avro')) return '💶 Bugün euro: ' + currentData.euro;
+            if (msg.includes('dolar') || msg.includes('dollar')) return '💵 Dolar: ' + currentData.dolar;
+            if (msg.includes('burç') || msg.includes('burc')) return '🔮 ' + currentData.burc + ' - ' + currentData.burcYorum;
+            if (msg.includes('magazin') || msg.includes('haber')) return currentData.magazin;
+            if (msg.includes('merhaba') || msg.includes('selam') || msg.includes('hey')) return char.greetings[Math.floor(Math.random() * char.greetings.length)];
             
-            // Karaktere özel selamlama
-            if (msg.includes('merhaba') || msg.includes('selam') || msg.includes('hey')) {
-                return char.greetings[Math.floor(Math.random() * char.greetings.length)];
-            }
-            
-            // Karaktere özel cevaplar
             return char.phrases[Math.floor(Math.random() * char.phrases.length)];
         }
         
-        function showPremium(name) {
-            document.getElementById('premiumCharName').textContent = name;
-            document.getElementById('premiumModal').classList.add('active');
-        }
-        
-        function closePremium() {
-            document.getElementById('premiumModal').classList.remove('active');
-        }
+        function showPremium(name) { document.getElementById('premiumCharName').textContent = name; document.getElementById('premiumModal').classList.add('active'); }
+        function closePremium() { document.getElementById('premiumModal').classList.remove('active'); }
         
         function openChat(name) {
-            if (!isPremium && messageCount <= 0) {
-                alert('Mesaj hakkın bitti! 💎 Premium al!');
-                return;
-            }
-            
-            if (!isPremium) {
-                messageCount--;
-                document.getElementById('msgCount').textContent = messageCount;
-                document.getElementById('limitBanner').style.display = 'block';
-            }
+            if (!legalAccepted) { alert('Lütfen önce kullanım koşullarını kabul edin!'); return; }
+            if (!isPremium && messageCount <= 0) { alert('Mesaj hakkın bitti! 💎 Premium al!'); return; }
+            if (!isPremium) { messageCount--; document.getElementById('msgCount').textContent = messageCount; document.getElementById('limitBanner').style.display = 'block'; }
             
             currentChar = name;
             document.getElementById('homeScreen').style.display = 'none';
@@ -306,22 +285,13 @@
             avatar.textContent = avatarLabels[name];
             
             document.getElementById('chatMessages').innerHTML = '';
-            
-            let hello = 'Merhaba! 🙌 ';
-            if (userMemory.name) hello += userMemory.name + '! ';
-            hello += 'Nasılsın?';
-            addMessage(hello, false);
+            addMessage('Merhaba! 🙌 Nasılsın?', false);
         }
         
         function openGroup() {
-            if (!isPremium && messageCount <= 0) {
-                alert('Mesaj hakkın bitti! 💎 Premium al!');
-                return;
-            }
-            if (!isPremium) {
-                messageCount--;
-                document.getElementById('msgCount').textContent = messageCount;
-            }
+            if (!legalAccepted) { alert('Lütfen önce kullanım koşullarını kabul edin!'); return; }
+            if (!isPremium && messageCount <= 0) { alert('Mesaj hakkın bitti! 💎 Premium al!'); return; }
+            if (!isPremium) { messageCount--; document.getElementById('msgCount').textContent = messageCount; }
             document.getElementById('homeScreen').style.display = 'none';
             document.getElementById('groupScreen').classList.add('active');
         }
@@ -343,11 +313,6 @@
             msgDiv.innerHTML = (isUser ? '' : '<b>' + currentChar + ':</b> ') + text.replace(/\n/g, '<br>') + '<div class="msg-time">' + time + '</div>';
             chatMsgs.appendChild(msgDiv);
             chatMsgs.scrollTop = chatMsgs.scrollHeight;
-            
-            if (isUser) {
-                userMemory.lastMessages.push(text);
-                if (userMemory.lastMessages.length > 5) userMemory.lastMessages.shift();
-            }
         }
         
         function addGroupMessage(name, text) {
@@ -362,10 +327,7 @@
             chatMsgs.scrollTop = chatMsgs.scrollHeight;
         }
         
-        function sendQuick(text) {
-            document.getElementById('messageInput').value = text;
-            sendMessage();
-        }
+        function sendQuick(text) { document.getElementById('messageInput').value = text; sendMessage(); }
         
         function sendMessage() {
             const input = document.getElementById('messageInput');
@@ -375,9 +337,7 @@
             addMessage(text, true);
             input.value = '';
             
-            setTimeout(() => {
-                addMessage(getSmartResponse(text), false);
-            }, 300 + Math.random() * 500);
+            setTimeout(() => { addMessage(getSmartResponse(text), false); }, 300 + Math.random() * 500);
         }
         
         function sendToGroup() {
@@ -390,22 +350,15 @@
             
             setTimeout(() => {
                 const responders = ['Eda', 'Teo', 'Ela', 'Mila', 'Batu', 'Mete'];
-                const responder = responders[Math.floor(Math.random() * responders.length)];
-                addGroupMessage(responder, getSmartResponse(text));
+                addGroupMessage(responders[Math.floor(Math.random() * responders.length)], getSmartResponse(text));
             }, 500 + Math.random() * 1000);
         }
         
-        // Event Listeners
         document.getElementById('sendBtn').addEventListener('click', sendMessage);
         document.getElementById('groupSendBtn').addEventListener('click', sendToGroup);
         
-        document.getElementById('messageInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') sendMessage();
-        });
-        
-        document.getElementById('groupInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') sendToGroup();
-        });
+        document.getElementById('messageInput').addEventListener('keypress', function(e) { if (e.key === 'Enter') sendMessage(); });
+        document.getElementById('groupInput').addEventListener('keypress', function(e) { if (e.key === 'Enter') sendToGroup(); });
     </script>
 </body>
 </html>
