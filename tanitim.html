@@ -41,15 +41,22 @@
         .scene1 { background: #000; }
         .scene1 .text {
             color: white;
-            font-size: 24px;
+            font-size: 20px;
             text-align: center;
             padding: 20px;
             animation: fadeInUp 2s ease;
         }
         .scene1 .sub {
             color: #666;
-            font-size: 14px;
-            margin-top: 20px;
+            font-size: 12px;
+            margin-top: 15px;
+        }
+        .scene1 .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            animation: pulse 2s ease-in-out infinite;
         }
         
         /* Scene 2 - Phone */
@@ -75,23 +82,16 @@
             font-size: 40px;
         }
         
-        /* Scene 3 - Logo */
+        /* Scene 3 - Logo 3D */
         .scene3 { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); }
         .logo-3d {
             width: 180px;
             height: 180px;
-            background: linear-gradient(135deg, #8B5CF6, #6B4EFF);
             border-radius: 35px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            font-size: 50px;
-            font-weight: bold;
             animation: float3d 2s ease-in-out infinite;
             box-shadow: 
-                0 10px 30px rgba(139, 92, 246, 0.5),
-                0 0 60px rgba(139, 92, 246, 0.3);
+                0 15px 50px rgba(0,0,0,0.4),
+                0 0 80px rgba(139, 92, 246, 0.5);
         }
         
         /* Scene 4 - Characters */
@@ -178,6 +178,7 @@
     <div class="video-container">
         <!-- Scene 1: Dark -->
         <div class="scene scene1 active" id="scene1">
+            <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/deneme-logo.png" class="logo">
             <div class="text">"Artık sahte arkadaşlıklardan bıktım..."</div>
             <div class="sub">Kıskançlık, dedikodu, yalan...</div>
         </div>
@@ -192,7 +193,7 @@
         
         <!-- Scene 3: Logo 3D -->
         <div class="scene scene3" id="scene3">
-            <div class="logo-3d">💬</div>
+            <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/deneme-logo.png" class="logo-3d"></div>
             <div style="color:white;margin-top:30px;font-size:24px;font-weight:bold;">Dedikodu Kazanı</div>
         </div>
         
@@ -211,7 +212,7 @@
         
         <!-- Scene 5: Final -->
         <div class="scene scene5" id="scene5">
-            <div class="logo-3d" style="width:140px;height:140px;font-size:40px;">💬</div>
+            <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/deneme-logo.png" class="logo-3d" style="width:140px;height:140px;"></div>
             <div class="slogan">Sanal arkadaşın<br>cebinde!</div>
         </div>
         
