@@ -278,12 +278,12 @@
             <div style="padding:16px 20px 8px;font-weight:bold;">Arkadaşlar</div>
             
             <div class="grid">
-                <div class="card" onclick="openChat('Eda')"><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_eda.png" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;object-fit:cover;"><div class="card-name">Eda</div></div>
-                <div class="card" onclick="openChat('Teo')"><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_teo.png" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;object-fit:cover;"><div class="card-name">Teo</div></div>
-                <div class="card" onclick="showPremium('Ela')"><div class="premium-badge">💎</div><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_ela.png" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;object-fit:cover;"><div class="card-name">Ela</div></div>
-                <div class="card" onclick="showPremium('Mila')"><div class="premium-badge">💎</div><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_mila.png" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;object-fit:cover;"><div class="card-name">Mila</div></div>
-                <div class="card" onclick="showPremium('Batu')"><div class="premium-badge">💎</div><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_batu.png" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;object-fit:cover;"><div class="card-name">Batu</div></div>
-                <div class="card" onclick="showPremium('Mete')"><div class="premium-badge">💎</div><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_mete.png" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;object-fit:cover;"><div class="card-name">Mete</div></div>
+                <div class="card" onclick="openChat('Eda')"><div style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;background:linear-gradient(135deg,#FF6B6B,#EE5A24);display:flex;align-items:center;justify-content:center;font-size:30px;">E</div><div class="card-name">Eda</div></div>
+                <div class="card" onclick="openChat('Teo')"><div style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;background:linear-gradient(135deg,#6C5CE7,#5B4ECF);display:flex;align-items:center;justify-content:center;font-size:30px;">T</div><div class="card-name">Teo</div></div>
+                <div class="card" onclick="showPremium('Ela')"><div class="premium-badge">💎</div><div style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;background:linear-gradient(135deg,#FD79A8,#E84393);display:flex;align-items:center;justify-content:center;font-size:30px;">El</div><div class="card-name">Ela</div></div>
+                <div class="card" onclick="showPremium('Mila')"><div class="premium-badge">💎</div><div style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;background:linear-gradient(135deg,#00B894,#00A085);display:flex;align-items:center;justify-content:center;font-size:30px;">Mi</div><div class="card-name">Mila</div></div>
+                <div class="card" onclick="showPremium('Batu')"><div class="premium-badge">💎</div><div style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;background:linear-gradient(135deg,#FDCB6E,#F39C12);display:flex;align-items:center;justify-content:center;font-size:30px;">B</div><div class="card-name">Batu</div></div>
+                <div class="card" onclick="showPremium('Mete')"><div class="premium-badge">💎</div><div style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;background:linear-gradient(135deg,#74B9FF,#0984E3);display:flex;align-items:center;justify-content:center;font-size:30px;">M</div><div class="card-name">Mete</div></div>
             </div>
             
             <div class="group-btn" onclick="window.location.href='../tanitim.html'">
@@ -405,12 +405,20 @@
         const avatarStyles = { 'Eda': 'avatar-e', 'Teo': 'avatar-t', 'Ela': 'avatar-el', 'Mila': 'avatar-z', 'Batu': 'avatar-r', 'Mete': 'avatar-m' };
         const avatarLabels = { 'Eda': 'E', 'Teo': 'T', 'Ela': 'El', 'Mila': 'Mi', 'Batu': 'B', 'Mete': 'M' };
         const charImages = { 
-            'Eda': 'https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_eda.png',
-            'Teo': 'https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_teo.png',
-            'Ela': 'https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_ela.png',
-            'Mila': 'https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_mila.png',
-            'Batu': 'https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_batu.png',
-            'Mete': 'https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_mete.png'
+            'Eda': 'E',
+            'Teo': 'T',
+            'Ela': 'El',
+            'Mila': 'Mi',
+            'Batu': 'B',
+            'Mete': 'M'
+        };
+        const charColors = {
+            'Eda': '#FF6B6B',
+            'Teo': '#6C5CE7',
+            'Ela': '#FD79A8',
+            'Mila': '#00B894',
+            'Batu': '#FDCB6E',
+            'Mete': '#74B9FF'
         };
         const groupColors = { 'Eda': '#FF6B6B', 'Teo': '#6C5CE7', 'Ela': '#E84393', 'Mila': '#00B894', 'Batu': '#F39C12', 'Mete': '#0984E3' };
         
@@ -525,10 +533,13 @@
             
             const avatar = document.getElementById('chatAvatar');
             avatar.className = 'chat-avatar';
-            avatar.style.backgroundImage = `url(${charImages[name]})`;
-            avatar.style.backgroundSize = 'cover';
-            avatar.style.backgroundPosition = 'center';
-            avatar.textContent = '';
+            avatar.style.backgroundColor = charColors[name];
+            avatar.textContent = charImages[name];
+            avatar.style.display = 'flex';
+            avatar.style.alignItems = 'center';
+            avatar.style.justifyContent = 'center';
+            avatar.style.fontWeight = 'bold';
+            avatar.style.color = 'white';
             
             document.getElementById('chatMessages').innerHTML = '';
             
@@ -647,7 +658,7 @@
             });
             msgDiv.addEventListener('touchend', () => clearTimeout(pressTimer));
             
-            const avatarImg = charImages[name] ? `<img src="${charImages[name]}" style="width:24px;height:24px;border-radius:6px;vertical-align:middle;margin-right:4px;object-fit:cover;">` : '';
+            const avatarImg = charImages[name] ? `<span style="background:${charColors[name]};color:white;padding:2px 6px;border-radius:4px;margin-right:4px;font-weight:bold;font-size:12px;">${charImages[name]}</span>` : '';
             msgDiv.innerHTML = avatarImg + '<b style="color:' + groupColors[name] + ';">' + name + ':</b> ' + text + 
                 '<div class="msg-time">' + time + '</div>' +
                 '<div class="msg-reactions">' +
