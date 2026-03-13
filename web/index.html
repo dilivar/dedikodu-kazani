@@ -12,6 +12,7 @@
         .phone { width: 100%; max-width: 393px; background: #F5F0FF; position: relative; overflow: hidden; }
         
         .header { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); padding: 50px 20px 20px; color: white; border-radius: 0 0 30px 30px; text-align: center; }
+        
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 16px; }
         .card { background: white; border-radius: 16px; padding: 14px; text-align: center; cursor: pointer; position: relative; }
         .card.blur { opacity: 0.5; }
@@ -29,6 +30,9 @@
         
         .premium-badge { position: absolute; top: 8px; right: 8px; font-size: 14px; }
         
+        .group-btn { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); color: white; padding: 16px; border-radius: 16px; margin: 16px; text-align: center; cursor: pointer; }
+        .group-btn-icon { font-size: 24px; }
+        
         .premium-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
         .premium-modal.active { display: flex; }
         .premium-box { background: linear-gradient(135deg, #FFD700, #FFA500); padding: 30px; border-radius: 24px; text-align: center; color: white; max-width: 280px; margin: 20px; }
@@ -36,9 +40,9 @@
         .premium-box .price { font-size: 36px; font-weight: bold; margin: 15px 0; }
         .premium-box button { background: white; color: #FFA500; border: none; padding: 14px 32px; border-radius: 24px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
         
-        #homeScreen, #chatScreen { position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; }
-        #chatScreen { display: none; background: #F5F0FF; }
-        #chatScreen.active { display: block; }
+        #homeScreen, #chatScreen, #groupScreen { position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; }
+        #chatScreen, #groupScreen { display: none; background: #F5F0FF; }
+        #chatScreen.active, #groupScreen.active { display: block; }
         
         .chat-header { background: white; padding: 45px 16px 12px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #eee; }
         .chat-avatar { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; color: white; }
@@ -48,6 +52,7 @@
         .msg { max-width: 85%; padding: 12px 16px; border-radius: 18px; font-size: 14px; line-height: 1.5; }
         .msg-received { background: white; align-self: flex-start; border-bottom-left-radius: 4px; }
         .msg-sent { background: #8B5CF6; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+        .msg-group { background: #f0f0f0; align-self: flex-start; border-bottom-left-radius: 4px; }
         .msg-time { font-size: 10px; opacity: 0.7; margin-top: 4px; }
         
         .quick-reply { display: flex; gap: 8px; overflow-x: auto; padding: 8px 16px; background: #f5f0ff; }
@@ -65,7 +70,7 @@
                 <h2>💎 Premium</h2>
                 <p id="premiumCharName">Karakter</p>
                 <div class="price">9.99€/ay</div>
-                <p>Ücretsiz denemek için Eda'yı seçin!</p>
+                <p>Grup sohbeti için tüm premium'ları aç!</p>
                 <button onclick="closePremium()">Kapat</button>
             </div>
         </div>
@@ -109,6 +114,12 @@
                     <div class="card-name">Mete</div>
                 </div>
             </div>
+            
+            <div class="group-btn" onclick="openGroup()">
+                <div class="group-btn-icon">👥</div>
+                <div style="font-weight:bold;">Grup Sohbeti</div>
+                <div style="font-size:12px;opacity:0.8;">6 arkadaşla aynı anda!</div>
+            </div>
         </div>
         
         <div id="chatScreen">
@@ -119,11 +130,10 @@
             </div>
             
             <div class="quick-reply">
-                <button class="quick-btn" onclick="sendQuick('Merhaba!')">👋 Merhaba</button>
-                <button class="quick-btn" onclick="sendQuick('Nasılsın?')">😊 Nasıl</button>
-                <button class="quick-btn" onclick="sendQuick('Neler yapıyorsun?')">💬 Ne yapıyorsun</button>
-                <button class="quick-btn" onclick="sendQuick('Bana bir şey anlat!')">📖 Anlat</button>
-                <button class="quick-btn" onclick="sendQuick('Ne düşünüyorsun?')">🤔 Düşünce</button>
+                <button class="quick-btn" onclick="sendQuick('Merhaba!')">👋</button>
+                <button class="quick-btn" onclick="sendQuick('Nasılsın?')">😊</button>
+                <button class="quick-btn" onclick="sendQuick('Neler yapıyorsun?')">💬</button>
+                <button class="quick-btn" onclick="sendQuick('Anlat!')">📖</button>
             </div>
             
             <div class="chat-messages" id="chatMessages"></div>
@@ -131,6 +141,33 @@
             <div class="chat-input-area">
                 <input type="text" class="chat-input" id="messageInput" placeholder="Mesaj yaz...">
                 <div class="chat-send" onclick="sendMessage()">➤</div>
+            </div>
+        </div>
+        
+        <div id="groupScreen">
+            <div class="chat-header" style="background:linear-gradient(135deg,#8B5CF6,#6B4EFF);">
+                <span onclick="goHome()" style="font-size:20px;cursor:pointer;color:white;">←</span>
+                <div style="color:white;font-weight:bold;font-size:16px;">👥 Grup Sohbeti</div>
+            </div>
+            
+            <div class="chat-messages" id="groupMessages">
+                <div class="msg msg-group">
+                    <b style="color:#8B5CF6;">Eda:</b> Selam herkese! 👋
+                    <div class="msg-time">14:30</div>
+                </div>
+                <div class="msg msg-group">
+                    <b style="color:#E84393;">Ela:</b> Hey! 🎉
+                    <div class="msg-time">14:31</div>
+                </div>
+                <div class="msg msg-group">
+                    <b style="color:#6C5CE7;">Teo:</b> Herkes nasıl? 👀
+                    <div class="msg-time">14:32</div>
+                </div>
+            </div>
+            
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="groupInput" placeholder="Gruba mesaj yaz...">
+                <div class="chat-send" onclick="sendToGroup()">➤</div>
             </div>
         </div>
     </div>
@@ -148,18 +185,21 @@
             'Eda': 'E', 'Ela': 'El', 'Mila': 'Mi', 'Teo': 'T', 'Batu': 'B', 'Mete': 'M'
         };
         
+        const groupColors = {
+            'Eda': '#FF6B6B', 'Ela': '#E84393', 'Mila': '#00B894', 
+            'Teo': '#6C5CE7', 'Batu': '#F39C12', 'Mete': '#0984E3'
+        };
+        
         const smartResponses = {
             'Eda': {
-                greetings: ['Selam! Nasılsın?', 'Merhaba! Bugün neler yapıyorsun?', 'Hey! Uzun zaman oldu!'],
-                howareyou: ['İyiyim, sen nasılsın? 😊', 'Harika!', 'Meşgulüm, sen?'],
-                tell: ['Bir olay anlatayım mı?', 'Cidden mi?', 'Vay be! 👀'],
-                default: ['Aa ilginç! 😄', 'Vay be! 👀', 'Devam et!', 'Helal olsun! 😎', 'Ciddi misin? 😱']
+                greetings: ['Selam! Nasılsın?', 'Merhaba!', 'Hey!'],
+                howareyou: ['İyiyim! 😊', 'Harika!', 'Sen?'],
+                default: ['Aa ilginç! 😄', 'Vay be! 👀', 'Devam et!', 'Helal! 😎']
             },
             'Ela': {
-                greetings: ['Merhaba! Nasılsın?', 'Selam!', 'Hey!'],
-                howareyou: ['Harika görünüyorsun!', 'İyiyim! 😊', 'Güzel geçiyor! ✨'],
-                tell: ['Harika bir şey var!', 'Dinle!', 'Cidden mi? 😍'],
-                default: ['Aww ne tatlı! 💕', 'Çok ilginç! 😍', 'Harika! 😊', 'Vay!']
+                greetings: ['Merhaba!', 'Selam!', 'Hey!'],
+                howareyou: ['İyiyim! 😊', 'Harika!', 'Güzel!'],
+                default: ['Aww! 💕', 'Çok ilginç! 😍', 'Harika! 😊']
             }
         };
         
@@ -173,10 +213,25 @@
             if (msg.includes('nasılsın') || msg.includes('naber')) {
                 return responses.howareyou[Math.floor(Math.random() * responses.howareyou.length)];
             }
-            if (msg.includes('anlat') || msg.includes('tell')) {
-                return responses.tell[Math.floor(Math.random() * responses.tell.length)];
-            }
             return responses.default[Math.floor(Math.random() * responses.default.length)];
+        }
+        
+        function getGroupResponse(message) {
+            const msg = message.toLowerCase();
+            const responders = ['Eda', 'Ela', 'Teo', 'Mila', 'Batu', 'Mete'];
+            const responder = responders[Math.floor(Math.random() * responders.length)];
+            
+            const responses = {
+                'Eda': ['Selam! 👋', 'İyidir! 😄', 'Ne var ne yok?', 'Grup güzel! 🔥'],
+                'Ela': ['Hey! 💅', 'Harika! ✨', 'Dinliyorum!', 'Grup harika! 💕'],
+                'Teo': ['Selam! 👀', 'İlginç!', 'Devam et!', 'Evet mi? 🤔'],
+                'Mila': ['Merhaba! 👋', 'İyiyim! 😊', 'Tamam!', 'Anladım! 👍'],
+                'Batu': ['Selam! ⚡', 'Güzel!', 'Harika! 🔥', 'Devam!'],
+                'Mete': ['Hey! 📰', 'İlginç!', 'Tamam!', 'Tabii! 😊']
+            };
+            
+            const opts = responses[responder] || ['İlginç!', 'Tamam!', 'Devam!'];
+            return { name: responder, text: opts[Math.floor(Math.random() * opts.length)] };
         }
         
         function showPremium(name) {
@@ -209,8 +264,14 @@
             addMessage(hellos[name] || 'Merhaba!', false);
         }
         
+        function openGroup() {
+            document.getElementById('homeScreen').style.display = 'none';
+            document.getElementById('groupScreen').classList.add('active');
+        }
+        
         function goHome() {
             document.getElementById('chatScreen').classList.remove('active');
+            document.getElementById('groupScreen').classList.remove('active');
             document.getElementById('homeScreen').style.display = 'block';
             closePremium();
         }
@@ -223,6 +284,19 @@
             const msgDiv = document.createElement('div');
             msgDiv.className = 'msg ' + (isUser ? 'msg-sent' : 'msg-received');
             msgDiv.innerHTML = (isUser ? '' : '<b>' + currentChar + ':</b> ') + text.replace(/\n/g, '<br>') + '<div class="msg-time">' + time + '</div>';
+            chatMsgs.appendChild(msgDiv);
+            chatMsgs.scrollTop = chatMsgs.scrollHeight;
+        }
+        
+        function addGroupMessage(name, text) {
+            const chatMsgs = document.getElementById('groupMessages');
+            const now = new Date();
+            const time = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
+            const color = groupColors[name] || '#8B5CF6';
+            
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'msg msg-group';
+            msgDiv.innerHTML = '<b style="color:' + color + ';">' + name + ':</b> ' + text + '<div class="msg-time">' + time + '</div>';
             chatMsgs.appendChild(msgDiv);
             chatMsgs.scrollTop = chatMsgs.scrollHeight;
         }
@@ -245,8 +319,27 @@
             }, 300 + Math.random() * 500);
         }
         
+        function sendToGroup() {
+            const input = document.getElementById('groupInput');
+            const text = input.value.trim();
+            if (!text) return;
+            
+            addGroupMessage('Sen', text);
+            input.value = '';
+            
+            // Random group response
+            setTimeout(() => {
+                const resp = getGroupResponse(text);
+                addGroupMessage(resp.name, resp.text);
+            }, 500 + Math.random() * 1000);
+        }
+        
         document.getElementById('messageInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') sendMessage();
+        });
+        
+        document.getElementById('groupInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendToGroup();
         });
     </script>
 </body>
