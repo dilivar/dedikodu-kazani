@@ -314,7 +314,8 @@
                 });
             }
             document.getElementById('notifModal').classList.remove('active');
-            document.getElementById('homeScreen').style.display = 'block';
+            // Show profile setup
+            setTimeout(() => { document.getElementById('profileModal').classList.add('active'); }, 300);
         }
         
         function denyNotif() {
@@ -334,6 +335,7 @@
             
             alert('✅ Profil kaydedildi!\n\n👤 ' + (userProfile.name || 'İsimsiz') + '\n📧 ' + (userProfile.email || 'E-posta yok'));
             closeProfile();
+            document.getElementById('homeScreen').style.display = 'block';
         }
         
         function openAbout() { document.getElementById('aboutModal').classList.add('active'); }
