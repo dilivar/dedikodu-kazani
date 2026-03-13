@@ -86,6 +86,9 @@
         .msg-sent { background: #8B5CF6; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
         .msg-group { background: #f0f0f0; align-self: flex-start; border-bottom-left-radius: 4px; }
         .msg-time { font-size: 10px; opacity: 0.7; margin-top: 4px; }
+        .msg-reactions { display: flex; gap: 4px; margin-top: 4px; }
+        .reaction { font-size: 14px; cursor: pointer; opacity: 0.7; }
+        .reaction:hover { opacity: 1; }
         
         .quick-reply { display: flex; gap: 8px; overflow-x: auto; padding: 8px 16px; background: #f5f0ff; }
         .quick-btn { background: white; border: 1px solid #8B5CF6; color: #8B5CF6; padding: 8px 14px; border-radius: 20px; font-size: 11px; white-space: nowrap; cursor: pointer; }
@@ -489,9 +492,22 @@
             
             const msgDiv = document.createElement('div');
             msgDiv.className = 'msg ' + (isUser ? 'msg-sent' : 'msg-received');
-            msgDiv.innerHTML = (isUser ? '' : '<b>' + currentChar + ':</b> ') + text.replace(/\n/g, '<br>') + '<div class="msg-time">' + time + '</div>';
+            msgDiv.innerHTML = (isUser ? '' : '<b>' + currentChar + ':</b> ') + text.replace(/\n/g, '<br>') + 
+                '<div class="msg-time">' + time + '</div>' +
+                '<div class="msg-reactions">' +
+                '<span class="reaction" onclick="addReaction(this)">👍</span>' +
+                '<span class="reaction" onclick="addReaction(this)">❤️</span>' +
+                '<span class="reaction" onclick="addReaction(this)">😂</span>' +
+                '<span class="reaction" onclick="addReaction(this)">😮</span>' +
+                '<span class="reaction" onclick="addReaction(this)">😢</span>' +
+                '</div>';
             chatMsgs.appendChild(msgDiv);
             chatMsgs.scrollTop = chatMsgs.scrollHeight;
+        }
+        
+        function addReaction(el) {
+            el.style.transform = 'scale(1.3)';
+            setTimeout(() => el.style.transform = 'scale(1)', 200);
         }
         
         function addGroupMessage(name, text) {
@@ -501,7 +517,14 @@
             
             const msgDiv = document.createElement('div');
             msgDiv.className = 'msg msg-group';
-            msgDiv.innerHTML = '<b style="color:' + groupColors[name] + ';">' + name + ':</b> ' + text + '<div class="msg-time">' + time + '</div>';
+            msgDiv.innerHTML = '<b style="color:' + groupColors[name] + ';">' + name + ':</b> ' + text + 
+                '<div class="msg-time">' + time + '</div>' +
+                '<div class="msg-reactions">' +
+                '<span class="reaction" onclick="addReaction(this)">👍</span>' +
+                '<span class="reaction" onclick="addReaction(this)">❤️</span>' +
+                '<span class="reaction" onclick="addReaction(this)">😂</span>' +
+                '<span class="reaction" onclick="addReaction(this)">😮</span>' +
+                '</div>';
             chatMsgs.appendChild(msgDiv);
             chatMsgs.scrollTop = chatMsgs.scrollHeight;
         }
