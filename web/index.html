@@ -19,7 +19,7 @@
         .header { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); padding: 50px 20px 20px; color: white; border-radius: 0 0 30px 30px; text-align: center; }
         
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 16px; }
-        .card { background: white; border-radius: 16px; padding: 14px; text-align: center; cursor: pointer; position: relative; }
+        .card { background: white; border-radius: 16px; padding: 14px; text-align: center; cursor: pointer; position: relative; z-index: 10; }
         .card.blur { opacity: 0.5; }
         
         .avatar { width: 44px; height: 44px; border-radius: 12px; margin: 0 auto 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; color: white; }
@@ -268,6 +268,9 @@
             <div class="header">
                 <h1 style="font-size:22px;font-weight:bold;">Dedikodu Kazanı</h1>
                 <p style="font-size:13px;opacity:0.9;">Sanal arkadaşların!</p>
+                <div style="margin-top:10px;">
+                    <button onclick="window.open('tanitim.html','_blank')" style="background:white;color:#8B5CF6;border:none;padding:8px 16px;border-radius:20px;font-weight:bold;cursor:pointer;">🎬 Video</button>
+                </div>
             </div>
             
             <div class="limit-banner" id="limitBanner">⚠️ Ücretsiz hak: <span id="msgCount">20</span>/20</div>
@@ -281,6 +284,11 @@
                 <div class="card" onclick="showPremium('Mila')"><div class="premium-badge">💎</div><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_mete.png?v=3" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;"><div class="card-name">Mila</div></div>
                 <div class="card" onclick="showPremium('Batu')"><div class="premium-badge">💎</div><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_ela.png?v=3" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;"><div class="card-name">Batu</div></div>
                 <div class="card" onclick="showPremium('Mete')"><div class="premium-badge">💎</div><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_teo.png?v=3" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;"><div class="card-name">Mete</div></div>
+            </div>
+            
+            <div class="group-btn" onclick="window.open('tanitim.html','_blank')">
+                <div style="font-size:24px;">🎬</div>
+                <div style="font-weight:bold;">Tanıtım Videosu</div>
             </div>
             
             <div class="group-btn" onclick="openCallHistory()">
