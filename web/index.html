@@ -38,16 +38,22 @@
         
         .settings-btn { position: absolute; top: 60px; right: 16px; color: white; font-size: 20px; cursor: pointer; z-index: 10; }
         
-        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1500; overflow-y: auto; }
+        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 1500; overflow-y: auto; backdrop-filter: blur(5px); }
         .modal.active { display: block; }
-        .modal-box { background: white; margin: 20px; border-radius: 20px; padding: 24px; }
-        .modal-box h2 { color: #2D3436; margin-bottom: 16px; font-size: 18px; }
-        .modal-box .close-btn { float: right; background: none; border: none; font-size: 20px; cursor: pointer; }
+        .modal-box { background: white; margin: 20px; border-radius: 24px; padding: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); transform: scale(0.9); animation: modalIn 0.3s forwards; }
+        @keyframes modalIn { to { transform: scale(1); } }
+        .modal-box h2 { color: #2D3436; margin-bottom: 20px; font-size: 20px; text-align: center; }
+        .modal-box .close-btn { position: absolute; top: 16px; right: 16px; background: #f0f0f0; border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 16px; cursor: pointer; }
         
-        .form-group { margin-bottom: 16px; }
-        .form-group label { display: block; color: #636E72; font-size: 12px; margin-bottom: 6px; }
-        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; color: #2D3436; font-size: 13px; font-weight: 600; margin-bottom: 10px; }
+        .form-group input, .form-group select { width: 100%; padding: 14px 16px; border: 2px solid #e0e0e0; border-radius: 14px; font-size: 15px; transition: border-color 0.3s; }
         .form-group input:focus, .form-group select:focus { outline: none; border-color: #8B5CF6; }
+        
+        .avatar-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+        .avatar-option { width: 100%; aspect-ratio: 1; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; border: 3px solid transparent; }
+        .avatar-option:hover { transform: scale(1.1); }
+        .avatar-option.selected { border-color: #8B5CF6; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4); transform: scale(1.05); }
         
         .save-btn { width: 100%; padding: 14px; background: #8B5CF6; color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer; }
         
@@ -126,24 +132,28 @@
                 
                 <!-- Avatar Seçimi -->
                 <div class="form-group">
-                    <label>🖼️ Avatarın</label>
-                    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
-                        <div onclick="selectAvatar('👩')" style="width:44px;height:44px;background:#FF6B6B;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;border:3px solid transparent;" id="av-👩">👩</div>
-                        <div onclick="selectAvatar('👨')" style="width:44px;height:44px;background:#3498DB;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;border:3px solid transparent;" id="av-👨">👨</div>
-                        <div onclick="selectAvatar('👩‍🦰')" style="width:44px;height:44px;background:#E74C3C;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;border:3px solid transparent;" id="av-👩‍🦰">👩‍🦰</div>
-                        <div onclick="selectAvatar('👨‍🦱')" style="width:44px;height:44px;background:#9B59B6;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;border:3px solid transparent;" id="av-👨‍🦱">👨‍🦱</div>
-                        <div onclick="selectAvatar('👱‍♀️')" style="width:44px;height:44px;background:#F1C40F;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;border:3px solid transparent;" id="av-👱‍♀️">👱‍♀️</div>
-                        <div onclick="selectAvatar('🧑')" style="width:44px;height:44px;background:#1ABC9C;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;border:3px solid transparent;" id="av-🧑">🧑</div>
-                        <div onclick="selectAvatar('🦸')" style="width:44px;height:44px;background:#E67E22;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;border:3px solid transparent;" id="av-🦸">🦸</div>
-                        <div onclick="selectAvatar('🦹')" style="width:44px;height:44px;background:#34495E;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;border:3px solid transparent;" id="av-🦹">🦹</div>
-                        <div onclick="selectAvatar('👸')" style="width:44px;height:44px;background:#E91E63;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;border:3px solid transparent;" id="av-👸">👸</div>
-                        <div onclick="selectAvatar('🤴')" style="width:44px;height:44px;background:#9B59B6;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;border:3px solid transparent;" id="av-🤴">🤴</div>
-                        <div onclick="selectAvatar('👼')" style="width:44px;height:44px;background:#FFFFFF;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;border:3px solid #ddd;" id="av-👼">👼</div>
-                        <div onclick="selectAvatar('🧙')" style="width:44px;height:44px;background:#8E44AD;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;border:3px solid transparent;" id="av-🧙">🧙</div>
-                        <div onclick="selectAvatar('🧚')" style="width:44px;height:44px;background:#FF69B4;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;border:3px solid transparent;" id="av-🧚">🧚</div>
-                        <div onclick="selectAvatar('🧛')" style="width:44px;height:44px;background:#2C3E50;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;border:3px solid transparent;" id="av-🧛">🧛</div>
-                        <div onclick="selectAvatar('🧜')" style="width:44px;height:44px;background:#00BCD4;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;border:3px solid transparent;" id="av-🧜">🧜</div>
-                        <div onclick="selectAvatar('🧝')" style="width:44px;height:44px;background:#D4AC0D;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;cursor:pointer;border:3px solid transparent;" id="av-🧝">🧝</div>
+                    <label>🖼️ Avatarını Seç</label>
+                    <div class="avatar-grid">
+                        <div class="avatar-option" onclick="selectAvatar('👩')" style="background:#FFEBEE;" id="av-👩">👩</div>
+                        <div class="avatar-option" onclick="selectAvatar('👨')" style="background:#E3F2FD;" id="av-👨">👨</div>
+                        <div class="avatar-option" onclick="selectAvatar('👩‍🦰')" style="background:#FFEBEE;" id="av-👩‍🦰">👩‍🦰</div>
+                        <div class="avatar-option" onclick="selectAvatar('👨‍🦱')" style="background:#F3E5F5;" id="av-👨‍🦱">👨‍🦱</div>
+                        <div class="avatar-option" onclick="selectAvatar('👱‍♀️')" style="background:#FFF8E1;" id="av-👱‍♀️">👱‍♀️</div>
+                        <div class="avatar-option" onclick="selectAvatar('🧑')" style="background:#E0F2F1;" id="av-🧑">🧑</div>
+                        <div class="avatar-option" onclick="selectAvatar('🦸')" style="background:#FFF3E0;" id="av-🦸">🦸</div>
+                        <div class="avatar-option" onclick="selectAvatar('🦹')" style="background:#ECEFF1;" id="av-🦹">🦹</div>
+                        <div class="avatar-option" onclick="selectAvatar('👸')" style="background:#FCE4EC;" id="av-👸">👸</div>
+                        <div class="avatar-option" onclick="selectAvatar('🤴')" style="background:#F3E5F5;" id="av-🤴">🤴</div>
+                        <div class="avatar-option" onclick="selectAvatar('👼')" style="background:#FAFAFA;" id="av-👼">👼</div>
+                        <div class="avatar-option" onclick="selectAvatar('🧙')" style="background:#EDE7F6;" id="av-🧙">🧙</div>
+                        <div class="avatar-option" onclick="selectAvatar('🧚')" style="background:#FCE4EC;" id="av-🧚">🧚</div>
+                        <div class="avatar-option" onclick="selectAvatar('🧛')" style="background:#ECEFF1;" id="av-🧛">🧛</div>
+                        <div class="avatar-option" onclick="selectAvatar('🧜')" style="background:#E0F7FA;" id="av-🧜">🧜</div>
+                        <div class="avatar-option" onclick="selectAvatar('🧝')" style="background:#FFF8E1;" id="av-🧝">🧝</div>
+                        <div class="avatar-option" onclick="selectAvatar('👨‍🦲')" style="background:#EEEEEE;" id="av-👨‍🦲">👨‍🦲</div>
+                        <div class="avatar-option" onclick="selectAvatar('👩‍🦱')" style="background:#EFEBE9;" id="av-👩‍🦱">👩‍🦱</div>
+                        <div class="avatar-option" onclick="selectAvatar('🦊')" style="background:#FFEBEE;" id="av-🦊">🦊</div>
+                        <div class="avatar-option" onclick="selectAvatar('🦁')" style="background:#FFF3E0;" id="av-🦁">🦁</div>
                     </div>
                 </div>
                 
@@ -362,10 +372,10 @@
         
         function selectAvatar(emoji) {
             userProfile.avatar = emoji;
-            // Reset all borders
-            document.querySelectorAll('[id^="av-"]').forEach(el => el.style.border = '3px solid transparent');
-            // Set selected border
-            document.getElementById('av-' + emoji).style.border = '3px solid #8B5CF6';
+            // Reset all
+            document.querySelectorAll('.avatar-option').forEach(el => el.classList.remove('selected'));
+            // Set selected
+            document.getElementById('av-' + emoji).classList.add('selected');
         }
         
         // SPLASH
