@@ -11,11 +11,10 @@
         body { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); display: flex; justify-content: center; }
         .phone { width: 100%; max-width: 393px; background: #F5F0FF; position: relative; overflow: hidden; }
         
-        /* SPLASH SCREEN */
         #splashScreen { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(135deg, #8B5CF6, #6B4EFF); z-index: 3000; display: flex; align-items: center; justify-content: center; flex-direction: column; }
         #splashScreen.hidden { display: none; }
         .splash-logo { font-size: 48px; font-weight: bold; color: white; animation: pulse 2s infinite; }
-        .splash-text { color: white; margin-top: 10px; font-size: 14px; opacity: 0.8; }
+        .splash-text { color: white; margin-top: 10px; font-size: 14px; }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
         
         .header { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); padding: 50px 20px 20px; color: white; border-radius: 0 0 30px 30px; text-align: center; }
@@ -23,7 +22,6 @@
         .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 16px; }
         .card { background: white; border-radius: 16px; padding: 14px; text-align: center; cursor: pointer; position: relative; }
         .card.blur { opacity: 0.5; }
-        .card.blur .avatar { filter: blur(3px); }
         
         .avatar { width: 44px; height: 44px; border-radius: 12px; margin: 0 auto 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; color: white; }
         .avatar-e { background: linear-gradient(135deg, #FF6B6B, #EE5A24); }
@@ -34,35 +32,38 @@
         .avatar-m { background: linear-gradient(135deg, #74B9FF, #0984E3); }
         
         .card-name { font-weight: bold; font-size: 13px; color: #2D3436; }
-        
         .premium-badge { position: absolute; top: 8px; right: 8px; font-size: 14px; }
         
         .group-btn { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); color: white; padding: 16px; border-radius: 16px; margin: 16px; text-align: center; cursor: pointer; }
         
         .settings-btn { position: absolute; top: 60px; right: 16px; color: white; font-size: 20px; cursor: pointer; z-index: 10; }
         
-        /* LEGAL MODAL */
-        .legal-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.9); z-index: 2000; overflow-y: auto; }
-        .legal-modal.active { display: block; }
-        .legal-box { background: white; margin: 20px; border-radius: 20px; padding: 24px; max-height: 80%; overflow-y: auto; }
-        .legal-box h2 { color: #2D3436; margin-bottom: 16px; font-size: 18px; }
-        .legal-box p { color: #636E72; font-size: 12px; line-height: 1.6; margin-bottom: 12px; }
+        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1500; overflow-y: auto; }
+        .modal.active { display: block; }
+        .modal-box { background: white; margin: 20px; border-radius: 20px; padding: 24px; }
+        .modal-box h2 { color: #2D3436; margin-bottom: 16px; font-size: 18px; }
+        .modal-box .close-btn { float: right; background: none; border: none; font-size: 20px; cursor: pointer; }
+        
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; color: #636E72; font-size: 12px; margin-bottom: 6px; }
+        .form-group input, .form-group select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 10px; font-size: 14px; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #8B5CF6; }
+        
+        .save-btn { width: 100%; padding: 14px; background: #8B5CF6; color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer; }
+        
+        .legal-modal { z-index: 2000; }
+        .legal-modal .legal-box { max-height: 80%; overflow-y: auto; }
+        .legal-modal p { color: #636E72; font-size: 12px; line-height: 1.6; margin-bottom: 12px; }
         .legal-checkbox { display: flex; align-items: flex-start; gap: 10px; margin: 16px 0; }
         .legal-checkbox input { margin-top: 3px; }
         .legal-checkbox label { font-size: 12px; color: #636E72; }
         .legal-btn { width: 100%; padding: 14px; background: #8B5CF6; color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer; }
         .legal-btn:disabled { background: #ccc; }
         
-        /* ABOUT MODAL */
-        .about-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1500; align-items: center; justify-content: center; }
-        .about-modal.active { display: flex; }
-        .about-box { background: white; margin: 20px; border-radius: 20px; padding: 24px; text-align: center; }
-        .about-box h2 { color: #2D3436; margin-bottom: 16px; }
+        .about-box { text-align: center; }
         .about-box .version { color: #8B5CF6; font-weight: bold; font-size: 18px; }
-        .about-box .contact { color: #636E72; font-size: 12px; margin-top: 16px; }
-        .about-box .close-btn { margin-top: 16px; padding: 12px 24px; background: #8B5CF6; color: white; border: none; border-radius: 12px; cursor: pointer; }
         
-        .premium-modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center; }
+        .premium-modal { align-items: center; justify-content: center; }
         .premium-modal.active { display: flex; }
         .premium-box { background: linear-gradient(135deg, #FFD700, #FFA500); padding: 30px; border-radius: 24px; text-align: center; color: white; max-width: 280px; margin: 20px; }
         .premium-box h2 { font-size: 28px; }
@@ -72,8 +73,8 @@
         .limit-banner { background: #FF6B6B; color: white; padding: 8px 16px; text-align: center; font-size: 12px; display: none; }
         
         #homeScreen, #chatScreen, #groupScreen { position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; }
-        #chatScreen, #groupScreen { display: none; background: #F5F0FF; }
-        #chatScreen.active, #groupScreen.active { display: block; }
+        #chatScreen, #groupScreen, #profileScreen { display: none; background: #F5F0FF; }
+        #chatScreen.active, #groupScreen.active, #profileScreen.active { display: block; }
         
         .chat-header { background: white; padding: 45px 16px 12px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #eee; }
         .chat-avatar { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; color: white; }
@@ -96,36 +97,66 @@
 </head>
 <body>
     <div class="phone">
-        <!-- SPLASH SCREEN -->
+        <!-- SPLASH -->
         <div id="splashScreen">
             <div class="splash-logo">💬</div>
             <div class="splash-text">Dedikodu Kazanı</div>
         </div>
         
+        <!-- PROFILE MODAL -->
+        <div class="modal" id="profileModal">
+            <div class="modal-box">
+                <button class="close-btn" onclick="closeProfile()">✕</button>
+                <h2>👤 Profil Ayarları</h2>
+                
+                <div class="form-group">
+                    <label>📛 İsmin</label>
+                    <input type="text" id="userName" placeholder="Adını gir">
+                </div>
+                
+                <div class="form-group">
+                    <label>📅 Doğum Tarihi</label>
+                    <input type="date" id="userBirthday">
+                </div>
+                
+                <div class="form-group">
+                    <label>⚥ Cinsiyet</label>
+                    <select id="userGender">
+                        <option value="">Seç</option>
+                        <option value="kadın">Kadın</option>
+                        <option value="erkek">Erkek</option>
+                        <option value="diger">Diğer</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>📧 E-posta</label>
+                    <input type="email" id="userEmail" placeholder="E-posta adresin">
+                </div>
+                
+                <button class="save-btn" onclick="saveProfile()">Kaydet</button>
+            </div>
+        </div>
+        
         <!-- ABOUT MODAL -->
-        <div class="about-modal" id="aboutModal" onclick="closeAbout(event)">
-            <div class="about-box" onclick="event.stopPropagation()">
+        <div class="modal" id="aboutModal">
+            <div class="modal-box about-box">
+                <button class="close-btn" onclick="closeAbout()">✕</button>
                 <h2>💬 Dedikodu Kazanı</h2>
                 <div class="version">v1.0.0</div>
-                <p style="margin-top:16px;color:#636E72;font-size:13px;">Sanal arkadaşların!</p>
-                <div class="contact">
-                    <p>📧 iletisim@dedikodukazani.com</p>
-                    <p>📱 @dedikodukazani</p>
-                </div>
-                <button class="close-btn" onclick="closeAbout()">Kapat</button>
+                <p style="margin-top:16px;color:#636E72;">Sanal arkadaşların!</p>
+                <p style="margin-top:16px;color:#636E72;font-size:12px;">📧 iletisim@dedikodukazani.com</p>
             </div>
         </div>
         
         <!-- LEGAL MODAL -->
-        <div class="legal-modal active" id="legalModal">
-            <div class="legal-box">
+        <div class="modal legal-modal active" id="legalModal">
+            <div class="modal-box legal-box">
                 <h2>📜 Kullanım Koşulları</h2>
                 <p><strong>Gizlilik Politikası</strong></p>
-                <p>Bu uygulama, kullanıcı verilerini yalnızca uygulama deneyimini iyileştirmek için kullanır. Verileriniz güvenli bir şekilde saklanır ve üçüncü taraflarla paylaşılmaz.</p>
-                <p><strong>Kullanım Koşulları</strong></p>
-                <p>Uygulamayı yalnızca kişisel kullanım amacıyla kullanabilirsiniz. Yapay zeka yanıtları hatalı olabilir.</p>
+                <p>Bu uygulama, kullanıcı verilerini yalnızca uygulama deneyimini iyileştirmek için kullanır.</p>
                 <p><strong>⚠️ Önemli Uyarı</strong></p>
-                <p>Bu uygulamadaki yapay zeka yanıtları profesyonel danışmanlık yerine geçmez. Sağlık, hukuk, finans konularında uzman görüşü alınız.</p>
+                <p>Yapay zeka yanıtları profesyonel danışmanlık yerine geçmez.</p>
                 <div class="legal-checkbox">
                     <input type="checkbox" id="termsCheck">
                     <label for="termsCheck">Kullanım koşullarını kabul ediyorum.</label>
@@ -139,18 +170,17 @@
         </div>
         
         <!-- PREMIUM MODAL -->
-        <div class="premium-modal" id="premiumModal">
+        <div class="modal premium-modal" id="premiumModal">
             <div class="premium-box">
                 <h2>💎 Premium</h2>
                 <p id="premiumCharName">Karakter</p>
                 <div class="price">9.99€/ay</div>
-                <p>Sınırsız mesaj + Tüm özellikler!</p>
                 <button onclick="closePremium()">Kapat</button>
             </div>
         </div>
         
         <div id="homeScreen" style="display:none;">
-            <div class="settings-btn" onclick="showAbout()">⚙️</div>
+            <div class="settings-btn" onclick="openProfile()">⚙️</div>
             <div class="header">
                 <h1 style="font-size:22px;font-weight:bold;">Dedikodu Kazanı</h1>
                 <p style="font-size:13px;opacity:0.9;">Sanal arkadaşların!</p>
@@ -205,7 +235,6 @@
             
             <div class="chat-messages" id="groupMessages">
                 <div class="msg msg-group"><b style="color:#FF6B6B;">Eda:</b> Selam! 👋<div class="msg-time">14:30</div></div>
-                <div class="msg msg-group"><b style="color:#6C5CE7;">Teo:</b> Hey! 🙌<div class="msg-time">14:31</div></div>
             </div>
             
             <div class="chat-input-area">
@@ -221,10 +250,16 @@
         let isPremium = false;
         let legalAccepted = false;
         
-        // SPLASH SCREEN
-        setTimeout(() => { document.getElementById('splashScreen').classList.add('hidden'); }, 2000);
+        // User Profile Data
+        let userProfile = {
+            name: '',
+            birthday: '',
+            gender: '',
+            email: ''
+        };
         
-        let userMemory = { name: '', boyriendMom: '', preferences: '', lastTopic: '', lastMessages: [] };
+        // SPLASH
+        setTimeout(() => { document.getElementById('splashScreen').classList.add('hidden'); }, 2000);
         
         const avatarStyles = { 'Eda': 'avatar-e', 'Teo': 'avatar-t', 'Ela': 'avatar-el', 'Mila': 'avatar-z', 'Batu': 'avatar-r', 'Mete': 'avatar-m' };
         const avatarLabels = { 'Eda': 'E', 'Teo': 'T', 'Ela': 'El', 'Mila': 'Mi', 'Batu': 'B', 'Mete': 'M' };
@@ -232,7 +267,7 @@
         
         const characters = {
             'Eda': { greetings: ['Selam! 🙌', 'Heey! 🎉'], phrases: ['Vay be! 👀', 'Cidden mi? 😄'] },
-            'Teo': { greetings: ['Merhaba 👋', 'Selam 🤗'], phrases: ['Hmm... 🤔', 'İlginç! 💡'] },
+            'Teo': { greetings: ['Merhaba 👋'], phrases: ['Hmm... 🤔', 'İlginç! 💡'] },
             'Ela': { greetings: ['Awww merhaba! 💕'], phrases: ['Aaa ne tatlı! 🥰'] },
             'Mila': { greetings: ['Selam 👋'], phrases: ['Tamam 👍', 'Olur! 🎯'] },
             'Batu': { greetings: ['Selam! ⚡'], phrases: ['Hadi! 🔥', 'Yaparsın! 💪'] },
@@ -246,9 +281,7 @@
         document.getElementById('ageCheck').addEventListener('change', checkLegal);
         
         function checkLegal() {
-            const terms = document.getElementById('termsCheck').checked;
-            const age = document.getElementById('ageCheck').checked;
-            document.getElementById('acceptBtn').disabled = !(terms && age);
+            document.getElementById('acceptBtn').disabled = !(document.getElementById('termsCheck').checked && document.getElementById('ageCheck').checked);
         }
         
         function acceptLegal() {
@@ -258,9 +291,22 @@
             document.getElementById('homeScreen').style.display = 'block';
         }
         
-        // ABOUT
-        function showAbout() { document.getElementById('aboutModal').classList.add('active'); }
-        function closeAbout(e) { if (e && e.target !== e.currentTarget) return; document.getElementById('aboutModal').classList.remove('active'); }
+        // PROFILE
+        function openProfile() { document.getElementById('profileModal').classList.add('active'); }
+        function closeProfile() { document.getElementById('profileModal').classList.remove('active'); }
+        
+        function saveProfile() {
+            userProfile.name = document.getElementById('userName').value;
+            userProfile.birthday = document.getElementById('userBirthday').value;
+            userProfile.gender = document.getElementById('userGender').value;
+            userProfile.email = document.getElementById('userEmail').value;
+            
+            alert('✅ Profil kaydedildi!\n\n👤 ' + (userProfile.name || 'İsimsiz') + '\n📧 ' + (userProfile.email || 'E-posta yok'));
+            closeProfile();
+        }
+        
+        function openAbout() { document.getElementById('aboutModal').classList.add('active'); }
+        function closeAbout() { document.getElementById('aboutModal').classList.remove('active'); }
         
         function getSmartResponse(message) {
             const char = characters[currentChar] || characters['Eda'];
@@ -293,7 +339,11 @@
             avatar.textContent = avatarLabels[name];
             
             document.getElementById('chatMessages').innerHTML = '';
-            addMessage('Merhaba! 🙌 Nasılsın?', false);
+            
+            let hello = 'Merhaba! 🙌 ';
+            if (userProfile.name) hello = 'Merhaba ' + userProfile.name + '! 🙌 ';
+            hello += 'Nasılsın?';
+            addMessage(hello, false);
         }
         
         function openGroup() {
