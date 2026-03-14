@@ -560,10 +560,10 @@
             document.getElementById('groupScreen').classList.add('active');
         }
         
-        function goHome() {
-            document.getElementById('chatScreen').classList.remove('active');
-            document.getElementById('groupScreen').classList.remove('active');
-            document.getElementById('callHistoryScreen').classList.remove('active');
+        function goHome() { document.getElementById('homeScreen').style.display = 'block'; 
+            document.getElementById('chatScreen').style.display = 'none';
+            document.getElementById('groupScreen').style.display = 'none';
+            document.getElementById('callHistoryScreen').style.display = 'none';
             document.getElementById('homeScreen').style.display = 'block';
             closePremium();
         }
