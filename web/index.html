@@ -253,7 +253,7 @@
         </div>
         
         <!-- PREMIUM MODAL -->
-        <div class="modal premium-modal" id="premiumModal" style="display:none;">
+        <div class="modal premium-modal" id="premiumModal" style="display:none; align-items:center; justify-content:center;">
             <div class="premium-box">
                 <h2>💎 Premium</h2>
                 <p id="premiumCharName">Karakter</p>
@@ -370,7 +370,7 @@
             
             <div class="chat-input-area">
                 <input type="text" class="chat-input" id="groupInput" onkeypress="if(event.key==="Enter")sendToGroup()" placeholder="Gruba mesaj yaz...">
-                <div class="chat-send" id="groupSendBtn">➤</div>
+                <div class="chat-send" id="groupSendBtn" onclick="sendToGroup()">➤</div>
             </div>
         </div>
     </div>
@@ -568,7 +568,7 @@
         
         // Call History
         function openCallHistory() {
-            document.getElementById('callHistoryScreen').classList.add('active');
+            document.getElementById('callHistoryScreen').style.display = 'block';
         }
         
         // Voice Recording
