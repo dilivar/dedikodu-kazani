@@ -321,8 +321,8 @@
             
             <div class="chat-input-area">
                 <div class="voice-btn" id="voiceBtn" onclick="toggleVoice()">🎤</div>
-                <input type="text" class="chat-input" id="messageInput" placeholder="Mesaj yaz...">
-                <div class="chat-send" id="sendBtn">➤</div>
+                <input type="text" class="chat-input" id="messageInput" onkeypress="if(event.key==="Enter")sendMessage()" placeholder="Mesaj yaz...">
+                <div class="chat-send" id="sendBtn" onclick="sendMessage()">➤</div>
             </div>
         </div>
         
@@ -371,7 +371,7 @@
             </div>
             
             <div class="chat-input-area">
-                <input type="text" class="chat-input" id="groupInput" placeholder="Gruba mesaj yaz...">
+                <input type="text" class="chat-input" id="groupInput" onkeypress="if(event.key==="Enter")sendToGroup()" placeholder="Gruba mesaj yaz...">
                 <div class="chat-send" id="groupSendBtn">➤</div>
             </div>
         </div>
