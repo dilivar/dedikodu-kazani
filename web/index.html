@@ -1,187 +1,710 @@
 <!DOCTYPE html>
-<html>
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dedikodu Kazanı</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: -apple-system, sans-serif; background: #F5F0FF; }
-        .phone { max-width: 400px; margin: 0 auto; background: #F5F0FF; min-height: 100vh; }
-        .header { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); color: white; padding: 20px; text-align: center; }
-        .header h1 { font-size: 22px; margin-bottom: 5px; }
-        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 15px; }
-        .card { background: white; border-radius: 16px; padding: 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); position: relative; }
-        .card img { width: 60px; height: 60px; border-radius: 12px; object-fit: cover; }
-        .card-name { font-weight: bold; font-size: 14px; margin-top: 8px; color: #2D3436; }
-        .badge { position: absolute; top: 8px; right: 8px; font-size: 16px; }
-        .screen { display: none; }
-        .screen.active { display: block; }
-        .back-btn { background: #8B5CF6; color: white; border: none; padding: 10px 20px; border-radius: 20px; text-decoration: none; display: inline-block; }
-        .chat-header { background: #8B5CF6; color: white; padding: 15px; display: flex; align-items: center; gap: 10px; }
-        .avatar { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; }
-        .messages { height: calc(100vh - 200px); overflow-y: auto; padding: 15px; }
-        .msg { background: white; padding: 10px 15px; border-radius: 15px; margin-bottom: 10px; max-width: 80%; }
-        .input-area { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 10px; display: flex; gap: 10px; }
-        .input-area input { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 25px; }
-        .send-btn { background: #8B5CF6; color: white; border: none; padding: 12px 20px; border-radius: 25px; }
+        html, body { height: 100%; overflow: auto; font-family: -apple-system, sans-serif; }
+        :root { --primary: #8B5CF6; }
+        body { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); display: flex; justify-content: center; }
+        .phone { width: 100%; max-width: 393px; background: #F5F0FF; position: relative; overflow: auto; }
+        
+        #splashScreen { display: none; }
+        .splash-logo { font-size: 48px; font-weight: bold; color: white; animation: pulse 2s infinite; }
+        .splash-text { color: white; margin-top: 10px; font-size: 14px; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
+        
+        .header { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); padding: 50px 20px 20px; color: white; border-radius: 0 0 30px 30px; text-align: center; }
+        
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 0 16px; }
+        .card { background: white; border-radius: 16px; padding: 14px; text-align: center; cursor: pointer; position: relative; z-index: 10; touch-action: manipulation; pointer-events: auto; }
+        .card.blur { opacity: 0.5; }
+        
+        .avatar { width: 44px; height: 44px; border-radius: 12px; margin: 0 auto 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; color: white; }
+        .avatar-e { background: linear-gradient(135deg, #FF6B6B, #EE5A24); }
+        .avatar-el { background: linear-gradient(135deg, #FD79A8, #E84393); }
+        .avatar-t { background: linear-gradient(135deg, #6C5CE7, #5B4ECF); }
+        .avatar-z { background: linear-gradient(135deg, #00B894, #00A085); }
+        .avatar-r { background: linear-gradient(135deg, #FDCB6E, #F39C12); }
+        .avatar-m { background: linear-gradient(135deg, #74B9FF, #0984E3); }
+        
+        .card-name { font-weight: bold; font-size: 13px; color: #2D3436; }
+        .premium-badge { position: absolute; top: 8px; right: 8px; font-size: 14px; }
+        
+        .group-btn { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); color: white; padding: 16px; border-radius: 16px; margin: 16px; text-align: center; cursor: pointer; }
+        
+        .settings-btn { position: absolute; top: 60px; right: 16px; color: white; font-size: 20px; cursor: pointer; z-index: 10; touch-action: manipulation; }
+        
+        .modal { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.8); z-index: 1500; overflow-y: auto; backdrop-filter: blur(5px); }
+        .modal.active { display: block; }
+        .modal-box { background: white; margin: 20px; border-radius: 24px; padding: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.3); transform: scale(0.9); animation: modalIn 0.3s forwards; }
+        @keyframes modalIn { to { transform: scale(1); } }
+        .modal-box h2 { color: #2D3436; margin-bottom: 20px; font-size: 20px; text-align: center; }
+        .modal-box .close-btn { position: absolute; top: 16px; right: 16px; background: #f0f0f0; border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 16px; cursor: pointer; }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; color: #2D3436; font-size: 13px; font-weight: 600; margin-bottom: 10px; }
+        .form-group input, .form-group select { width: 100%; padding: 14px 16px; border: 2px solid #e0e0e0; border-radius: 14px; font-size: 15px; transition: border-color 0.3s; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #8B5CF6; }
+        
+        .avatar-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+        .avatar-option { width: 100%; aspect-ratio: 1; border-radius: 16px; display: flex; align-items: center; justify-content: center; font-size: 28px; cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; border: 3px solid transparent; }
+        .avatar-option:hover { transform: scale(1.1); }
+        .avatar-option.selected { border-color: #8B5CF6; box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4); transform: scale(1.05); }
+        
+        .save-btn { width: 100%; padding: 14px; background: #8B5CF6; color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer; }
+        
+        .legal-modal { z-index: 2000; }
+        .legal-modal .legal-box { max-height: 80%; overflow-y: auto; }
+        .legal-modal p { color: #636E72; font-size: 12px; line-height: 1.6; margin-bottom: 12px; }
+        .legal-checkbox { display: flex; align-items: flex-start; gap: 10px; margin: 16px 0; }
+        .legal-checkbox input { margin-top: 3px; }
+        .legal-checkbox label { font-size: 12px; color: #636E72; }
+        .legal-btn { width: 100%; padding: 14px; background: #8B5CF6; color: white; border: none; border-radius: 12px; font-size: 14px; font-weight: bold; cursor: pointer; }
+        .legal-btn:disabled { background: #ccc; }
+        
+        .about-box { text-align: center; }
+        .about-box .version { color: #8B5CF6; font-weight: bold; font-size: 18px; }
+        
+        .premium-modal { align-items: center; justify-content: center; }
+        .premium-modal.active { display: flex; }
+        .premium-box { background: linear-gradient(135deg, #FFD700, #FFA500); padding: 30px; border-radius: 24px; text-align: center; color: white; max-width: 280px; margin: 20px; }
+        .premium-box h2 { font-size: 28px; }
+        .premium-box .price { font-size: 36px; font-weight: bold; margin: 15px 0; }
+        .premium-box button { background: white; color: #FFA500; border: none; padding: 14px 32px; border-radius: 24px; font-weight: bold; font-size: 16px; cursor: pointer; margin-top: 10px; }
+        
+        .limit-banner { background: #FF6B6B; color: white; padding: 8px 16px; text-align: center; font-size: 12px; display: none; }
+        
+        #homeScreen { display: block !important; position: relative; z-index: 100; }
+        #chatScreen, #groupScreen, #callHistoryScreen { display: none; position: relative; }
+        #chatScreen, #groupScreen, #profileScreen, #callHistoryScreen { display: none; background: #F5F0FF; }
+        #chatScreen.active, #groupScreen.active, #profileScreen.active, #callHistoryScreen.active { display: block; }
+        
+        .chat-header { background: white; padding: 45px 16px 12px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid #eee; }
+        .chat-avatar { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: bold; color: white; background-color: #8B5CF6; }
+        .chat-name { font-weight: bold; font-size: 16px; }
+        
+        .chat-messages { padding: 16px; display: flex; flex-direction: column; gap: 12px; padding-bottom: 90px; }
+        .msg { max-width: 85%; padding: 12px 16px; border-radius: 18px; font-size: 14px; line-height: 1.5; }
+        .msg-received { background: white; align-self: flex-start; border-bottom-left-radius: 4px; }
+        .msg-sent { background: #8B5CF6; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+        .msg-group { background: #f0f0f0; align-self: flex-start; border-bottom-left-radius: 4px; }
+        .msg-time { font-size: 10px; opacity: 0.7; margin-top: 4px; }
+        .msg-reactions { display: none; position: absolute; bottom: 3px; right: 8px; background: rgba(0,0,0,0.85); border-radius: 15px; padding: 2px 6px; gap: 2px; }
+        .msg-reactions.show { display: flex; }
+        .reaction { font-size: 12px; cursor: pointer; padding: 1px; }
+        .reaction.added { transform: scale(1.1); }
+        
+        .quick-reply { display: flex; gap: 8px; overflow-x: auto; padding: 8px 16px; background: #f5f0ff; }
+        .quick-btn { background: white; border: 1px solid #8B5CF6; color: #8B5CF6; padding: 8px 14px; border-radius: 20px; font-size: 11px; white-space: nowrap; cursor: pointer; }
+        
+        .chat-input-area { background: white; padding: 12px 16px; display: flex; gap: 12px; border-top: 1px solid #eee; position: sticky; bottom: 0; }
+        .chat-input { flex: 1; background: #F5F0FF; border: none; border-radius: 24px; padding: 12px 16px; font-size: 14px; outline: none; }
+        .chat-send { width: 44px; height: 44px; background: linear-gradient(135deg, #8B5CF6, #6B4EFF); border-radius: 14px; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; }
+        .voice-btn { width: 44px; height: 44px; background: #FF6B6B; border-radius: 14px; display: flex; align-items: center; justify-content: center; color: white; cursor: pointer; }
+        .voice-btn.recording { animation: pulse-red 1s infinite; }
+        @keyframes pulse-red { 0%, 100% { background: #FF6B6B; } 50% { background: #EE5A24; } }
+        
+        /* CALL HISTORY */
+        .call-history-item { display: flex; align-items: center; padding: 12px 16px; background: white; border-radius: 12px; margin: 8px 16px; }
+        .call-avatar { width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; margin-right: 12px; }
+        .call-info { flex: 1; }
+        .call-name { font-weight: bold; font-size: 14px; }
+        .call-time { font-size: 11px; color: #999; }
+        .call-type { font-size: 12px; }
     </style>
 </head>
 <body>
-<div class="phone">
-    <div id="home" class="screen active">
-        <div class="header">
-            <h1>Dedikodu Kazanı</h1>
-            <p>Sanal arkadaşların!</p>
+    <div class="phone">
+        <!-- SPLASH -->
+        <div id="splashScreen">
+            <div class="splash-logo">💬</div>
+            <div class="splash-text">Dedikodu Kazanı</div>
         </div>
-        <div class="grid">
-            <a href="#chat-Eda" style="text-decoration:none;">
-                <div class="card">
-                    <span class="badge">💎</span>
-                    <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_eda_new.png">
-                    <div class="card-name">Eda</div>
+        
+        <!-- PROFILE MODAL -->
+        <div class="modal" id="profileModal">
+            <div class="modal-box">
+                <button class="close-btn" onclick="closeProfile()">✕</button>
+                <h2>👤 Profil Ayarları</h2>
+                
+                <!-- Avatar Seçimi -->
+                <div class="form-group">
+                    <label>🖼️ Avatarını Seç</label>
+                    <div class="avatar-grid">
+                        <div class="avatar-option" onclick="selectAvatar('👩')" style="background:#FFEBEE;" id="av-👩">👩</div>
+                        <div class="avatar-option" onclick="selectAvatar('👨')" style="background:#E3F2FD;" id="av-👨">👨</div>
+                        <div class="avatar-option" onclick="selectAvatar('👩‍🦰')" style="background:#FFEBEE;" id="av-👩‍🦰">👩‍🦰</div>
+                        <div class="avatar-option" onclick="selectAvatar('👨‍🦱')" style="background:#F3E5F5;" id="av-👨‍🦱">👨‍🦱</div>
+                        <div class="avatar-option" onclick="selectAvatar('👱‍♀️')" style="background:#FFF8E1;" id="av-👱‍♀️">👱‍♀️</div>
+                        <div class="avatar-option" onclick="selectAvatar('🧑')" style="background:#E0F2F1;" id="av-🧑">🧑</div>
+                        <div class="avatar-option" onclick="selectAvatar('🦸')" style="background:#FFF3E0;" id="av-🦸">🦸</div>
+                        <div class="avatar-option" onclick="selectAvatar('🦹')" style="background:#ECEFF1;" id="av-🦹">🦹</div>
+                        <div class="avatar-option" onclick="selectAvatar('👸')" style="background:#FCE4EC;" id="av-👸">👸</div>
+                        <div class="avatar-option" onclick="selectAvatar('🤴')" style="background:#F3E5F5;" id="av-🤴">🤴</div>
+                        <div class="avatar-option" onclick="selectAvatar('👼')" style="background:#FAFAFA;" id="av-👼">👼</div>
+                        <div class="avatar-option" onclick="selectAvatar('🧙')" style="background:#EDE7F6;" id="av-🧙">🧙</div>
+                        <div class="avatar-option" onclick="selectAvatar('🧚')" style="background:#FCE4EC;" id="av-🧚">🧚</div>
+                        <div class="avatar-option" onclick="selectAvatar('🧛')" style="background:#ECEFF1;" id="av-🧛">🧛</div>
+                        <div class="avatar-option" onclick="selectAvatar('🧜')" style="background:#E0F7FA;" id="av-🧜">🧜</div>
+                        <div class="avatar-option" onclick="selectAvatar('🧝')" style="background:#FFF8E1;" id="av-🧝">🧝</div>
+                        <div class="avatar-option" onclick="selectAvatar('👨‍🦲')" style="background:#EEEEEE;" id="av-👨‍🦲">👨‍🦲</div>
+                        <div class="avatar-option" onclick="selectAvatar('👩‍🦱')" style="background:#EFEBE9;" id="av-👩‍🦱">👩‍🦱</div>
+                        <div class="avatar-option" onclick="selectAvatar('🦊')" style="background:#FFEBEE;" id="av-🦊">🦊</div>
+                        <div class="avatar-option" onclick="selectAvatar('🦁')" style="background:#FFF3E0;" id="av-🦁">🦁</div>
+                    </div>
                 </div>
-            </a>
-            <a href="#chat-Teo" style="text-decoration:none;">
-                <div class="card">
-                    <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_teo_new.png">
-                    <div class="card-name">Teo</div>
+                
+                <div class="form-group">
+                    <label>📛 İsmin</label>
+                    <input type="text" id="userName" placeholder="Adını gir">
                 </div>
-            </a>
-            <a href="#chat-Ela" style="text-decoration:none;">
-                <div class="card">
-                    <span class="badge">💎</span>
-                    <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_ela_new.png">
-                    <div class="card-name">Ela</div>
+                
+                <div class="form-group">
+                    <label>📅 Doğum Tarihi</label>
+                    <input type="date" id="userBirthday">
                 </div>
-            </a>
-            <a href="#chat-Mila" style="text-decoration:none;">
-                <div class="card">
-                    <span class="badge">💎</span>
-                    <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_mila_new.png">
-                    <div class="card-name">Mila</div>
+                
+                <div class="form-group">
+                    <label>⚥ Cinsiyet</label>
+                    <select id="userGender">
+                        <option value="">Seç</option>
+                        <option value="kadın">Kadın</option>
+                        <option value="erkek">Erkek</option>
+                        <option value="diger">Diğer</option>
+                    </select>
                 </div>
-            </a>
-            <a href="#chat-Batu" style="text-decoration:none;">
-                <div class="card">
-                    <span class="badge">💎</span>
-                    <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_batu_new.png">
-                    <div class="card-name">Batu</div>
+                
+                <div class="form-group">
+                    <label>📧 E-posta</label>
+                    <input type="email" id="userEmail" placeholder="E-posta adresin">
                 </div>
-            </a>
-            <a href="#chat-Mete" style="text-decoration:none;">
-                <div class="card">
-                    <span class="badge">💎</span>
-                    <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_mete_new.png">
-                    <div class="card-name">Mete</div>
+                
+                <div class="form-group">
+                    <label>💬 Aktif Karakterler</label>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px;">
+                        <span style="background:#2ECC71;color:white;padding:6px 12px;border-radius:20px;font-size:12px;">✓ Eda</span>
+                        <span style="background:#2ECC71;color:white;padding:6px 12px;border-radius:20px;font-size:12px;">✓ Teo</span>
+                        <span style="background:#FFD700;color:white;padding:6px 12px;border-radius:20px;font-size:12px;">💎 Ela</span>
+                        <span style="background:#FFD700;color:white;padding:6px 12px;border-radius:20px;font-size:12px;">💎 Mila</span>
+                        <span style="background:#FFD700;color:white;padding:6px 12px;border-radius:20px;font-size:12px;">💎 Batu</span>
+                        <span style="background:#FFD700;color:white;padding:6px 12px;border-radius:20px;font-size:12px;">💎 Mete</span>
+                    </div>
                 </div>
-            </a>
+                
+                <button class="save-btn" onclick="saveProfile()">Kaydet</button>
+            </div>
+        </div>
+        
+        <!-- ABOUT MODAL -->
+        <div class="modal" id="aboutModal">
+            <div class="modal-box about-box">
+                <button class="close-btn" onclick="closeAbout()">✕</button>
+                <h2>💬 Dedikodu Kazanı</h2>
+                <div class="version">v1.0.0</div>
+                <p style="margin-top:16px;color:#636E72;">Sanal arkadaşların!</p>
+                <p style="margin-top:16px;color:#636E72;font-size:12px;">📧 iletisim@dedikodukazani.com</p>
+            </div>
+        </div>
+        
+        <!-- LEGAL MODAL -->
+        <div class="modal legal-modal" id="legalModal">
+            <div class="modal-box legal-box">
+                <h2>📜 Kullanım Koşulları</h2>
+                <p><strong>Gizlilik Politikası</strong></p>
+                <p>Bu uygulama, kullanıcı verilerini yalnızca uygulama deneyimini iyileştirmek için kullanır.</p>
+                <p><strong>⚠️ Önemli Uyarı</strong></p>
+                <p>Yapay zeka yanıtları profesyonel danışmanlık yerine geçmez.</p>
+                <div class="legal-checkbox">
+                    <input type="checkbox" id="termsCheck">
+                    <label for="termsCheck">Kullanım koşullarını kabul ediyorum.</label>
+                </div>
+                <div class="legal-checkbox">
+                    <input type="checkbox" id="ageCheck">
+                    <label for="ageCheck">18 yaşından büyüğüm.</label>
+                </div>
+                <button class="legal-btn" id="acceptBtn" onclick="acceptLegal()" disabled>Kabul Ediyorum</button>
+            </div>
+        </div>
+        
+        <!-- LOGIN MODAL -->
+        <div class="modal" id="loginModal">
+            <div class="modal-box" style="text-align:center;max-width:320px;margin:50px auto;">
+                <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/deneme-logo.png" style="width:80px;height:80px;border-radius:20px;margin-bottom:15px;">
+                <h2>Hoş Geldin! 👋</h2>
+                <p style="color:#636E72;margin:16px 0;font-size:14px;">Sanal arkadaşlarınla sohbet etmek için giriş yap</p>
+                <div class="form-group">
+                    <input type="text" id="loginName" placeholder="İsmin" style="text-align:center;">
+                </div>
+                <button class="save-btn" onclick="doLogin()">Giriş Yap</button>
+                <p style="color:#636E72;margin-top:15px;font-size:12px;">Devam ederek <a href="#" onclick="showLegal()" style="color:#8B5CF6;">kullanım koşullarını</a> kabul ediyorsun</p>
+            </div>
+        </div>
+        
+        <!-- NOTIFICATION MODAL -->
+        <div class="modal" id="notifModal">
+            <div class="modal-box" style="text-align:center;">
+                <div style="font-size:60px;margin-bottom:20px;">🔔</div>
+                <h2>Bildirimlere İzin Ver</h2>
+                <p style="color:#636E72;margin:16px 0;">Sana özel mesajlar ve güncel dedikodular için bildirim al!</p>
+                <button class="save-btn" onclick="allowNotif()">✅ İzin Ver</button>
+                <button onclick="denyNotif()" style="background:none;border:none;color:#636E72;margin-top:12px;cursor:pointer;">Şimdi değil</button>
+            </div>
+        </div>
+        
+        <!-- PREMIUM MODAL -->
+        <div class="modal premium-modal" id="premiumModal">
+            <div class="premium-box">
+                <h2>💎 Premium</h2>
+                <p id="premiumCharName">Karakter</p>
+                <div class="price">9.99€/ay</div>
+                <button onclick="closePremium()">Kapat</button>
+            </div>
+        </div>
+        
+        <div id="homeScreen">
+            <div class="settings-btn" onclick="openProfile()">⚙️</div>
+            <div class="header">
+                <h1 style="font-size:22px;font-weight:bold;">Dedikodu Kazanı</h1>
+                <p style="font-size:13px;opacity:0.9;">Sanal arkadaşların!</p>
+                <div style="margin-top:10px;">
+                    <button onclick="window.location.href='/tanitim.html'" style="background:white;color:#8B5CF6;border:none;padding:8px 16px;border-radius:20px;font-weight:bold;cursor:pointer;">🎬 Video</button>
+                </div>
+            </div>
+            
+            <div class="limit-banner" id="limitBanner">⚠️ Ücretsiz hak: <span id="msgCount">20</span>/20</div>
+            
+            <div style="padding:16px 20px 8px;font-weight:bold;">Arkadaşlar</div>
+            
+            <div class="grid">
+                <div class="card" onclick="document.getElementById('homeScreen').style.display='none'; document.getElementById('chatScreen').style.display='block';" ontouchstart="openChat('Eda');"><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_eda_new.png" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;object-fit:cover;"><div class="card-name">Eda</div></div>
+                <div class="card" onclick="document.getElementById('homeScreen').style.display='none'; document.getElementById('chatScreen').style.display='block'; currentChar='Teo';" ontouchstart="openChat('Teo');"><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_teo_new.png" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;object-fit:cover;"><div class="card-name">Teo</div></div>
+                <div class="card" onclick="document.getElementById('homeScreen').style.display='none'; document.getElementById('premiumModal').style.display='block';" ontouchstart="showPremium('Ela');"><div class="premium-badge">💎</div><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_ela_new.png" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;object-fit:cover;"><div class="card-name">Ela</div></div>
+                <div class="card" onclick="document.getElementById('homeScreen').style.display='none'; document.getElementById('premiumModal').style.display='block';" ontouchstart="showPremium('Mila');"><div class="premium-badge">💎</div><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_mila_new.png" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;object-fit:cover;"><div class="card-name">Mila</div></div>
+                <div class="card" onclick="document.getElementById('homeScreen').style.display='none'; document.getElementById('premiumModal').style.display='block';" ontouchstart="showPremium('Batu');"><div class="premium-badge">💎</div><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_batu_new.png" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;object-fit:cover;"><div class="card-name">Batu</div></div>
+                <div class="card" onclick="document.getElementById('homeScreen').style.display='none'; document.getElementById('premiumModal').style.display='block';" ontouchstart="showPremium('Mete');"><div class="premium-badge">💎</div><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_mete_new.png" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;object-fit:cover;"><div class="card-name">Mete</div></div>
+            </div>
+            
+            <div class="group-btn" onclick="window.location.href='/tanitim.html'">
+                <div style="font-size:24px;">🎬</div>
+                <div style="font-weight:bold;">Tanıtım Videosu</div>
+            </div>
+            
+            <div class="group-btn" onclick="openCallHistory()">
+                <div style="font-size:24px;">📞</div>
+                <div style="font-weight:bold;">Arama Geçmişi</div>
+            </div>
+            
+            <div class="group-btn" onclick="openGroup()">
+                <div style="font-size:24px;">👥</div>
+                <div style="font-weight:bold;">Grup Sohbeti</div>
+            </div>
+        </div>
+        
+        <div id="chatScreen">
+            <div class="chat-header">
+                <span onclick="goHome()" style="font-size:20px;cursor:pointer;">←</span>
+                <div class="chat-avatar" id="chatAvatar">E</div>
+                <div class="chat-name" id="chatName">Eda</div>
+            </div>
+            
+            <div class="quick-reply">
+                <button class="quick-btn" onclick="sendQuick('Euro ne kadar?')">💶 Euro</button>
+                <button class="quick-btn" onclick="sendQuick('Burç yorumum')">🔮 Burç</button>
+                <button class="quick-btn" onclick="sendQuick('Magazin')">📰 Magazin</button>
+                <button class="quick-btn" onclick="sendQuick('Dolar ne kadar?')">💵 Dolar</button>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages"></div>
+            
+            <div class="chat-input-area">
+                <div class="voice-btn" id="voiceBtn" onclick="toggleVoice()">🎤</div>
+                <input type="text" class="chat-input" id="messageInput" placeholder="Mesaj yaz...">
+                <div class="chat-send" id="sendBtn">➤</div>
+            </div>
+        </div>
+        
+        <!-- CALL HISTORY SCREEN -->
+        <div id="callHistoryScreen">
+            <div class="chat-header">
+                <span onclick="goHome()" style="font-size:20px;cursor:pointer;">←</span>
+                <div style="font-weight:bold;font-size:16px;">📞 Arama Geçmişi</div>
+            </div>
+            <div style="padding:16px;">
+                <div class="call-history-item">
+                    <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_mila.png" style="width:40px;height:40px;border-radius:50%;margin-right:12px;">
+                    <div class="call-info">
+                        <div class="call-name">Eda</div>
+                        <div class="call-time">Bugün, 14:30</div>
+                    </div>
+                    <div class="call-type">📞</div>
+                </div>
+                <div class="call-history-item">
+                    <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_batu.png" style="width:40px;height:40px;border-radius:50%;margin-right:12px;">
+                    <div class="call-info">
+                        <div class="call-name">Teo</div>
+                        <div class="call-time">Dün, 18:45</div>
+                    </div>
+                    <div class="call-type">📹</div>
+                </div>
+                <div class="call-history-item">
+                    <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_mila.png" style="width:40px;height:40px;border-radius:50%;margin-right:12px;">
+                    <div class="call-info">
+                        <div class="call-name">Eda</div>
+                        <div class="call-time">Dün, 12:00</div>
+                    </div>
+                    <div class="call-type">📞</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="groupScreen">
+            <div class="chat-header" style="background:linear-gradient(135deg,#8B5CF6,#6B4EFF);">
+                <span onclick="goHome()" style="font-size:20px;cursor:pointer;color:white;">←</span>
+                <div style="color:white;font-weight:bold;font-size:16px;">👥 Grup Sohbeti</div>
+            </div>
+            
+            <div class="chat-messages" id="groupMessages">
+                <div class="msg msg-group"><b style="color:#FF6B6B;">Eda:</b> Selam! 👋<div class="msg-time">14:30</div></div>
+            </div>
+            
+            <div class="chat-input-area">
+                <input type="text" class="chat-input" id="groupInput" placeholder="Gruba mesaj yaz...">
+                <div class="chat-send" id="groupSendBtn">➤</div>
+            </div>
         </div>
     </div>
 
-    <div id="chat-Eda" class="screen">
-        <div class="chat-header">
-            <a href="#home" class="back-btn">←</a>
-            <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_eda_new.png" class="avatar">
-            <span>Eda</span>
-        </div>
-        <div class="messages">
-            <div class="msg">Merhaba! 👋 Nasılsın?</div>
-        </div>
-        <div class="input-area">
-            <input placeholder="Mesaj yaz...">
-            <button class="send-btn">Gönder</button>
-        </div>
-    </div>
-
-    <div id="chat-Teo" class="screen">
-        <div class="chat-header">
-            <a href="#home" class="back-btn">←</a>
-            <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_teo_new.png" class="avatar">
-            <span>Teo</span>
-        </div>
-        <div class="messages">
-            <div class="msg">Selam! 📰 Haberleri okudun mu?</div>
-        </div>
-        <div class="input-area">
-            <input placeholder="Mesaj yaz...">
-            <button class="send-btn">Gönder</button>
-        </div>
-    </div>
-
-    <div id="chat-Ela" class="screen">
-        <div class="chat-header">
-            <a href="#home" class="back-btn">←</a>
-            <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_ela_new.png" class="avatar">
-            <span>Ela</span>
-        </div>
-        <div class="messages">
-            <div class="msg">Hey! 💅 Stil ipuçları ister misin?</div>
-        </div>
-        <div class="input-area">
-            <input placeholder="Mesaj yaz...">
-            <button class="send-btn">Gönder</button>
-        </div>
-    </div>
-
-    <div id="chat-Mila" class="screen">
-        <div class="chat-header">
-            <a href="#home" class="back-btn">←</a>
-            <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_mila_new.png" class="avatar">
-            <span>Mila</span>
-        </div>
-        <div class="messages">
-            <div class="msg">Merhaba! 🥗 Sağlıklı yaşam ipuçları verebilirim!</div>
-        </div>
-        <div class="input-area">
-            <input placeholder="Mesaj yaz...">
-            <button class="send-btn">Gönder</button>
-        </div>
-    </div>
-
-    <div id="chat-Batu" class="screen">
-        <div class="chat-header">
-            <a href="#home" class="back-btn">←</a>
-            <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_batu_new.png" class="avatar">
-            <span>Batu</span>
-        </div>
-        <div class="messages">
-            <div class="msg">Selam! 👶 Psikoloji konusunda konuşabiliriz</div>
-        </div>
-        <div class="input-area">
-            <input placeholder="Mesaj yaz...">
-            <button class="send-btn">Gönder</button>
-        </div>
-    </div>
-
-    <div id="chat-Mete" class="screen">
-        <div class="chat-header">
-            <a href="#home" class="back-btn">←</a>
-            <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_mete_new.png" class="avatar">
-            <span>Mete</span>
-        </div>
-        <div class="messages">
-            <div class="msg">Hey! 💕 Aşk ve ilişkiler hakkında konuşalım mı?</div>
-        </div>
-        <div class="input-area">
-            <input placeholder="Mesaj yaz...">
-            <button class="send-btn">Gönder</button>
-        </div>
-    </div>
-</div>
-
-<script>
-function showScreen() {
-    var hash = window.location.hash;
-    document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
-    if (hash && document.querySelector(hash)) {
-        document.querySelector(hash).classList.add('active');
-    } else {
-        document.getElementById('home').classList.add('active');
-    }
-}
-window.addEventListener('hashchange', showScreen);
-window.addEventListener('load', showScreen);
-</script>
+    <script>
+        let currentChar = 'Eda';
+        let messageCount = 20;
+        let isPremium = false;
+        let legalAccepted = true;
+        
+        // User Profile Data
+        let userProfile = {
+            name: '',
+            birthday: '',
+            gender: '',
+            email: '',
+            avatar: '👩'
+        };
+        
+        function selectAvatar(emoji) {
+            userProfile.avatar = emoji;
+            // Reset all
+            document.querySelectorAll('.avatar-option').forEach(el => el.classList.remove('selected'));
+            // Set selected
+            document.getElementById('av-' + emoji).classList.add('selected');
+        }
+        
+        // No splash - show home directly
+        
+        
+        const avatarStyles = { 'Eda': 'avatar-e', 'Teo': 'avatar-t', 'Ela': 'avatar-el', 'Mila': 'avatar-z', 'Batu': 'avatar-r', 'Mete': 'avatar-m' };
+        const avatarLabels = { 'Eda': 'E', 'Teo': 'T', 'Ela': 'El', 'Mila': 'Mi', 'Batu': 'B', 'Mete': 'M' };
+        const charImages = { 
+            'Eda': 'https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_eda_new.png',
+            'Teo': 'https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_teo_new.png',
+            'Ela': 'https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_ela_new.png',
+            'Mila': 'https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_mila_new.png',
+            'Batu': 'https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_batu_new.png',
+            'Mete': 'https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_mete_new.png'
+        };
+        const charColors = {
+            'Eda': '#FF6B6B',
+            'Teo': '#6C5CE7',
+            'Ela': '#FD79A8',
+            'Mila': '#00B894',
+            'Batu': '#FDCB6E',
+            'Mete': '#74B9FF'
+        };
+        const charColors = {
+            'Eda': '#FF6B6B',
+            'Teo': '#6C5CE7',
+            'Ela': '#FD79A8',
+            'Mila': '#00B894',
+            'Batu': '#FDCB6E',
+            'Mete': '#74B9FF'
+        };
+        const groupColors = { 'Eda': '#FF6B6B', 'Teo': '#6C5CE7', 'Ela': '#E84393', 'Mila': '#00B894', 'Batu': '#F39C12', 'Mete': '#0984E3' };
+        
+        const characters = {
+            'Eda': { greetings: ['Selam! 🙌', 'Heey! 🎉'], phrases: ['Vay be! 👀', 'Cidden mi? 😄'] },
+            'Teo': { greetings: ['Merhaba 👋'], phrases: ['Hmm... 🤔', 'İlginç! 💡'] },
+            'Ela': { greetings: ['Awww merhaba! 💕'], phrases: ['Aaa ne tatlı! 🥰'] },
+            'Mila': { greetings: ['Selam 👋'], phrases: ['Tamam 👍', 'Olur! 🎯'] },
+            'Batu': { greetings: ['Selam! ⚡'], phrases: ['Hadi! 🔥', 'Yaparsın! 💪'] },
+            'Mete': { greetings: ['Selam! 📰'], phrases: ['Biliyor musun? 🤓'] }
+        };
+        
+        const currentData = { euro: '36.50 TL', dolar: '35.20 TL', burc: 'Koç', burcYorum: 'Bugün güzel bir gün!', magazin: '📰 MAGAZİN: Beren Saat yeni dizi!' };
+        
+        // LEGAL
+        document.getElementById('termsCheck').addEventListener('change', checkLegal);
+        document.getElementById('ageCheck').addEventListener('change', checkLegal);
+        
+        function checkLegal() {
+            document.getElementById('acceptBtn').disabled = !(document.getElementById('termsCheck').checked && document.getElementById('ageCheck').checked);
+        }
+        
+        function acceptLegal() {
+            if (!document.getElementById('termsCheck').checked || !document.getElementById('ageCheck').checked) return;
+            legalAccepted = true;
+            document.getElementById('legalModal').classList.remove('active');
+            // Show login
+            document.getElementById('loginModal').classList.add('active');
+        }
+        
+        function doLogin() {
+            const name = document.getElementById('loginName').value.trim();
+            if (name) {
+                userProfile.name = name;
+                document.getElementById('loginModal').classList.remove('active');
+                document.getElementById('notifModal').classList.add('active');
+            } else {
+                alert('Lütfen ismini gir!');
+            }
+        }
+        
+        function allowNotif() {
+            // Close modal first
+            document.getElementById('notifModal').classList.remove('active');
+            
+            // Try to request permission
+            if (Notification.permission === 'granted') {
+                console.log('Already granted');
+            } else if (Notification.permission !== 'denied') {
+                Notification.requestPermission();
+            }
+            
+            // Show profile setup
+            setTimeout(() => { 
+                document.getElementById('profileModal').classList.add('active'); 
+            }, 300);
+        }
+        
+        function denyNotif() {
+            document.getElementById('notifModal').classList.remove('active');
+            document.getElementById('homeScreen').style.display = 'block';
+            // Also show profile
+            setTimeout(() => { 
+                document.getElementById('profileModal').classList.add('active'); 
+            }, 500);
+        }
+        }
+        
+        // PROFILE
+        function openProfile() { document.getElementById('profileModal').classList.add('active'); }
+        function closeProfile() { document.getElementById('profileModal').classList.remove('active'); }
+        
+        function saveProfile() {
+            userProfile.name = document.getElementById('userName').value;
+            userProfile.birthday = document.getElementById('userBirthday').value;
+            userProfile.gender = document.getElementById('userGender').value;
+            userProfile.email = document.getElementById('userEmail').value;
+            
+            alert('✅ Profil kaydedildi!\n\n' + userProfile.avatar + ' ' + (userProfile.name || 'İsimsiz') + '\n📧 ' + (userProfile.email || 'E-posta yok'));
+            closeProfile();
+            document.getElementById('homeScreen').style.display = 'block';
+        }
+        
+        function openAbout() { document.getElementById('aboutModal').classList.add('active'); }
+        function closeAbout() { document.getElementById('aboutModal').classList.remove('active'); }
+        
+        function getSmartResponse(message) {
+            const char = characters[currentChar] || characters['Eda'];
+            const msg = message.toLowerCase();
+            
+            if (msg.includes('euro')) return '💶 Bugün euro: ' + currentData.euro;
+            if (msg.includes('dolar')) return '💵 Dolar: ' + currentData.dolar;
+            if (msg.includes('burç')) return '🔮 ' + currentData.burc + ' - ' + currentData.burcYorum;
+            if (msg.includes('magazin') || msg.includes('haber')) return currentData.magazin;
+            if (msg.includes('merhaba') || msg.includes('selam')) return char.greetings[Math.floor(Math.random() * char.greetings.length)];
+            
+            return char.phrases[Math.floor(Math.random() * char.phrases.length)];
+        }
+        
+        function showPremium(name) { document.getElementById('premiumCharName').textContent = name; document.getElementById('premiumModal').classList.add('active'); }
+        function closePremium() { document.getElementById('premiumModal').classList.remove('active'); }
+        
+        function openChat(name) {
+            if (!legalAccepted) { alert('Lütfen önce kullanım koşullarını kabul edin!'); return; }
+            if (!isPremium && messageCount <= 0) { alert('Mesaj hakkın bitti! 💎 Premium al!'); return; }
+            if (!isPremium) { messageCount--; document.getElementById('msgCount').textContent = messageCount; document.getElementById('limitBanner').style.display = 'block'; }
+            
+            currentChar = name; document.getElementById('homeScreen').style.display = 'none'; document.getElementById('chatScreen').style.display = 'block';
+            document.getElementById('chatName').textContent = name;
+            
+            const avatar = document.getElementById('chatAvatar');
+            avatar.className = 'chat-avatar';
+            avatar.style.backgroundImage = `url(${charImages[name]})`;
+            avatar.style.backgroundSize = 'cover';
+            avatar.style.backgroundPosition = 'center';
+            avatar.textContent = '';
+            
+            document.getElementById('chatMessages').innerHTML = '';
+            
+            let hello = 'Merhaba! 🙌 ';
+            if (userProfile.name) hello = 'Merhaba ' + userProfile.name + '! 🙌 ';
+            hello += 'Nasılsın?';
+            addMessage(hello, false);
+        }
+        
+        function openGroup() {
+            if (!legalAccepted) { alert('Lütfen önce kullanım koşullarını kabul edin!'); return; }
+            if (!isPremium && messageCount <= 0) { alert('Mesaj hakkın bitti! 💎 Premium al!'); return; }
+            if (!isPremium) { messageCount--; document.getElementById('msgCount').textContent = messageCount; }
+            document.getElementById('groupScreen').classList.add('active');
+        }
+        
+        function goHome() {
+            document.getElementById('chatScreen').classList.remove('active');
+            document.getElementById('groupScreen').classList.remove('active');
+            document.getElementById('callHistoryScreen').classList.remove('active');
+            document.getElementById('homeScreen').style.display = 'block';
+            closePremium();
+        }
+        
+        // Call History
+        function openCallHistory() {
+            document.getElementById('callHistoryScreen').classList.add('active');
+        }
+        
+        // Voice Recording
+        let isRecording = false;
+        
+        function toggleVoice() {
+            const voiceBtn = document.getElementById('voiceBtn');
+            if (!isRecording) {
+                isRecording = true;
+                voiceBtn.classList.add('recording');
+                voiceBtn.textContent = '⏹️';
+                alert('🎤 Ses kaydı başladı...\n\n(Bu özellik demo için hazır)');
+            } else {
+                isRecording = false;
+                voiceBtn.classList.remove('recording');
+                voiceBtn.textContent = '🎤';
+                alert('✅ Ses mesajı gönderildi!');
+            }
+        }
+        
+        function addMessage(text, isUser) {
+            const chatMsgs = document.getElementById('chatMessages');
+            const now = new Date();
+            const time = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
+            
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'msg ' + (isUser ? 'msg-sent' : 'msg-received');
+            msgDiv.style.position = 'relative';
+            // Long press for reactions
+            let pressTimer;
+            msgDiv.addEventListener('mousedown', () => {
+                pressTimer = setTimeout(() => {
+                    msgDiv.querySelector('.msg-reactions').classList.add('show');
+                }, 500);
+            });
+            msgDiv.addEventListener('mouseup', () => clearTimeout(pressTimer));
+            msgDiv.addEventListener('mouseleave', () => clearTimeout(pressTimer));
+            msgDiv.addEventListener('touchstart', () => {
+                pressTimer = setTimeout(() => {
+                    msgDiv.querySelector('.msg-reactions').classList.add('show');
+                }, 500);
+            });
+            msgDiv.addEventListener('touchend', () => clearTimeout(pressTimer));
+            
+            msgDiv.innerHTML = (isUser ? '' : '<b>' + currentChar + ':</b> ') + text.replace(/\n/g, '<br>') + 
+                '<div class="msg-time">' + time + '</div>' +
+                '<div class="msg-reactions">' +
+                '<span class="reaction" onclick="addReaction(this)">👍</span>' +
+                '<span class="reaction" onclick="addReaction(this)">❤️</span>' +
+                '<span class="reaction" onclick="addReaction(this)">😂</span>' +
+                '<span class="reaction" onclick="addReaction(this)">😮</span>' +
+                '<span class="reaction" onclick="addReaction(this)">😢</span>' +
+                '</div>';
+            chatMsgs.appendChild(msgDiv);
+            chatMsgs.scrollTop = chatMsgs.scrollHeight;
+        }
+        
+        function addReaction(el) {
+            if (el.classList.contains('added')) {
+                el.classList.remove('added');
+            } else {
+                el.classList.add('added');
+            }
+        }
+        
+        function addGroupMessage(name, text) {
+            const chatMsgs = document.getElementById('groupMessages');
+            const now = new Date();
+            const time = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
+            
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'msg msg-group';
+            msgDiv.style.position = 'relative';
+            // Long press for reactions
+            let pressTimer;
+            msgDiv.addEventListener('mousedown', () => {
+                pressTimer = setTimeout(() => {
+                    msgDiv.querySelector('.msg-reactions').classList.add('show');
+                }, 500);
+            });
+            msgDiv.addEventListener('mouseup', () => clearTimeout(pressTimer));
+            msgDiv.addEventListener('mouseleave', () => clearTimeout(pressTimer));
+            msgDiv.addEventListener('touchstart', () => {
+                pressTimer = setTimeout(() => {
+                    msgDiv.querySelector('.msg-reactions').classList.add('show');
+                }, 500);
+            });
+            msgDiv.addEventListener('touchend', () => clearTimeout(pressTimer));
+            
+            const avatarImg = charImages[name] ? `<img src="${charImages[name]}" style="width:24px;height:24px;border-radius:6px;vertical-align:middle;margin-right:4px;object-fit:cover;">` : '';
+            msgDiv.innerHTML = avatarImg + '<b style="color:' + groupColors[name] + ';">' + name + ':</b> ' + text + 
+                '<div class="msg-time">' + time + '</div>' +
+                '<div class="msg-reactions">' +
+                '<span class="reaction" onclick="addReaction(this)">👍</span>' +
+                '<span class="reaction" onclick="addReaction(this)">❤️</span>' +
+                '<span class="reaction" onclick="addReaction(this)">😂</span>' +
+                '<span class="reaction" onclick="addReaction(this)">😮</span>' +
+                '</div>';
+            chatMsgs.appendChild(msgDiv);
+            chatMsgs.scrollTop = chatMsgs.scrollHeight;
+        }
+        
+        function sendQuick(text) { document.getElementById('messageInput').value = text; sendMessage(); }
+        
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const text = input.value.trim();
+            if (!text) return;
+            
+            addMessage(text, true);
+            input.value = '';
+            
+            setTimeout(() => { addMessage(getSmartResponse(text), false); }, 300 + Math.random() * 500);
+        }
+        
+        function sendToGroup() {
+            const input = document.getElementById('groupInput');
+            const text = input.value.trim();
+            if (!text) return;
+            
+            addGroupMessage('Sen', text);
+            input.value = '';
+            
+            setTimeout(() => {
+                const responders = ['Eda', 'Teo', 'Ela', 'Mila', 'Batu', 'Mete'];
+                addGroupMessage(responders[Math.floor(Math.random() * responders.length)], getSmartResponse(text));
+            }, 500 + Math.random() * 1000);
+        }
+        
+        document.getElementById('sendBtn').addEventListener('click', sendMessage);
+        document.getElementById('groupSendBtn').addEventListener('click', sendToGroup);
+        
+        document.getElementById('messageInput').addEventListener('keypress', function(e) { if (e.key === 'Enter') sendMessage(); });
+        document.getElementById('groupInput').addEventListener('keypress', function(e) { if (e.key === 'Enter') sendToGroup(); });
+    </script>
 </body>
 </html>
