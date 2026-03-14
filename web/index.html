@@ -77,8 +77,8 @@
         
         .limit-banner { background: #FF6B6B; color: white; padding: 8px 16px; text-align: center; font-size: 12px; display: none; }
         
-        #homeScreen { display: block !important; position: relative; z-index: 100; }
-        #chatScreen, #groupScreen, #callHistoryScreen { display: none; position: relative; }
+        #homeScreen { display: block; position: relative; }
+        #chatScreen, #groupScreen, #callHistoryScreen { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; }
         #chatScreen, #groupScreen, #profileScreen, #callHistoryScreen { display: none; background: #F5F0FF; }
         #chatScreen.active, #groupScreen.active, #profileScreen.active, #callHistoryScreen.active { display: block; }
         
