@@ -535,9 +535,7 @@
             if (!isPremium && messageCount <= 0) { alert('Mesaj hakkın bitti! 💎 Premium al!'); return; }
             if (!isPremium) { messageCount--; document.getElementById('msgCount').textContent = messageCount; document.getElementById('limitBanner').style.display = 'block'; }
             
-            currentChar = name;
-            document.getElementById('homeScreen').style.display = 'none'; document.getElementById('chatScreen').style.display = 'block';
-            document.getElementById('chatScreen').style.display = 'block';
+            currentChar = name; document.getElementById('homeScreen').style.display = 'none'; document.getElementById('chatScreen').style.display = 'block';
             document.getElementById('chatName').textContent = name;
             
             const avatar = document.getElementById('chatAvatar');
@@ -559,7 +557,6 @@
             if (!legalAccepted) { alert('Lütfen önce kullanım koşullarını kabul edin!'); return; }
             if (!isPremium && messageCount <= 0) { alert('Mesaj hakkın bitti! 💎 Premium al!'); return; }
             if (!isPremium) { messageCount--; document.getElementById('msgCount').textContent = messageCount; }
-            document.getElementById('homeScreen').style.display = 'none'; document.getElementById('chatScreen').style.display = 'block';
             document.getElementById('groupScreen').classList.add('active');
         }
         
@@ -573,7 +570,6 @@
         
         // Call History
         function openCallHistory() {
-            document.getElementById('homeScreen').style.display = 'none'; document.getElementById('chatScreen').style.display = 'block';
             document.getElementById('callHistoryScreen').classList.add('active');
         }
         
