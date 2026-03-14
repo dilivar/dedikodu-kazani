@@ -279,7 +279,7 @@
             <div style="padding:16px 20px 8px;font-weight:bold;">Arkadaşlar</div>
             
             <div class="grid">
-                <div class="card" onclick="alert('Eda clicked'); openChat('Eda'); event.stopPropagation();" ontouchstart="openChat('Eda');"><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_eda_new.png" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;object-fit:cover;"><div class="card-name">Eda</div></div>
+                <div class="card" onclick="openChat('Eda'); event.stopPropagation();" ontouchstart="openChat('Eda');"><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_eda_new.png" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;object-fit:cover;"><div class="card-name">Eda</div></div>
                 <div class="card" onclick="openChat('Teo'); event.stopPropagation();" ontouchstart="openChat('Teo');"><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_teo_new.png" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;object-fit:cover;"><div class="card-name">Teo</div></div>
                 <div class="card" onclick="showPremium('Ela'); event.stopPropagation();" ontouchstart="showPremium('Ela');"><div class="premium-badge">💎</div><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_ela_new.png" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;object-fit:cover;"><div class="card-name">Ela</div></div>
                 <div class="card" onclick="showPremium('Mila'); event.stopPropagation();" ontouchstart="showPremium('Mila');"><div class="premium-badge">💎</div><img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_mila_new.png" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;object-fit:cover;"><div class="card-name">Mila</div></div>
@@ -536,8 +536,8 @@
             if (!isPremium) { messageCount--; document.getElementById('msgCount').textContent = messageCount; document.getElementById('limitBanner').style.display = 'block'; }
             
             currentChar = name;
-            document.getElementById('homeScreen').style.display = 'none';
-            document.getElementById('chatScreen').classList.add('active');
+            document.getElementById('homeScreen').style.display = 'none'; document.getElementById('chatScreen').style.display = 'block';
+            document.getElementById('chatScreen').style.display = 'block';
             document.getElementById('chatName').textContent = name;
             
             const avatar = document.getElementById('chatAvatar');
@@ -559,7 +559,7 @@
             if (!legalAccepted) { alert('Lütfen önce kullanım koşullarını kabul edin!'); return; }
             if (!isPremium && messageCount <= 0) { alert('Mesaj hakkın bitti! 💎 Premium al!'); return; }
             if (!isPremium) { messageCount--; document.getElementById('msgCount').textContent = messageCount; }
-            document.getElementById('homeScreen').style.display = 'none';
+            document.getElementById('homeScreen').style.display = 'none'; document.getElementById('chatScreen').style.display = 'block';
             document.getElementById('groupScreen').classList.add('active');
         }
         
@@ -573,7 +573,7 @@
         
         // Call History
         function openCallHistory() {
-            document.getElementById('homeScreen').style.display = 'none';
+            document.getElementById('homeScreen').style.display = 'none'; document.getElementById('chatScreen').style.display = 'block';
             document.getElementById('callHistoryScreen').classList.add('active');
         }
         
