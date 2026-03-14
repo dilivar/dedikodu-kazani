@@ -278,12 +278,12 @@
             <div style="padding:16px 20px 8px;font-weight:bold;">Arkadaşlar</div>
             
             <div class="grid">
-                <div class="card" onclick="openChat('Eda')"><div style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;background:linear-gradient(135deg,#FF6B6B,#EE5A24);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:bold;color:white;">Eda</div><div class="card-name">Eda</div></div>
-                <div class="card" onclick="openChat('Teo')"><div style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;background:linear-gradient(135deg,#6C5CE7,#5B4ECF);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:bold;color:white;">Teo</div><div class="card-name">Teo</div></div>
-                <div class="card" onclick="showPremium('Ela')"><div class="premium-badge">💎</div><div style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;background:linear-gradient(135deg,#FD79A8,#E84393);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:bold;color:white;">Ela</div><div class="card-name">Ela</div></div>
-                <div class="card" onclick="showPremium('Mila')"><div class="premium-badge">💎</div><div style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;background:linear-gradient(135deg,#00B894,#00A085);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:bold;color:white;">Mila</div><div class="card-name">Mila</div></div>
-                <div class="card" onclick="showPremium('Batu')"><div class="premium-badge">💎</div><div style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;background:linear-gradient(135deg,#FDCB6E,#F39C12);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:bold;color:white;">Batu</div><div class="card-name">Batu</div></div>
-                <div class="card" onclick="showPremium('Mete')"><div class="premium-badge">💎</div><div style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;background:linear-gradient(135deg,#74B9FF,#0984E3);display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:bold;color:white;">Mete</div><div class="card-name">Mete</div></div>
+                <div class="card" onclick="openChat('Eda')"><img src="char_eda_new.png" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;object-fit:cover;"><div class="card-name">Eda</div></div>
+                <div class="card" onclick="openChat('Teo')"><img src="char_teo_new.png" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;object-fit:cover;"><div class="card-name">Teo</div></div>
+                <div class="card" onclick="showPremium('Ela')"><div class="premium-badge">💎</div><img src="char_ela_new.png" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;object-fit:cover;"><div class="card-name">Ela</div></div>
+                <div class="card" onclick="showPremium('Mila')"><div class="premium-badge">💎</div><img src="char_mila_new.png" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;object-fit:cover;"><div class="card-name">Mila</div></div>
+                <div class="card" onclick="showPremium('Batu')"><div class="premium-badge">💎</div><img src="char_batu_new.png" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;object-fit:cover;"><div class="card-name">Batu</div></div>
+                <div class="card" onclick="showPremium('Mete')"><div class="premium-badge">💎</div><img src="char_mete_new.png" style="width:60px;height:60px;border-radius:12px;margin-bottom:6px;object-fit:cover;"><div class="card-name">Mete</div></div>
             </div>
             
             <div class="group-btn" onclick="window.location.href='/tanitim.html'">
@@ -405,12 +405,12 @@
         const avatarStyles = { 'Eda': 'avatar-e', 'Teo': 'avatar-t', 'Ela': 'avatar-el', 'Mila': 'avatar-z', 'Batu': 'avatar-r', 'Mete': 'avatar-m' };
         const avatarLabels = { 'Eda': 'E', 'Teo': 'T', 'Ela': 'El', 'Mila': 'Mi', 'Batu': 'B', 'Mete': 'M' };
         const charImages = { 
-            'Eda': 'Eda',
-            'Teo': 'Teo',
-            'Ela': 'Ela',
-            'Mila': 'Mila',
-            'Batu': 'Batu',
-            'Mete': 'Mete'
+            'Eda': 'char_eda_new.png',
+            'Teo': 'char_teo_new.png',
+            'Ela': 'char_ela_new.png',
+            'Mila': 'char_mila_new.png',
+            'Batu': 'char_batu_new.png',
+            'Mete': 'char_mete_new.png'
         };
         const charColors = {
             'Eda': '#FF6B6B',
@@ -541,8 +541,10 @@
             
             const avatar = document.getElementById('chatAvatar');
             avatar.className = 'chat-avatar';
-            avatar.style.backgroundColor = charColors[name];
-            avatar.textContent = charImages[name];
+            avatar.style.backgroundImage = `url(${charImages[name]})`;
+            avatar.style.backgroundSize = 'cover';
+            avatar.style.backgroundPosition = 'center';
+            avatar.textContent = '';
             
             document.getElementById('chatMessages').innerHTML = '';
             
