@@ -9,7 +9,7 @@
         html, body { height: 100%; overflow: hidden; font-family: -apple-system, sans-serif; }
         :root { --primary: #8B5CF6; }
         body { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); display: flex; justify-content: center; }
-        .phone { width: 100%; max-width: 393px; background: #F5F0FF; position: relative; overflow: hidden; pointer-events: auto; }
+        .phone { width: 100%; max-width: 393px; background: #F5F0FF; position: relative; overflow: auto; }
         
         #splashScreen { display: none; }
         .splash-logo { font-size: 48px; font-weight: bold; color: white; animation: pulse 2s infinite; }
@@ -77,7 +77,8 @@
         
         .limit-banner { background: #FF6B6B; color: white; padding: 8px 16px; text-align: center; font-size: 12px; display: none; }
         
-        #homeScreen, #chatScreen, #groupScreen, #callHistoryScreen { position: absolute; top: 0; left: 0; right: 0; bottom: 0; overflow-y: auto; z-index: 1; }
+        #homeScreen { display: block !important; position: relative; z-index: 100; }
+        #chatScreen, #groupScreen, #callHistoryScreen { display: none; position: relative; }
         #chatScreen, #groupScreen, #profileScreen, #callHistoryScreen { display: none; background: #F5F0FF; }
         #chatScreen.active, #groupScreen.active, #profileScreen.active, #callHistoryScreen.active { display: block; }
         
