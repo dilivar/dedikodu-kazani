@@ -1,75 +1,84 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Dedikodu Kazanı</title>
-<style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: -apple-system, sans-serif; background: #F5F0FF; }
-.phone { max-width: 400px; margin: 0 auto; background: #F5F0FF; min-height: 100vh; position: relative; }
-.header { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); color: white; padding: 20px; text-align: center; }
-.header h1 { font-size: 22px; margin-bottom: 5px; }
-.grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 15px; }
-.card { background: white; border-radius: 16px; padding: 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-.card img { width: 60px; height: 60px; border-radius: 12px; object-fit: cover; }
-.card-name { font-weight: bold; font-size: 14px; margin-top: 8px; color: #2D3436; }
-.badge { position: absolute; top: 8px; right: 8px; }
-.screen { display: none; padding: 15px; }
-.screen.active { display: block; }
-.back-btn { background: #8B5CF6; color: white; border: none; padding: 10px 20px; border-radius: 20px; font-size: 16px; cursor: pointer; margin: 10px; }
-.chat-header { background: #8B5CF6; color: white; padding: 15px; display: flex; align-items: center; gap: 10px; }
-.avatar { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; }
-.messages { height: calc(100vh - 150px); overflow-y: auto; padding: 15px; }
-.msg { background: white; padding: 10px 15px; border-radius: 15px; margin-bottom: 10px; max-width: 80%; }
-.msg-sent { background: #8B5CF6; color: white; margin-left: auto; }
-.input-area { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 10px; display: flex; gap: 10px; }
-.input-area input { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 25px; }
-.send-btn { background: #8B5CF6; color: white; border: none; padding: 12px 20px; border-radius: 25px; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dedikodu Kazanı</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: -apple-system, sans-serif; background: #F5F0FF; }
+        .phone { max-width: 400px; margin: 0 auto; background: #F5F0FF; min-height: 100vh; }
+        .header { background: linear-gradient(135deg, #8B5CF6, #6B4EFF); color: white; padding: 20px; text-align: center; }
+        .header h1 { font-size: 22px; margin-bottom: 5px; }
+        .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 15px; }
+        .card { background: white; border-radius: 16px; padding: 15px; text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.1); position: relative; }
+        .card img { width: 60px; height: 60px; border-radius: 12px; object-fit: cover; }
+        .card-name { font-weight: bold; font-size: 14px; margin-top: 8px; color: #2D3436; }
+        .badge { position: absolute; top: 8px; right: 8px; font-size: 16px; }
+        .screen { display: none; }
+        .screen.active { display: block; }
+        .back-btn { background: #8B5CF6; color: white; border: none; padding: 10px 20px; border-radius: 20px; text-decoration: none; display: inline-block; }
+        .chat-header { background: #8B5CF6; color: white; padding: 15px; display: flex; align-items: center; gap: 10px; }
+        .avatar { width: 40px; height: 40px; border-radius: 10px; object-fit: cover; }
+        .messages { height: calc(100vh - 200px); overflow-y: auto; padding: 15px; }
+        .msg { background: white; padding: 10px 15px; border-radius: 15px; margin-bottom: 10px; max-width: 80%; }
+        .input-area { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 10px; display: flex; gap: 10px; }
+        .input-area input { flex: 1; padding: 12px; border: 1px solid #ddd; border-radius: 25px; }
+        .send-btn { background: #8B5CF6; color: white; border: none; padding: 12px 20px; border-radius: 25px; }
+    </style>
 </head>
 <body>
 <div class="phone">
-    <!-- HOME SCREEN -->
     <div id="home" class="screen active">
         <div class="header">
             <h1>Dedikodu Kazanı</h1>
             <p>Sanal arkadaşların!</p>
         </div>
         <div class="grid">
-            <a href="#chat-Eda" style="text-decoration:none;position:relative;">
-                <span class="badge">💎</span>
-                <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_eda_new.png">
-                <div class="card-name">Eda</div>
+            <a href="#chat-Eda" style="text-decoration:none;">
+                <div class="card">
+                    <span class="badge">💎</span>
+                    <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_eda_new.png">
+                    <div class="card-name">Eda</div>
+                </div>
             </a>
             <a href="#chat-Teo" style="text-decoration:none;">
-                <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_teo_new.png">
-                <div class="card-name">Teo</div>
+                <div class="card">
+                    <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_teo_new.png">
+                    <div class="card-name">Teo</div>
+                </div>
             </a>
-            <a href="#chat-Ela" style="text-decoration:none;position:relative;">
-                <span class="badge">💎</span>
-                <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_ela_new.png">
-                <div class="card-name">Ela</div>
+            <a href="#chat-Ela" style="text-decoration:none;">
+                <div class="card">
+                    <span class="badge">💎</span>
+                    <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_ela_new.png">
+                    <div class="card-name">Ela</div>
+                </div>
             </a>
-            <a href="#chat-Mila" style="text-decoration:none;position:relative;">
-                <span class="badge">💎</span>
-                <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_mila_new.png">
-                <div class="card-name">Mila</div>
+            <a href="#chat-Mila" style="text-decoration:none;">
+                <div class="card">
+                    <span class="badge">💎</span>
+                    <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_mila_new.png">
+                    <div class="card-name">Mila</div>
+                </div>
             </a>
-            <a href="#chat-Batu" style="text-decoration:none;position:relative;">
-                <span class="badge">💎</span>
-                <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_batu_new.png">
-                <div class="card-name">Batu</div>
+            <a href="#chat-Batu" style="text-decoration:none;">
+                <div class="card">
+                    <span class="badge">💎</span>
+                    <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_batu_new.png">
+                    <div class="card-name">Batu</div>
+                </div>
             </a>
-            <a href="#chat-Mete" style="text-decoration:none;position:relative;">
-                <span class="badge">💎</span>
-                <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_mete_new.png">
-                <div class="card-name">Mete</div>
+            <a href="#chat-Mete" style="text-decoration:none;">
+                <div class="card">
+                    <span class="badge">💎</span>
+                    <img src="https://raw.githubusercontent.com/dilivar/dedikodu-kazani/main/char_mete_new.png">
+                    <div class="card-name">Mete</div>
+                </div>
             </a>
         </div>
     </div>
 
-    <!-- CHAT SCREENS -->
     <div id="chat-Eda" class="screen">
         <div class="chat-header">
             <a href="#home" class="back-btn">←</a>
@@ -137,7 +146,7 @@ body { font-family: -apple-system, sans-serif; background: #F5F0FF; }
             <span>Batu</span>
         </div>
         <div class="messages">
-            <div class="msg">Selam! 👶 Psikoloji konusunda konşabiliriz</div>
+            <div class="msg">Selam! 👶 Psikoloji konusunda konuşabiliriz</div>
         </div>
         <div class="input-area">
             <input placeholder="Mesaj yaz...">
@@ -162,10 +171,9 @@ body { font-family: -apple-system, sans-serif; background: #F5F0FF; }
 </div>
 
 <script>
-// Basit hash router
 function showScreen() {
     var hash = window.location.hash;
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
     if (hash && document.querySelector(hash)) {
         document.querySelector(hash).classList.add('active');
     } else {
