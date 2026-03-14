@@ -127,7 +127,7 @@
         <!-- PROFILE MODAL -->
         <div class="modal" id="profileModal" style="display:none;">
             <div class="modal-box">
-                <button class="close-btn" onclick="closeProfile()">✕</button>
+                <button class="close-btn" onclick="document.getElementById('profileModal').style.display='none';">✕</button>
                 <h2>👤 Profil Ayarları</h2>
                 
                 <!-- Avatar Seçimi -->
@@ -498,7 +498,7 @@
         
         // PROFILE
         function openProfile() { document.getElementById('profileModal').classList.add('active'); }
-        function closeProfile() { document.getElementById('profileModal').classList.remove('active'); }
+        function closeProfile() { document.getElementById('profileModal').style.display = 'none'; }
         
         function saveProfile() {
             userProfile.name = document.getElementById('userName').value;
